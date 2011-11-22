@@ -30,7 +30,9 @@ ubiquity ubiquity-frontend-gtk ubiquity-casper
 lightdm lightdm-gtk-greeter
 
 # These will need to be customised for a real XBMCbuntu
-lubuntu-core # lubuntu-artwork lubuntu-icon-theme
+lubuntu-core 
+# lubuntu-artwork lubuntu-icon-theme
+
 # Included in core: lubuntu-default-settings policykit-desktop-privileges
 ubiquity-slideshow-lubuntu 
 
