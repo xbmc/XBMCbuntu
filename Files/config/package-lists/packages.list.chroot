@@ -1,0 +1,42 @@
+whois klibc-utils
+openssh-server
+less nano language-pack-en 
+hfsprogs
+bzip2 locales ntfs-3g dosfstools unzip curl wget
+alsa-utils 
+acpi acpi-support
+pm-utils psmisc
+fakeroot
+grub-pc
+parted
+python-apt
+wpasupplicant wireless-tools
+avahi-daemon
+pkg-config
+
+lirc
+
+genext2fs
+upower
+udisks
+python-software-properties
+
+plymouth
+plymouth-X11
+plymouth-theme-fade-in
+
+ubiquity ubiquity-frontend-gtk ubiquity-casper
+
+lightdm lightdm-gtk-greeter
+
+# These will need to be customised for a real XBMCbuntu
+lubuntu-core # lubuntu-artwork lubuntu-icon-theme
+# Included in core: lubuntu-default-settings policykit-desktop-privileges
+ubiquity-slideshow-lubuntu 
+
+network-manager
+
+nvidia-current libvdpau1
+
+xbmc
+

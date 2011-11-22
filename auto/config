@@ -1,0 +1,86 @@
+#! /bin/sh
+set -e
+
+rm -rf config
+
+mkdir -p config/task-lists config/package-lists
+
+add_task ()
+{
+	local pass="$1"
+	shift
+	local task
+
+	for task; do
+		echo "$task" >> "config/task-lists/livecd-rootfs.chroot_$pass.list"
+	done
+}
+add_package ()
+{
+	local pass="$1"
+	shift
+	local pkg
+
+	for pkg; do
+		echo "$pkg" >> "config/package-lists/livecd-rootfs.chroot_$pass.list"
+	done
+}
+
+OPTS=
+BINARY_IMAGES=none
+BOOT_LOADER=none
+# BINARY_IMAGES=iso
+# BOOT_LOADER=grub
+
+
+add_task install minimal standard
+
+# add_package live # lupin-casper
+
+#	ubuntu-core)
+#		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
+#		OPTS="${OPTS:+$OPTS }--linux-packages=none"
+#		KERNEL_FLAVOURS=none
+#		BINARY_REMOVE_LINUX=false
+#		;;
+
+if [ -n "$APT_HTTP_PROXY" ]; then
+	OPTS="${OPTS:+$OPTS }--apt-http-proxy $APT_HTTP_PROXY"
+fi
+if [ -n "$APT_FTP_PROXY" ]; then
+	OPTS="${OPTS:+$OPTS }--apt-ftp-proxy $APT_FTP_PROXY"
+fi
+
+if [ -n "$SDK_CHROOTSHELL" ]; then
+	OPTS="${OPTS:+$OPTS } --interactive shell"
+fi
+
+lb config noauto \
+	--mode ubuntu \
+	--distribution oneiric \
+	--architecture i386 \
+	--parent-archive-areas "main restricted universe multiverse" \
+	--bootstrap-keyring ubuntu-keyring \
+	--binary-images "$BINARY_IMAGES" \
+	--bootloader "$BOOT_LOADER" \
+	--memtest none \
+	--source false \
+	--package-lists none \
+	--initsystem none \
+	--initramfs casper \
+	--initramfs-compression lzma \
+	--security true \
+	--binary-filesystem fat32 \
+	--hostname XBMCbuntu \
+	--debian-installer false \
+	--debian-installer-preseedfile preseed.cfg \
+	--debian-installer-gui disabled \
+	--win32-loader disabled \
+	--checksums none \
+	$OPTS
+
+# 	--build-with-chroot true \
+#	--archive-areas "main restricted universe multiverse" \
+
+# Copy additional config files to config tree
+cp -R Files/config/* config
