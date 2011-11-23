@@ -27,8 +27,8 @@ add_package ()
 }
 
 OPTS=
-BINARY_IMAGES=none
-BOOT_LOADER=none
+BINARY_IMAGES=iso
+BOOT_LOADER=syslinux
 # BINARY_IMAGES=iso
 # BOOT_LOADER=grub
 

@@ -93,7 +93,7 @@ if ! which lb > /dev/null ; then
 	if [ ! -d live-build ]; then
 		repoURL="http://live.debian.net/archive/packages/live-build/orig/"
 		if [ -z "$SDK_USELATESTLIVEBUILD" ]; then
-		    latestPackage="live-build_3.0~a38.orig.tar.gz"
+		    latestPackage="live-build_3.0~a39.orig.tar.gz"
 		else
 		    latestPackage=$(curl -x "" -s -f $repoURL | grep live-build | tail -1 | grep -o '"live-build_[^"]*.tar.gz"' | sed -e "s/\"//g")
 		fi
@@ -188,8 +188,8 @@ cd $THISDIR
 #
 # Copy binary files from workarea
 #
-
-if [ -f $WORKPATH/binary.iso ]; then
-	mv $WORKPATH/binary.* .
-	chmod 777 binary.*
+if [ -f $WORKDIR/binary.iso ] ; then
+	mv $WORKDIR/binary*.* .
+	chmod 777 binary*.*
+	echo "XBMCLive build completed!"
 fi
