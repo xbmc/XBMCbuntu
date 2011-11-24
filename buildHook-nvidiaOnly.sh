@@ -21,4 +21,4 @@
 rm $WORKPATH/Files/config/hooks/00-installCrystalHD.chroot
 
 sed -i '/fglrx/d' $WORKPATH/Files/config/package-lists/packages.list.chroot
-
+sed -i '/xserver-xorg-video-vesa/d' $WORKPATH/Files/config/package-lists/packages.list.chroot

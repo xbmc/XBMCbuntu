@@ -23,7 +23,6 @@ python-software-properties
 
 plymouth
 plymouth-X11
-plymouth-theme-fade-in
 
 ubiquity ubiquity-frontend-gtk ubiquity-casper
 
@@ -38,7 +37,18 @@ ubiquity-slideshow-lubuntu
 
 network-manager
 
+# For NVIDIA
 nvidia-current libvdpau1
 
+# For AMD
+fglrx fglrx-amdcccle libva1 libva-x11-1 xvba-va-driver
+
+# For Intel
+xserver-xorg-video-intel
+
+# Generic: failsafe
+xserver-xorg-video-vesa
+
 xbmc
+# plymouth-theme-xbmc-logo
 
