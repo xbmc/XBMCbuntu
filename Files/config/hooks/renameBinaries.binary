@@ -18,15 +18,19 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
+# Temporary fixup for bug #556653
+# see https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers/+bug/556653
 
-# if [ ! -e binary/casper/initrd.lz ]; then
-    # zcat binary/casper/initrd.img-* | lzma -c > binary/casper/initrd.lz
-    # rm binary/casper/initrd.img-*
-# fi
+kernelFile=$(ls binary/casper/vmlinuz-*)
+kernelVersion=${kernelFile#*-}
 
-mv binary/casper/initrd.img-* binary/casper/initrd.img
+for k in $(ls -1 binary/casper/initrd.img-*) ; do
+	echo $k
+	if [ ! "$k" = "binary/casper/initrd.img-$kernelVersion" ] ; then
+		rm $k
+	fi
+done
+
+
+mv binary/casper/initrd.img-* binary/casper/initrd.lz
 mv binary/casper/vmlinuz-* binary/casper/vmlinuz
-
-# mv binary/live/initrd.img-* binary/live/initrd.img || true
-# mv binary/live/vmlinuz-* binary/live/vmlinuz || true
-
