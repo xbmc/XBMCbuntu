@@ -82,5 +82,16 @@ lb config noauto \
 # 	--build-with-chroot true \
 #	--archive-areas "main restricted universe multiverse" \
 
+#workaround for Bug#622838 syslinux-live and hdd images
+if [ "$BINARY_IMAGES" = "hdd" ] ; then
+        THISDIR=$(pwd)
+        mkdir -p Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-oneiric/isolinux-live
+        cd Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-oneiric/
+        ln -s isolinux-live syslinux-live
+        cd isolinux-live
+        ln -s isolinux.cfg syslinux.cfg
+        cd $THISDIR
+fi
+
 # Copy additional config files to config tree
 cp -R Files/config/* config
