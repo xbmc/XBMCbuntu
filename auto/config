@@ -27,11 +27,10 @@ add_package ()
 }
 
 OPTS=
-BINARY_IMAGES=iso
-BOOT_LOADER=syslinux
-# BINARY_IMAGES=iso
-# BOOT_LOADER=grub
-
+# BINARY_IMAGES=none
+BINARY_IMAGES=iso-hybrid
+# SYSLINUX_THEME=xbmcbuntu-oneiric
+SYSLINUX_THEME=ubuntu-oneiric
 
 add_task install minimal standard
 
@@ -62,7 +61,8 @@ lb config noauto \
 	--parent-archive-areas "main restricted universe multiverse" \
 	--bootstrap-keyring ubuntu-keyring \
 	--binary-images "$BINARY_IMAGES" \
-	--bootloader "$BOOT_LOADER" \
+	--bootloader syslinux \
+	--syslinux-theme "${SYSLINUX_THEME}" \
 	--memtest none \
 	--source false \
 	--package-lists none \
@@ -72,6 +72,9 @@ lb config noauto \
 	--security true \
 	--binary-filesystem fat32 \
 	--hostname XBMCbuntu \
+	--iso-application XBMCbuntu \
+	--iso-volume XBMCbuntu \
+	--iso-publisher http://xbmc.org \
 	--debian-installer false \
 	--debian-installer-preseedfile preseed.cfg \
 	--debian-installer-gui disabled \

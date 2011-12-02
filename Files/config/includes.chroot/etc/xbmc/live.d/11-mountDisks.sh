@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash
 
 #      Copyright (C) 2005-2008 Team XBMC
 #      http://www.xbmc.org
@@ -18,15 +18,19 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-set -x
+kernelParams=$(cat /proc/cmdline)
 
-echo ""
-echo "Rename binaries..."
-echo ""
+subString=${kernelParams##*xbmc=}
+xbmcParams=${subString%% *}
 
-sleep 8
+activationToken="nodiskmount"
 
-mv binary/casper/initrd.img-* binary/casper/initrd.lz
-mv binary/casper/vmlinuz-* binary/casper/vmlinuz
+# if strings are the same the token is NOT part of the parameters list
+# here we want to stop script if the token is there
+if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
+	exit 0
+fi
+
+/usr/bin/diskmounter
 
 exit 0

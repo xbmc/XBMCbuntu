@@ -37,4 +37,4 @@ echo "alias nvidia nvidia-current"  >> /etc/modprobe.d/blacklist-nvidia.conf
 sed -i '/vesafb/d' /etc/modprobe.d/blacklist-framebuffer.conf
 echo FRAMEBUFFER=y > /etc/initramfs-tools/conf.d/splash
 
-update-initramfs -u 
+# update-initramfs -u 

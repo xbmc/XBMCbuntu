@@ -55,8 +55,8 @@ cleanup()
 		if [ -z "$KEEP_WORKAREA" ]; then
 			echo "Cleaning workarea..."
 			rm -rf $WORKPATH
-			if [ -f $THISDIR/binary.iso ]; then
-				chmod 777 $THISDIR/binary.*
+			if ls $THISDIR/binary*.iso > /dev/null 2>&1 ; then
+				chmod 666 $THISDIR/binary*.iso
 			fi
 			echo "All clean"
 		fi
@@ -79,8 +79,8 @@ if [ -d "$WORKPATH" ]; then
 fi
 mkdir $WORKPATH
 
-if ls $THISDIR/binary.* > /dev/null 2>&1; then
-	rm -rf $THISDIR/binary.*
+if ls $THISDIR/binary*.iso > /dev/null 2>&1 ; then
+	rm $THISDIR/binary*.iso
 fi
 
 echo "Creating new workarea..."
@@ -93,7 +93,7 @@ if ! which lb > /dev/null ; then
 	if [ ! -d live-build ]; then
 		repoURL="http://live.debian.net/archive/packages/live-build/orig/"
 		if [ -z "$SDK_USELATESTLIVEBUILD" ]; then
-		    latestPackage="live-build_3.0~a39.orig.tar.gz"
+		    latestPackage="live-build_3.0~a38.orig.tar.gz"
 		else
 		    latestPackage=$(curl -x "" -s -f $repoURL | grep live-build | tail -1 | grep -o '"live-build_[^"]*.tar.gz"' | sed -e "s/\"//g")
 		fi
@@ -186,10 +186,11 @@ lb build
 cd $THISDIR
 
 #
-# Copy binary files from workarea
+# Move binary file from workarea
 #
-if [ -f $WORKDIR/binary.iso ] ; then
-	mv $WORKDIR/binary*.* .
-	chmod 777 binary*.*
-	echo "XBMCLive build completed!"
-fi
+for BINARY in $WORKPATH/binary.iso $WORKPATH/binary-hybrid.iso; do
+	[ -e "$BINARY" ] || continue
+	chmod 666 "$BINARY"
+	mv "$BINARY" .
+	break
+done
