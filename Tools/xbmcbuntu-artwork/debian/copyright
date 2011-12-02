@@ -1,0 +1,65 @@
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
+Name: Xubuntu Artwork
+Maintainer: Xubuntu Team <xubuntu-devel@lists.ubuntu.com>
+
+Files: lib/*
+Copyright: 2009 Canonical Ltd.
+           2011 The Xubuntu Community
+License: GPL-3+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this package; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
+
+Files: usr/share/icons/elementaryXubuntu/*, usr/share/gmusicbrowser/*
+Copyright: 2008-2011, Daniel Fore <Daniel.P.Fore@gmail.com>
+           2010-2011, Simon Steinbeiß <ochosi@shimmerproject.org>
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
+
+Files: usr/share/icons/elementaryXubuntu/notifications/*
+Copyright: 2004-2009 Canonical Ltd.
+License: CC-BY-SA-3.0
+ Unless otherwise indicated, artwork is available under the Creative Commons
+ Attribution Share-alike license v3.0 or any later version.  To view a copy of
+ this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a
+ letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
+ California, 94105, USA.
+
+Files: usr/share/pixmaps/*
+Copyright: 2009-2010, Pasi Lallinaho <open@knome.fi>
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
+
+Files: usr/share/xfce4/backdrops/*
+Copyright: 2009-2011, Pasi Lallinaho <open@knome.fi>
+           2010-2011, Simon Steinbeiß <ochosi@shimmerproject.org>
+License: CC-BY-SA-3.0
+ Unless otherwise indicated, artwork is available under the Creative Commons
+ Attribution Share-alike license v3.0 or any later version.  To view a copy of
+ this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a
+ letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
+ California, 94105, USA.
+
+Files: debian/*
+Copyright: 2007-2009, Cody A.W. Somerville <cody-somerville@ubuntu.com>
+           2007-2011, Lionel Le Folgoc <mrpouit@ubuntu.com>
+           2006-2008, Gauvain Pocentek <gauvainpocentek@ubuntu.com>
+           2005-2008, Jani Monoses <jani@ubuntu.com>
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-2' file.
