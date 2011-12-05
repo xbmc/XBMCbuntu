@@ -52,3 +52,5 @@ xserver-xorg-video-vesa
 xbmc
 # plymouth-theme-xbmc-logo
 
+# Required by YouTube addon
+python-pysqlite2
