@@ -18,6 +18,9 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
+xbmcUser=$1
+xbmcParams=$2
+
 #
 # Nvidia ION detection
 #
@@ -28,11 +31,6 @@ NvidiaHDMISecondGen=$(lspci -nn | grep '0403' | grep '10de:0be3') #MCP79 High De
 if [ ! -n "$NvidiaHDMISecondGen" ] && [ ! -n "$NvidiaHDMIFirstGen" ] ; then
 	exit 0
 fi
-
-
-kernelParams=$(cat /proc/cmdline)
-subString=${kernelParams##*xbmc=}
-xbmcParams=${subString%% *}
 
 activationToken="noalsaconfig"
 
@@ -87,12 +85,6 @@ fi
 #
 # Setup .asoundrc
 #
-xbmcUser=xbmc
-# Read configuration variable file if it is present
-[ -r /etc/default/xbmc-live ] && . /etc/default/xbmc-live
-if ! getent passwd $xbmcUser >/dev/null; then
-	xbmcUser=$(getent passwd 1000 | sed -e 's/\:.*//')
-fi
 
 if [ ! -f /home/$xbmcUser/.asoundrc ] ; then
 	cat > /home/$xbmcUser/.asoundrc << 'EOF'

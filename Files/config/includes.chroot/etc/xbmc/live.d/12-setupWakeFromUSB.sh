@@ -18,6 +18,10 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
+xbmcUser=$1
+xbmcParams=$2
+
+
 findUSBPort() {
 	local FD=7
 	local tmpFile=$(mktemp)
@@ -57,11 +61,6 @@ findUSBPort() {
 	echo $usbPort
 }
 
-
-kernelParams=$(cat /proc/cmdline)
-
-subString=${kernelParams##*xbmc=}
-xbmcParams=${subString%% *}
 
 activationToken="wakeOnUSBRemote"
 

@@ -29,8 +29,8 @@ add_package ()
 OPTS=
 # BINARY_IMAGES=none
 BINARY_IMAGES=iso-hybrid
-# SYSLINUX_THEME=xbmcbuntu-oneiric
-SYSLINUX_THEME=ubuntu-oneiric
+SYSLINUX_THEME=xbmcbuntu-oneiric
+# SYSLINUX_THEME=ubuntu-oneiric
 
 add_task install minimal standard
 

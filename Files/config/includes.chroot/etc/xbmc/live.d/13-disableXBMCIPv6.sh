@@ -18,10 +18,8 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-kernelParams=$(cat /proc/cmdline)
-
-subString=${kernelParams##*xbmc=}
-xbmcParams=${subString%% *}
+xbmcUser=$1
+xbmcParams=$2
 
 activationToken="doNotDisableIPv6InXBMC"
 
@@ -29,13 +27,6 @@ activationToken="doNotDisableIPv6InXBMC"
 # here we want to stop script if the token is NOT there
 if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
 	exit
-fi
-
-xbmcUser=xbmc
-# Read configuration variable file if it is present
-[ -r /etc/default/xbmc-live ] && . /etc/default/xbmc-live
-if ! getent passwd $xbmcUser >/dev/null; then
-	xbmcUser=$(getent passwd 1000 | sed -e 's/\:.*//')
 fi
 
 if [ ! -f /home/$xbmcUser/.xbmc/userdata/advancedsettings.xml ] ; then

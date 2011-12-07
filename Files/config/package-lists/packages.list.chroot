@@ -50,7 +50,7 @@ xserver-xorg-video-intel
 xserver-xorg-video-vesa
 
 xbmc
-# plymouth-theme-xbmc-logo
+xbmcbuntu-plymouth-theme
 
 # Required by YouTube addon
 python-pysqlite2

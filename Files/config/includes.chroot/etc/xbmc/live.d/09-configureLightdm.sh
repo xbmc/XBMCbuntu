@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-#      Copyright (C) 2005-2008 Team XBMC
+#      Copyright (C) 2005-2011 Team XBMC
 #      http://www.xbmc.org
 #
 #  This Program is free software; you can redistribute it and/or modify
@@ -17,18 +17,10 @@
 #  along with XBMC; see the file COPYING.  If not, write to
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
-
+ 
 xbmcUser=$1
 xbmcParams=$2
 
-activationToken="nodiskmount"
-
-# if strings are the same the token is NOT part of the parameters list
-# here we want to stop script if the token is there
-if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
-	exit 0
-fi
-
-/usr/bin/diskmounter
+sed -i "s/^autologin-user=.*/autologin-user=$xbmcUser/" /etc/lightdm/lightdm.conf
 
 exit 0

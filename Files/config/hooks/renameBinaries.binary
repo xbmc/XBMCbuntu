@@ -18,13 +18,9 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-set -x
-
 echo ""
 echo "Rename binaries..."
 echo ""
-
-sleep 8
 
 mv binary/casper/initrd.img-* binary/casper/initrd.lz
 mv binary/casper/vmlinuz-* binary/casper/vmlinuz

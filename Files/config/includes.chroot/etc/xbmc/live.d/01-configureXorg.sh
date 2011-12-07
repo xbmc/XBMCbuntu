@@ -18,9 +18,8 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
  
-kernelParams=$(cat /proc/cmdline)
-subString=${kernelParams##*xbmc=}
-xbmcParams=${subString%% *}
+xbmcUser=$1
+xbmcParams=$2
 
 activationToken="nogenxconf"
 
