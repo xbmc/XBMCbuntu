@@ -19,11 +19,9 @@
 # http://www.gnu.org/copyleft/gpl.html
 
 echo ""
-echo "Disable readahead at boot time..."
+echo "Disable motd upgrade welcome message..."
 echo ""
 
-# Disable sreadahead since we don't ship a pack file for it anyway, so
-# all we'll end up doing is profiling the live CD boot.
-if [ -f /etc/init/ureadahead.conf ] then;
-   mv /etc/init/ureadahead.conf /etc/init/ureadahead.conf.disabled
+if [ -f /etc/update-motd.d/91-release-upgrade ] then;
+   rm /etc/update-motd.d/91-release-upgrade
 fi
