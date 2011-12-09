@@ -22,6 +22,6 @@ echo ""
 echo "Disable motd upgrade welcome message..."
 echo ""
 
-if [ -f /etc/update-motd.d/91-release-upgrade ] then;
+if [ -f /etc/update-motd.d/91-release-upgrade ]; then
    rm /etc/update-motd.d/91-release-upgrade
 fi

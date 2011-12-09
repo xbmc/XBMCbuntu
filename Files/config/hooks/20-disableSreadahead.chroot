@@ -24,6 +24,6 @@ echo ""
 
 # Disable sreadahead since we don't ship a pack file for it anyway, so
 # all we'll end up doing is profiling the live CD boot.
-if [ -f /etc/init/ureadahead.conf ] then;
+if [ -f /etc/init/ureadahead.conf ]; then
    mv /etc/init/ureadahead.conf /etc/init/ureadahead.conf.disabled
 fi
