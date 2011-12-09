@@ -1,41 +1,38 @@
-Source: syslinux-themes-xbmcbuntu
-Section: misc
+Source: xbmcbuntu-artwork
+Section: x11
 Priority: optional
+Build-Depends: debhelper (>= 7.0.50~)
 Maintainer: Luigi Capriotti <l.capriotti@xbmc.org>
-Build-Depends: debhelper (>= 8)
-Standards-Version: 3.9.2
+Standards-Version: 3.9.1
 
-Package: syslinux-themes-xbmcbuntu
-Architecture: amd64 i386
-Depends: ${misc:Depends}, syslinux-themes-xbmcbuntu-precise
-Description: collection of boot loaders (theme metapackage)
- SYSLINUX is a collection of boot loaders which operates off Linux ext2/3/4 or
- btrfs filesystems, MS-DOS FAT filesystems, network servers using PXE firmware,
- or from CD-ROMs.
+Package: xbmcbuntu-plymouth-theme
+Architecture: all
+Depends: ${misc:Depends}, plymouth-theme-xbmcbuntu-logo, plymouth-theme-xbmcbuntu-text
+Description: Plymouth theme for XBMCubuntu
+ Transitional package for plymouth-theme-xbmcbuntu-logo and
+ plymouth-theme-xbmcbuntu-text.
  .
- This package depends on the package with the graphical bootloader theme
- for the matching XBMCbuntu release.
+ This package can be safely removed.
 
-Package: syslinux-themes-xbmcbuntu-oneiric
-Architecture: amd64 i386
-Depends: ${misc:Depends}, memtest86+, syslinux-common
-Enhances: extlinux
-Provides: syslinux-theme
-Description: collection of boot loaders (xbmcbuntu-oneiric theme)
- SYSLINUX is a collection of boot loaders which operates off Linux ext2/3/4 or
- btrfs filesystems, MS-DOS FAT filesystems, network servers using PXE firmware,
- or from CD-ROMs.
+Package: plymouth-theme-xbmcbuntu-logo
+Architecture: all
+Depends: plymouth, plymouth-label
+Description: graphical boot animation and logger - xbmcbuntu-logo theme
+ Plymouth is an application that runs very early in the boot process
+ (even before the root filesystem is mounted!) that provides a graphical
+ boot animation while the boot process happens in the background.
  .
- This package contains the graphical bootloader theme for xbmcbuntu oneiric.
+ This package contains the xbmcbuntu-logo theme.
 
-Package: syslinux-themes-xbmcbuntu-precise
-Architecture: amd64 i386
-Depends: ${misc:Depends}, memtest86+, syslinux-common
-Enhances: extlinux
-Provides: syslinux-theme
-Description: collection of boot loaders (xbmcbuntu-precise theme)
- SYSLINUX is a collection of boot loaders which operates off Linux ext2/3/4 or
- btrfs filesystems, MS-DOS FAT filesystems, network servers using PXE firmware,
- or from CD-ROMs.
+Package: plymouth-theme-xbmcbuntu-text
+Architecture: all
+Depends: ${misc:Depends}, plymouth, plymouth-theme-ubuntu-text
+Provides: plymouth-theme
+Description: graphical boot animation and logger - xbmcbuntu-text theme
+ Plymouth is an application that runs very early in the boot process
+ (even before the root filesystem is mounted!) that provides a graphical
+ boot animation while the boot process happens in the background.
  .
- This package contains the graphical bootloader theme for xbmcbuntu precise.
+ This package contains the default xbmcbuntu-text theme used when no support for
+ a graphical theme is found on your system.
+
