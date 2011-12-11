@@ -23,7 +23,6 @@ echo "Building/copying auxiliary packages ... "
 echo "----------------------------------------"
 
 mkdir -p $WORKPATH/Files/config/packages.chroot &> /dev/null
-mkdir -p $WORKPATH/Files/config/packages.binary &> /dev/null
 
 if ! ls $WORKPATH/Tools/xbmcbuntu-plymouth-theme_* > /dev/null 2>&1; then
 	cd $WORKPATH/Tools/xbmcbuntu-artwork
@@ -39,4 +38,4 @@ if ! ls $WORKPATH/Tools/syslinux-themes-xbmcbuntu_* > /dev/null 2>&1; then
 	dpkg-buildpackage -rfakeroot -b -uc -us
 fi
 
-cp $WORKPATH/Tools/syslinux-themes-xbmcbuntu*.deb $WORKPATH/Files/config/packages.binary
+cp $WORKPATH/Tools/syslinux-themes-xbmcbuntu*.deb $WORKPATH/Files/config/packages.chroot

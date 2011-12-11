@@ -24,5 +24,5 @@ echo ""
 
 if [ -f /etc/lsb-release ]
 then
-    sed -i -e "/^DISTRIB_DESCRIPTION/s/\"\(.*\)\"/\"\1 - XBMCLive\"/" /etc/lsb-release
+    sed -i -e "/^DISTRIB_DESCRIPTION/s/\"\(.*\)\"/\"\1 - XBMCbuntu\"/" /etc/lsb-release
 fi
