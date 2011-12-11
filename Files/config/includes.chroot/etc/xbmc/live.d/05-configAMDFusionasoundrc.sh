@@ -28,7 +28,7 @@ xbmcParams=$2
 AMDFusion=$(lspci -nn | grep '0403' | grep '1002:4383') # ATI Technologies Inc SBx00 Azalia
 
 if [ ! -n "$AMDFusion" ] ; then
-	exit 0
+        exit 0
 fi
 
 activationToken="noalsaconfig"
@@ -36,7 +36,7 @@ activationToken="noalsaconfig"
 # if strings are NOT the same the token is part of the parameters list
 # here we want to stop script if the token is there
 if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
-	exit 0
+        exit 0
 fi
 
 #
@@ -47,25 +47,23 @@ HDMICARD=$(aplay -l | grep 'HDMI' -m1 | awk -F: '{ print $1 }' | awk '{ print $2
 HDMIDEVICE=$(aplay -l | grep 'HDMI' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
 
 if [ -n "$AMDFusion" ] ; then
-	# "ALC892 Digital"
-	DIGITALCONTROL="ALC892 Digital"
+        # "ALC892 Digital"
+        DIGITALCONTROL="ALC892 Digital"
 fi
 
 #
-# Retrieve Digital Settings before .asoundrc creation
+# Retrieve Analog Settings before .asoundrc creation
 #
 
-DIGITALCARD=$(aplay -l | grep "$DIGITALCONTROL" | awk -F: '{ print $1 }' | awk '{ print $2 }')
-DIGITALDEVICE=$(aplay -l | grep "$DIGITALCONTROL" | awk -F: '{ print $2 }' | awk '{ print $5 }')
-
 ANALOGCARD=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
-ANALOGDEVICE=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
+ANALOGDEVICE=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $2 }' | awk '{ print $6 }')
 
 #
 # Bails out if we don't have digital outputs
 #
-if [ -z $HDMICARD ] || [ -z $HDMIDEVICE ] || [ -z $DIGITALCARD ] || [ -z $DIGITALDEVICE ]; then
-	exit 0
+if [ -z $HDMICARD ] || [ -z $HDMIDEVICE ] || [ -z $ANALOGCARD ] || [ -z $ANALOGDEVICE ]; then
+        echo "exit weg"
+        exit 0
 fi
 
 #
@@ -73,7 +71,7 @@ fi
 #
 
 if [ ! -f /home/$xbmcUser/.asoundrc ] ; then
-	cat > /home/$xbmcUser/.asoundrc << 'EOF'
+        cat > /home/$xbmcUser/.asoundrc << 'EOF'
 
 pcm.both {
         type route
@@ -85,8 +83,6 @@ pcm.both {
         ttable.1.1 1.0
         ttable.0.2 1.0
         ttable.1.3 1.0
-        ttable.0.4 1.0
-        ttable.1.5 1.0
 }
 
 pcm.multi {
@@ -96,10 +92,6 @@ pcm.multi {
                 channels 2
         }
         slaves.b {
-                pcm "digital_hw"
-                channels 2
-        }
-        slaves.c {
                 pcm "analog_hw"
                 channels 2
         }
@@ -111,10 +103,6 @@ pcm.multi {
         bindings.2.channel 0
         bindings.3.slave b
         bindings.3.channel 1
-        bindings.4.slave c
-        bindings.4.channel 0
-        bindings.5.slave c
-        bindings.5.channel 1
 }
 
 pcm.hdmi_hw {
@@ -140,13 +128,6 @@ pcm.hdmi_complete {
         control.=HDMICARD=
 }
 
-pcm.digital_hw {
-        type hw
-        =DIGITALCARD=
-        =DIGITALDEVICE=
-        channels 2
-}
-
 pcm.analog_hw {
         type hw
         =ANALOGCARD=
@@ -155,41 +136,39 @@ pcm.analog_hw {
 }
 EOF
 
-	sed -i "s/=HDMICARD=/card $HDMICARD/g" /home/$xbmcUser/.asoundrc
-	sed -i "s/=HDMIDEVICE=/device $HDMIDEVICE/g" /home/$xbmcUser/.asoundrc
+        sed -i "s/=HDMICARD=/card $HDMICARD/g" /home/$xbmcUser/.asoundrc
+        sed -i "s/=HDMIDEVICE=/device $HDMIDEVICE/g" /home/$xbmcUser/.asoundrc
 
-	sed -i "s/=DIGITALCARD=/card $DIGITALCARD/g" /home/$xbmcUser/.asoundrc
-	sed -i "s/=DIGITALDEVICE=/device $DIGITALDEVICE/g" /home/$xbmcUser/.asoundrc
+        sed -i "s/=ANALOGCARD=/card $ANALOGCARD/g" /home/$xbmcUser/.asoundrc
+        sed -i "s/=ANALOGDEVICE=/device $ANALOGDEVICE/g" /home/$xbmcUser/.asoundrc
 
-	sed -i "s/=ANALOGCARD=/card $ANALOGCARD/g" /home/$xbmcUser/.asoundrc
-	sed -i "s/=ANALOGDEVICE=/device $ANALOGDEVICE/g" /home/$xbmcUser/.asoundrc
+        chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc
 
-	chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc
-
-	#
-	# Setup Triple Audiooutput
-	#
-	if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
-		mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
-		cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
+        #
+        # Setup Triple Audiooutput
+        #
+        if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
+                mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
+                cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
 <settings>
     <audiooutput>
-	<audiodevice>custom</audiodevice>
-	<channellayout>0</channellayout>
-	<customdevice>plug:both</customdevice>
-	<mode>2</mode>
-	<passthroughdevice>alsa:hdmi</passthroughdevice>
+        <audiodevice>custom</audiodevice>
+        <channellayout>0</channellayout>
+        <customdevice>plug:both</customdevice>
+        <mode>2</mode>
+        <passthroughdevice>alsa:hdmi</passthroughdevice>
     </audiooutput>
 </settings>
 EOF
-		chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
-	else
-		sed -i 's#\(<audiodevice>\)[0-9]*\(</audiodevice>\)#\1'custom'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-		sed -i 's#\(<channellayout>\)[0-9]*\(</channellayout>\)#\1'0'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-		sed -i 's#\(<customdevice>\)[0-9]*\(</customdevice>\)#\1'plug:both'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-		sed -i 's#\(<mode>\)[0-9]*\(</mode>\)#\1'2'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-		sed -i 's#\(<passthroughdevice>\)[0-9]*\(</passthroughdevice>\)#\1'alsa:hdmi'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-	fi
+                chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
+        else
+                sed -i 's#\(<audiodevice>\)[0-9]*\(</audiodevice>\)#\1'custom'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
+                sed -i 's#\(<channellayout>\)[0-9]*\(</channellayout>\)#\1'0'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
+                sed -i 's#\(<customdevice>\)[0-9]*\(</customdevice>\)#\1'plug:both'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
+                sed -i 's#\(<mode>\)[0-9]*\(</mode>\)#\1'2'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
+                sed -i 's#\(<passthroughdevice>\)[0-9]*\(</passthroughdevice>\)#\1'alsa:hdmi'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
+        fi
 fi
 
 exit 0
+
