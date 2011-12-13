@@ -18,8 +18,6 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-exit 0
-
 kernelParams=$(cat /proc/cmdline)
 
 subString=${kernelParams##*xbmc=}
@@ -40,20 +38,19 @@ if ! getent passwd $xbmcUser >/dev/null; then
 	xbmcUser=$(getent passwd 1000 | sed -e 's/\:.*//')
 fi
 
-if [ ! -f /home/$xbmcUser/.xbmc/userdata/keyboard.xml ] ; then
-	mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
-	cat > /home/$xbmcUser/.xbmc/userdata/keyboard.xml << 'EOF'
-
+#
+# Map it to empty to remove the default binding (ToggleFullscreen)
+#
+if [ ! -f /home/$xbmcUser/.xbmc/userdata/keymaps/noBS.xml ] ; then
+	mkdir -p /home/$xbmcUser/.xbmc/userdata/keymaps &> /dev/null
+	cat > /home/$xbmcUser/.xbmc/userdata/keymaps/noBS.xml << 'EOF'
+<keyboard>
+<global>
+    <backslash/>
+</global>
+</keyboard>
 EOF
 	chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
-else
-	if ! grep -i -q disableipv6 /home/$xbmcUser/.xbmc/userdata/keyboard.xml ; then
-		if grep -i -q "<network>" /home/$xbmcUser/.xbmc/userdata/keyboard.xml ; then
-			sed -i -e 's%<network>%&\n<disableipv6>true</disableipv6>%' /home/$xbmcUser/.xbmc/userdata/keyboard.xml
-		else
-			sed -i -e 's%<advancedsettings>%&\n<network>\n<disableipv6>true</disableipv6>\n</network>%' /home/$xbmcUser/.xbmc/userdata/keyboard.xml
-		fi
-	fi
 fi
 
 exit 0
