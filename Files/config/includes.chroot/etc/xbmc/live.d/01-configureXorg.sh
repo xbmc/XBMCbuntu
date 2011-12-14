@@ -17,7 +17,7 @@
 #  along with XBMC; see the file COPYING.  If not, write to
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
- 
+
 xbmcUser=$1
 xbmcParams=$2
 
@@ -26,12 +26,12 @@ activationToken="nogenxconf"
 # if strings are NOT the same the token is part of the parameters list
 # here we want to stop script if the token is there
 if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
-	exit 0
+        exit 0
 fi
 
 # Generates valid xorg.conf for proprietary drivers if missing
 if [ -e /etc/X11/xorg.conf ] ; then
-	exit 0
+        exit 0
 fi
 
 # Identify GPU, Intel by default
@@ -40,45 +40,71 @@ GPUTYPE="INTEL"
 GPU=$(lspci -nn | grep 0300)
 # 10de == NVIDIA
 if [ "$(echo $GPU | grep 10de)" ]; then
-	GPUTYPE="NVIDIA"
+        GPUTYPE="NVIDIA"
 else
-	# 1002 == AMD
-	if [ "$(echo $GPU | grep 1002)" ]; then
-		GPUTYPE="AMD"
-	fi
+        # 1002 == AMD
+        if [ "$(echo $GPU | grep 1002)" ]; then
+                GPUTYPE="AMD"
+        fi
 fi
 
 if [ "$GPUTYPE" = "NVIDIA" ]; then
-	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/nvidia-current/ld.so.conf
-	ldconfig
+        update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/nvidia-current/ld.so.conf
+        ldconfig
 
-	# run nvidia-xconfig
-	/usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --force-generate
+        # run nvidia-xconfig
+        /usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --force-generate
 
-	# Disable scaling to make sure the gpu does not loose performance
-	sed -i -e 's%Section \"Screen\"%&\n    Option      \"FlatPanelProperties\" \"Scaling = Native\"\n    Option      \"HWCursor\" \"Off\"%' /etc/X11/xorg.conf
+        # Disable scaling to make sure the gpu does not loose performance
+        sed -i -e 's%Section \"Screen\"%&\n    Option      \"FlatPanelProperties\" \"Scaling = Native\"\n    Option      \"HWCursor\" \"Off\"%' /etc/X11/xorg.conf
 fi
 
 if [ "$GPUTYPE" = "AMD" ]; then
-	# Try fglrx first
+        # Try fglrx first
 
-	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
-	ldconfig
+        update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
 
-	# run aticonfig
-	/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
-	ATICONFIG_RETURN_CODE=$? 
+        echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
+        echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
 
-	if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
-		# aticonfig returns 255 on old unsuported ATI cards 
-		# Let the X default ati driver handle the card 
+        apt-get purge libvdpau1 -y
 
-		# revert to mesa
-		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/mesa/ld.so.conf
-		ldconfig
+        ldconfig
 
-		modprobe radeon # Required to permit KMS switching and support hardware GL  
-	fi
+        if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
+                mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
+                cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
+<settings>
+  <videoplayer>
+      <usevdpau>false</usevdpau>
+  </videoplayer>
+</settings>
+EOF
+                chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
+        else
+                if grep -i -q usevdpau /home/$xbmcUser/.xbmc/userdata/guisettings.xml ; then
+                        sed -i 's#<usevdpau>.*#<usevdpau>false</usevdpau>#' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
+                        chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
+                fi
+        fi
+
+        # run aticonfig
+        /usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
+        ATICONFIG_RETURN_CODE=$?
+
+        if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
+                # aticonfig returns 255 on old unsuported ATI cards
+                # Let the X default ati driver handle the card
+
+                # revert to mesa
+                update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/mesa/ld.so.conf
+
+                # TODO cleanup environment and guisettings
+
+                ldconfig
+
+                modprobe radeon # Required to permit KMS switching and support hardware GL
+        fi
 fi
 
 exit 0
