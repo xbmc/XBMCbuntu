@@ -7,7 +7,7 @@ Standards-Version: 3.9.2
 
 Package: syslinux-themes-xbmcbuntu
 Architecture: amd64 i386
-Depends: ${misc:Depends}, syslinux-themes-xbmcbuntu-precise
+Depends: ${misc:Depends}, syslinux-themes-xbmcbuntu-oneiric
 Description: collection of boot loaders (theme metapackage)
  SYSLINUX is a collection of boot loaders which operates off Linux ext2/3/4 or
  btrfs filesystems, MS-DOS FAT filesystems, network servers using PXE firmware,
@@ -27,15 +27,3 @@ Description: collection of boot loaders (xbmcbuntu-oneiric theme)
  or from CD-ROMs.
  .
  This package contains the graphical bootloader theme for xbmcbuntu oneiric.
-
-Package: syslinux-themes-xbmcbuntu-precise
-Architecture: amd64 i386
-Depends: ${misc:Depends}, memtest86+, syslinux-common
-Enhances: extlinux
-Provides: syslinux-theme
-Description: collection of boot loaders (xbmcbuntu-precise theme)
- SYSLINUX is a collection of boot loaders which operates off Linux ext2/3/4 or
- btrfs filesystems, MS-DOS FAT filesystems, network servers using PXE firmware,
- or from CD-ROMs.
- .
- This package contains the graphical bootloader theme for xbmcbuntu precise.

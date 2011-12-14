@@ -38,4 +38,4 @@ if ! ls $WORKPATH/Tools/syslinux-themes-xbmcbuntu_* > /dev/null 2>&1; then
 	dpkg-buildpackage -rfakeroot -b -uc -us
 fi
 
-cp $WORKPATH/Tools/syslinux-themes-xbmcbuntu*.deb $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/Tools/syslinux-themes-xbmcbuntu-oneiric*.deb $WORKPATH/Files/config/packages.chroot
