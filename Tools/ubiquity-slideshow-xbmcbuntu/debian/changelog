@@ -1,0 +1,575 @@
+ubiquity-slideshow-ubuntu (49) oneiric; urgency=low
+
+  [ Pasi Lallinaho ]
+  * Change two screenshots in the Xubuntu slides.
+
+  [ Evan Dandrea ]
+  * Update translations from Launchpad at the request of the Lithuanian
+    translation team.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Mon, 03 Oct 2011 10:47:23 +0100
+
+ubiquity-slideshow-ubuntu (48) oneiric; urgency=low
+
+  * Update screenshots to reflect the latest desktop changes
+    (LP: #861410).
+  * Update translations from Launchpad.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Wed, 28 Sep 2011 16:18:58 +0100
+
+ubiquity-slideshow-ubuntu (47) oneiric; urgency=low
+
+  * Ubuntu is people! Thanks Dylan McCall (LP: #855685).
+  * Update translations from Launchpad.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Mon, 26 Sep 2011 11:09:01 +0100
+
+ubiquity-slideshow-ubuntu (46) oneiric; urgency=low
+
+  * Update translations from Launchpad.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Sun, 18 Sep 2011 21:34:17 +0100
+
+ubiquity-slideshow-ubuntu (45) oneiric; urgency=low
+
+  * Update edubuntu slideshow, remove sabayon and nanny. (LP: #850550)
+
+ -- Stéphane Graber <stgraber@ubuntu.com>  Thu, 15 Sep 2011 09:40:05 -0400
+
+ubiquity-slideshow-ubuntu (44) oneiric; urgency=low
+
+  * Convert HTML entities to their unescaped forms to help translators.
+    Thanks Dylan McCall.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Thu, 15 Sep 2011 09:22:22 +0100
+
+ubiquity-slideshow-ubuntu (43) oneiric; urgency=low
+
+  * Fix reference to 11.04 in oem-config (LP: #837967).
+  * Use en instead of en_GB for the copy. Thanks Dylan Mccall (LP: #845498).
+  * Fix missing reference to all support options.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Thu, 15 Sep 2011 09:21:34 +0100
+
+ubiquity-slideshow-ubuntu (42) oneiric; urgency=low
+
+  * Merge new design. Thanks Christian Giordano.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Wed, 07 Sep 2011 21:54:16 +0100
+
+ubiquity-slideshow-ubuntu (41) oneiric; urgency=low
+ 
+  * Bump version strings to 11.10.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Thu, 25 Aug 2011 11:12:17 +0100
+
+ubiquity-slideshow-ubuntu (40) natty; urgency=low
+
+  [ Dylan McCall ]
+  * Fixed scaling for Ubuntu screenshots.
+  * Fixed bad edits to social.jpeg and usc.jpeg.
+
+  [ Evan Dandrea ]
+  * Update translations from Launchpad.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Mon, 18 Apr 2011 09:42:55 +0100
+
+ubiquity-slideshow-ubuntu (39) natty; urgency=low
+
+  * Update translations from Launchpad.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Mon, 11 Apr 2011 09:59:29 +0100
+
+ubiquity-slideshow-ubuntu (38) natty; urgency=low
+
+  * Updated strings for Edubuntu slideshow.
+  * Removed template slide (LP: #748864).
+  * Updated translations from Launchpad.
+
+ -- Dylan McCall <dylanmccall@ubuntu.com>  Mon, 04 Apr 2011 22:32:34 -0700
+
+ubiquity-slideshow-ubuntu (37) natty; urgency=low
+
+  * Merge Rollo's updated screenshots branch.
+  * Update the Ubuntu One icon.
+  * Freeze exception (LP: #744374).
+
+ -- Evan Dandrea <ev@ubuntu.com>  Mon, 28 Mar 2011 16:56:29 +0100
+
+ubiquity-slideshow-ubuntu (36) natty; urgency=low
+
+  [ Evan Dandrea ]
+  * If we're going to use American-English strings, we might as well
+    also use serial commas.  Thanks to Mark Pilgrim for the tip.
+
+  [ Dylan McCall ]
+  * New screenshots for Lubuntu slideshow.
+  * New design for welcome.html in Ubuntu slideshow.
+  * Updated POT files.
+
+ -- Dylan McCall <dylanmccall@ubuntu.com>  Sun, 27 Mar 2011 15:12:33 -0700
+
+ubiquity-slideshow-ubuntu (35) natty; urgency=low
+
+  * Fixed symlinks for oem-config-ubuntu slideshow.
+  * Small string change for Ubuntu slideshow.
+
+ -- Dylan McCall <dylanmccall@ubuntu.com>  Wed, 23 Mar 2011 16:20:04 -0700
+
+ubiquity-slideshow-ubuntu (34) natty; urgency=low
+
+  [ Julien Lavergne ]
+  * Update lubuntu layout to Ubuntu one (LP: #729197)
+
+  [ Dylan McCall ]
+  * Updated Xubuntu slideshow.
+  * Updated Ubuntu slideshow.
+  * New POT files.
+
+ -- Dylan McCall <dylanmccall@ubuntu.com>  Tue, 22 Mar 2011 18:45:13 -0700
+
+ubiquity-slideshow-ubuntu (33) natty; urgency=low
+
+  [ Dylan McCall ]
+  * New strings for Ubuntu slideshow.
+
+  [ Evan Dandrea ]
+  * Fix symlinks for the oem-config-ubuntu slideshow.
+
+  [ Yuri Chornoivan ]
+  * Fix typos in Edubuntu slides (LP: #725217)
+
+ -- Bryce Harrington <bryce@ubuntu.com>  Mon, 07 Mar 2011 14:25:55 -0800
+
+ubiquity-slideshow-ubuntu (32) natty; urgency=low
+
+  * Add oem-config-ubuntu slideshow.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Fri, 11 Feb 2011 15:29:49 +0000
+
+ubiquity-slideshow-ubuntu (31) natty; urgency=low
+
+  [ Dylan McCall ]
+  * Improve kerning in Ubuntu slideshow (LP: #688512)
+
+  [ Jonathan Carter ]
+  * Update Edubuntu slides
+
+  [ Mackenzie Morgan ]
+  * Fix typo in Kubuntu slides (LP: #714668)
+
+  [ Evan Dandrea ]
+  * Update translations from Launchpad.
+
+ -- Evan Dandrea <ev@ubuntu.com>  Fri, 11 Feb 2011 14:02:53 +0000
+
+ubiquity-slideshow-ubuntu (30) natty; urgency=low
+
+  * Bump version numbers to 11.04.  Many slides still need to be rewritten
+    (LP: #683999)
+  * Changing OpenOffice.org to LibreOffice in all variants
+    (LP: #692879, #712548)
+  * POT files updated
+
+ -- Marco Biscaro <marcobiscaro2112@gmail.com>  Mon, 07 Feb 2011 08:34:09 -0200
+
+ubiquity-slideshow-ubuntu (29) natty; urgency=low
+
+  * Add Edubuntu slideshow
+  * Update standards version to 3.9.1
+
+ -- Jonathan Carter <jonathan@ubuntu.com>  Thu, 04 Nov 2010 14:28:36 -0400
+
+ubiquity-slideshow-ubuntu (28) maverick; urgency=low
+
+  [ Dylan McCall ]
+  * Prefer 'Ubuntu' font family instead of 'UbuntuBeta' (LP: #652047).
+
+  [ Colin Watson ]
+  * Update translations from Launchpad, including adding Norwegian Bokmål
+    and Nynorsk (LP: #652395).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 01 Oct 2010 11:03:28 +0100
+
+ubiquity-slideshow-ubuntu (27) maverick; urgency=low
+
+  * Freeze exception (LP: #649597).
+  * Updated screenshots from the Ubuntu 10.10 desktop tour.  Thanks
+    Dylan McCall and Mat Tomaszewski.
+  * Fix update-launchpad-translations to cope with no-longer-existant
+    slideshows.
+  * Update translations from Launchpad.
+  * Remove translations not present in localechooser, and thus not
+    available during install.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Tue, 28 Sep 2010 08:36:06 +0100
+
+ubiquity-slideshow-ubuntu (26) maverick; urgency=low
+
+  * Kubuntu slideshow: ensure width matches space available in Ubiquity (LP: #628812)
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Thu, 23 Sep 2010 15:18:46 +0100
+
+ubiquity-slideshow-ubuntu (25) maverick; urgency=low
+
+  * Match the Ubuntu theme's color for the header.
+  * Update forgotten translation templates.  Already has a freeze
+    exception (LP: #636945).
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Wed, 22 Sep 2010 16:02:07 +0100
+
+ubiquity-slideshow-ubuntu (24) maverick; urgency=low
+
+  [ Dylan McCall ]
+  * New slideshow for Lubuntu, by Julien Lavergne (LP: #614721).
+  * New design for Ubuntu desktop slideshow.
+  * Removed incomplete ubuntu-upgrade package.
+  * Updated transition animation, affecting all packages.
+  * Moved remnants of ubuntu-netbook work from trunk.
+
+  [ Evan Dandrea ]
+  * Copy review from Roz Strachan.
+  * Freeze exception (LP: #636945).
+
+ -- Evan Dandrea <evand@ubuntu.com>  Wed, 15 Sep 2010 18:04:46 +0100
+
+ubiquity-slideshow-ubuntu (23) maverick; urgency=low
+
+  * Bump version numbers to 10.10.  Many slides still need to be rewritten;
+    this is just a minimal change (LP: #588677).
+  * Switch to source format 3.0 (native) with bzip2 compression.
+  * Policy version 3.8.4: no changes required.
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Fri, 25 Jun 2010 17:32:50 +0100
+
+ubiquity-slideshow-ubuntu (22) lucid; urgency=low
+
+  [ Dylan McCall ]
+  * Fixed RTL for Xubuntu slideshow (LP: #560220).
+
+  [ Evan Dandrea ]
+  * Add a higher resolution export of the personalize icon.  Thanks
+    Daniel Fore!
+  * Update translations from Launchpad.  Remove translations that are
+    not included in localechooser and thus are not available in the
+    installer.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Sat, 17 Apr 2010 11:07:49 +0100
+
+ubiquity-slideshow-ubuntu (21) lucid; urgency=low
+
+  [ Dylan McCall ]
+  * Ubuntu slideshow: New icons. Fixes centering (LP: #552510).
+  * Added personalize.png and media.png, replacing accessibility.png
+    and rhythmbox.png, respectively.
+  * Small CSS changes: title block is narrower, exception for Firefox
+    icon, removed icon.exact property.
+  * Firefox icon now points to the correct file (LP: #421864).
+  * Fixed RTL for Ubuntu slideshow (LP: #549357).
+  * Fixed RTL for Kubuntu slideshow (LP: #537635).
+
+  [ Jonathan Riddell ]
+  * Update kubuntu-logo.png with new logo
+
+  [ Evan Dandrea ]
+  * Update translations from Launchpad.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Wed, 07 Apr 2010 09:35:22 +0100
+
+ubiquity-slideshow-ubuntu (20) lucid; urgency=low
+
+  * Fall back from language variants (e.g. de_DE) to languages (e.g. de)
+    (LP: #476269).
+
+ -- Colin Watson <cjwatson@ubuntu.com>  Thu, 01 Apr 2010 01:17:17 +0100
+
+ubiquity-slideshow-ubuntu (19) lucid; urgency=low
+
+  * Add LTS designator to the relevant distributions per
+    https://wiki.ubuntu.com/LucidLynx/ReleaseManifest.  The release is
+    10.04 LTS, not 10.04.
+  * Reduce the slideshow by 49px from the top of the window, so that it fits
+    better on netbook (1024x600) screens.
+  * New Ubuntu One icon.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Tue, 30 Mar 2010 09:27:29 +0100
+
+ubiquity-slideshow-ubuntu (18) lucid; urgency=low
+
+  [ Dylan McCall ]
+  * Title aligns by bottom of new .header container (which was added to
+    HTML for each slide). Second line uses smaller text than first line.
+    This means titles can exceed a single line and still look nice.
+  * Updated slides to use .content .wrap-top class when icon exceeds the
+    usual container.   Moved / enlarged content block to fit another
+    line of text without scrolling.
+
+  [ Evan Dandrea ]
+  * Update translation templates.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Thu, 25 Mar 2010 16:25:04 +0000
+
+ubiquity-slideshow-ubuntu (17) lucid; urgency=low
+
+  [ Evan Dandrea ]
+  * Force UTF-8 for po4a-translate as well.
+  * Updated Rhythmbox and Ubuntu One slides.  Thanks Matt Griffin!
+
+  [ Dylan McCall ]
+  * Updated content for Ubuntu slideshow. New .pot file.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Wed, 24 Mar 2010 23:37:19 +0000
+
+ubiquity-slideshow-ubuntu (16) lucid; urgency=low
+
+  [ Dylan McCall ]
+  * New look for the Ubuntu slideshow.
+  * Updated license details for images in debian/copyright.
+  * Larger dimensions for Ubuntu slideshow: 816x500, from 700x420.
+  * Removed GIMP build dependency. GIMP scripts in images-source no
+    longer to be run at build time; final icons should be added
+    manually in source package.
+
+  [ Evan Dandrea ]
+  * Use the official Firefox icon, rather than a generic browser icon.
+  * Freeze exception for new design (LP: #538411).
+  * Update the update-launchpad-translations script.
+  * Update translations from Launchpad.
+
+  [ Richard A. Johnson ]
+  * Updated slideshow for Kubuntu installer
+    (LP: #540348) (LP: #534949) (LP: #539147)
+
+  [ Brian Murray ]
+  * resolved some grammatical issues with the xubuntu slides
+
+ -- Evan Dandrea <evand@ubuntu.com>  Wed, 24 Mar 2010 14:31:56 +0000
+
+ubiquity-slideshow-ubuntu (15) lucid; urgency=low
+
+  [ Dylan McCall ]
+  * Rearranged source package to closely mirror build output.
+  * Renamed ./slides to ./slideshows, reflecting new arrangement.
+  * Each slideshow now has a unique slideshow.conf file.
+  * Split link-core and link-default for slideshows. link-default
+    is NOT symlinked to a central place, encouraging customization.
+  * Generated icons now go straight to the build directory.
+  * Merging new Xubuntu slideshow.
+  * Merging new visuals for Kubuntu slideshow.
+
+  [ Evan Dandrea ]
+  * Fix typo in Kubuntu chat slide.
+  * Move from po2html, which is no longer included in Debian, to po4a.
+  * Make each slideshow package Replace and Conflict the ubiquity-
+    slideshow virtual package, to ensure that only one slideshow can be
+    installed at a time and so we can put all of the files in a single
+    location (LP: #526483).  The upgrade slideshows do the same with the
+    ubiquity-slideshow-upgrade virtual package.
+  * Update update-launchpad-translations.sh to reflect recent directory
+    layout changes.
+  * Update translations from Launchpad.
+  * Remove possibly inappropriate URL from br translation (LP: #528465).
+
+ -- Evan Dandrea <evand@ubuntu.com>  Fri, 26 Feb 2010 14:26:00 +0000
+
+ubiquity-slideshow-ubuntu (14) lucid; urgency=low
+
+  * Work around pkgstriptranslations's dislike for empty po files.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Fri, 12 Feb 2010 12:11:57 +0000
+
+ubiquity-slideshow-ubuntu (13) lucid; urgency=low
+
+  [ Dylan McCall ]
+  * Updated localization setup and build scripts. Localization
+    is now done with a single template file for each slideshow
+    package.
+  * Build script must use brute force (and cmp) to decide which
+    slides have actually been translated.
+  * Added htmlclean to remove unnecessary content from built
+    slides.
+  * Added room for ubuntu-upgrade slides.
+
+  [ Lionel Le Folgoc ]
+  * Initial import of Xubuntu slides lp: #514011
+
+  [ Evan Dandrea ]
+  * Bump release in welcome.html to 10.04.
+  * Remove htmlclean as its in universe and not currently worth the MIR.
+  * Tidy up generate-local-slides.sh and make it less noisy.
+  * Updated translations from Launchpad.
+  * Add update-launchpad-translations.sh, a small bit of shell code to
+    take the grunt work out of updating translations.
+  * Place ubiquity-slideshow-ubuntu-upgrade files in their own
+    directory.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Fri, 12 Feb 2010 11:47:05 +0000
+
+ubiquity-slideshow-ubuntu (12) lucid; urgency=low
+
+  [ Dylan McCall ]
+  * Removed unused overlay image from earlier design.
+  * Added HTML comments to slides, which will become translator
+    comments when all the pieces are in place. (LP: #435834)
+  * Tidied up writing in the following slides:
+    f-spot (streamlined discussion of tags), rhythmbox (removed
+    codec licensing stuff), documentation (removed subtitles).
+    (LP: #480382) (LP: #480383)
+  * Consistently italicize names of applications in Ubuntu when
+    referred to directly.
+  * Consistently refer to applications by their names in the menu
+    when directing the user to them.
+  * Major adjustment to format for passing parameters to
+    slideshow's Javascript via #parameter. Now using
+    #?key?key=value  format, for compatibility with
+    WebKit.
+  * Changed default slide interval for slideshows to 45s
+    (LP: #423639)
+  
+  [ Evan Dandrea ]
+  * Put Kubuntu slides in their own directory to avoid having to make
+    each slideshow package conflict.
+  * Update translations from Launchpad.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Mon, 11 Jan 2010 09:36:06 +0000
+
+ubiquity-slideshow-ubuntu (11) lucid; urgency=low
+
+  [ Dylan McCall ]
+  * Adding support for right-to-left languages (LP: #446989).
+  * When #rtl is appended to URL, index.html will load the rtl.css
+    stylesheet via Javascript.
+  * Added link/rtl.css and link/bullet-point.rtl.png, which are
+    responsible for little hacks to get right-to-left languages
+    looking right.
+  * Changed doctype of index.html to HTML5.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Thu, 10 Dec 2009 10:25:01 +0000
+
+ubiquity-slideshow-ubuntu (10) karmic; urgency=low
+
+  * Update translations from Launchpad (LP: #452889).
+
+ -- Evan Dandrea <evand@ubuntu.com>  Fri, 23 Oct 2009 07:52:44 +0100
+
+ubiquity-slideshow-ubuntu (9) karmic; urgency=low
+
+  [ Evan Dandrea ]
+  * The version of Firefox shipped with Ubuntu 9.10 is 3.5, not 3.0
+    (LP: #442832).
+  * Add an Ubuntu One slide.
+  * Freeze exception (LP: #447383).
+  * Updated Ubuntu and Ubuntu One logo license (LP: #451263).
+  * Updated translations from Launchpad (source package).
+
+  [ Dylan McCall ]
+  * Merged middle-tweaks branch. Freeze exception (LP: #445102)
+  * New strings for firefox.html, fspot.html, rhythmbox-totem.html,
+    evolution.html, empathy.html, openoffice.html, accessibility.html,
+    installing-software.html.
+  * Changed order of slideshow; multimedia stuff slide appears first,
+    accessibility near the end, before Installing Software.
+  * Breathe icons have been replaced with icons from the Humanity icon theme:
+    accessibility.svg, evolution.svg, fspot.svg, help.svg, openoffice.svg
+    (LP: #428169)
+  * Breathe icon fspot.svg has been replaced with its counterpart from the
+    fspot source package.
+  * Removed banshee.svg from source tree and removed mention of nonexistent
+    icons from debian/copyright.
+  * Updated translation templates for new slides.
+
+  [ Daniel Holbert ]
+  * Made images in slideshow non-draggable to work around pywebkitgtk crash
+    (LP: #448703).
+
+ -- Evan Dandrea <evand@ubuntu.com>  Thu, 15 Oct 2009 11:50:19 +0100
+
+ubiquity-slideshow-ubuntu (8) karmic; urgency=low
+
+  [ Dylan McCall ]
+  * Changed "Software Store" to "Software Center" since it has been renamed.
+
+  [ Evan Dandrea ]
+  * Updated translations from Launchpad.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Fri, 02 Oct 2009 12:28:50 +0100
+
+ubiquity-slideshow-ubuntu (7) karmic; urgency=low
+
+  [ Dylan McCall ]
+  * Updated translation templates. The template for installing-software.html
+    is entirely changed and should be translated again at some point. (Sorry,
+    translators!) welcome.html and documentation.html are not quite as major,
+    but if they were translated word-for-word they could probably use a
+    do-over.
+  * Merging my recent changes, including revised welcome and farewell slides.
+
+  [ Evan Dandrea ]
+  * Freeze exception (LP: #436063).
+  * Update translations from Launchpad.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Fri, 25 Sep 2009 10:16:31 -0700
+
+ubiquity-slideshow-ubuntu (6) karmic; urgency=low
+
+  [ Evan Dandrea ]
+  * The buildds do not install recommends by default, so add a build
+    dependency on python-utidylib (LP: #430719).
+  * Add the Firefox icon and a javascript-based reflection for it
+    (LP: #421864).
+  * Updated translations from Launchpad.
+
+  [ Dylan McCall ]
+  * Fixed comma splice in documentation.html
+  * Corrected missing "with" in the third bullet point. Fixed title
+    (LP: #427257, #427254).
+  * Makefile now checks if po2html is installed and exits (slightly more)
+    gracefully, albeit with rather horrendous looking output :)
+  * Added --progress=names when calling po2html. Makefile output is now a bit
+    tidier.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Thu, 17 Sep 2009 17:16:20 +0100
+
+ubiquity-slideshow-ubuntu (5) karmic; urgency=low
+
+  * Updated translations from Launchpad.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Thu, 10 Sep 2009 12:19:29 +0100
+
+ubiquity-slideshow-ubuntu (4) karmic; urgency=low
+
+  * Replace reference to 'Ubuntu Linux' with the correct title for the
+    project, 'Ubuntu'.
+  * Clean up generate-pot-files.sh.  Don't generate a pot for index.html.
+  * Replace Pidgin slide with an Empathy slide.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Mon, 07 Sep 2009 10:29:03 +0100
+
+ubiquity-slideshow-ubuntu (3) karmic; urgency=low
+
+  * Move translate-toolkit and gimp to build-deps-indep.
+  * Removing trailing comma from dependencies.
+  * Drop coreutils dependency as it's in essential.
+  * Use the proper Vcs-Bzr field, rather than the old XS-Vcs-Bzr.
+  * Replace entire GPL-2 copyright with a pointer to common-licenses.
+  * Bump standards version to 3.8.3.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Mon, 24 Aug 2009 10:04:37 +0100
+
+ubiquity-slideshow-ubuntu (2) karmic; urgency=low
+
+  * Initial release in Ubuntu.
+
+ -- Evan Dandrea <evand@ubuntu.com>  Tue, 18 Aug 2009 12:01:31 +0100
+
+ubiquity-slideshow-ubuntu (1-0~ppa2) karmic; urgency=low
+
+  * Added new build dependency: translate-toolkit.
+
+ -- Dylan McCall <dylanmccall@gmail.com>  Thu,  2 Jul 2009 20:25:00 -0800
+
+ubiquity-slideshow-ubuntu (1-0~ppa1) karmic; urgency=low
+
+  * Initial release.
+
+ -- Dylan McCall <dylanmccall@gmail.com>  Tue,  16 Jun 2009 16:37:00 -0800

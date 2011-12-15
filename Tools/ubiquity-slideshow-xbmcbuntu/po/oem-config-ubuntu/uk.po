@@ -1,0 +1,446 @@
+# Ukrainian translation for ubiquity-slideshow-ubuntu
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the ubiquity-slideshow-ubuntu package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# Sergiy Gavrylov <https://launchpad.net/~gavro>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: ubiquity-slideshow-ubuntu\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-09-28 16:17+0200\n"
+"PO-Revision-Date: 2011-09-18 15:26+0000\n"
+"Last-Translator: Vlad Golubev <Unknown>\n"
+"Language-Team: Ukrainian <uk@li.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-10-03 09:07+0000\n"
+"X-Generator: Launchpad (build 14071)\n"
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/accessibility.html:1
+msgid "Customise Ubuntu"
+msgstr "Персоналізуйте Ubuntu"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/accessibility.html:8
+msgid ""
+"At the heart of Ubuntu’s philosophy is a belief that computing is for "
+"everyone. With advanced accessibility tools and options like your preferred "
+"color scheme, text size, and language, Ubuntu is for anyone. Whoever you "
+"are, and wherever you are."
+msgstr ""
+
+#. type: Content of: <div><div><div><h2>
+#: slideshows/oem-config-ubuntu/slides/accessibility.html:12
+msgid "Customisation options"
+msgstr "Індивідуальні параметри"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/accessibility.html:16
+msgid "Appearance"
+msgstr "Зовнішній вигляд"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/accessibility.html:20
+msgid "Assistive technologies"
+msgstr "Допоміжні технології"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/accessibility.html:24
+msgid "Language support"
+msgstr "Мовна підтримка"
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/browse.html:1
+msgid "Browse the web"
+msgstr "Перегляд веб-сайтів"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/browse.html:8
+msgid ""
+"Ubuntu includes Mozilla Firefox for fast, safe web browsing. You can also "
+"choose alternative browsers from the Ubuntu Software Center."
+msgstr ""
+"Ubuntu включає Mozilla Firefox для швидкого та безпечного Інтернет-серфінгу. "
+"Ви також можете вибрати інші браузери з Центру програмного забезпечення "
+"Ubuntu."
+
+#. type: Content of: <div><div><div><h2>
+#: slideshows/oem-config-ubuntu/slides/browse.html:12
+#: slideshows/oem-config-ubuntu/slides/music.html:12
+#: slideshows/oem-config-ubuntu/slides/office.html:12
+#: slideshows/oem-config-ubuntu/slides/photos.html:12
+msgid "Included software"
+msgstr "Включене програмне забезпечення"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/browse.html:16
+msgid "Firefox web browser"
+msgstr "Веб-браузер Firefox"
+
+#. type: Content of: <div><div><div><h2>
+#: slideshows/oem-config-ubuntu/slides/browse.html:19
+#: slideshows/oem-config-ubuntu/slides/photos.html:19
+msgid "Supported software"
+msgstr "Підтримуване програмне забезпечення"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/browse.html:23
+msgid "Flash"
+msgstr "Flash"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/browse.html:27
+msgid "Chromium"
+msgstr "Chromium"
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/gethelp.html:1
+msgid "Any questions?"
+msgstr "Є питання?"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/gethelp.html:8
+msgid ""
+"Check out <a href=\"http://askubuntu.com/\">Ask Ubuntu</a>, the best place "
+"to get an answer about Ubuntu. With most questions already answered, and "
+"thousands of people ready to help, you’ll be sorted in no time at all. And "
+"if you need an answer on a deadline, Canonical offers <a href=\"http://www."
+"ubuntu.com/support\">commercial support</a> to business users. Browse to <a "
+"href=\"http://www.ubuntu.com/support\">ubuntu.com/support</a> to explore "
+"your other options."
+msgstr ""
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/mobilise.html:1
+msgid "Your own personal cloud"
+msgstr "Ваша особиста хмара"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/mobilise.html:8
+msgid ""
+"An <a href=\"https://one.ubuntu.com/services/\">Ubuntu One Free</a> account "
+"gives you 5GB of cloud storage, so you can store and sync your files and "
+"photos across devices and access them wherever you are in the world. Easily "
+"share them with friends, family and colleagues. Take a photo on your mobile "
+"phone and immediately see it on your desktop, or add <a href=\"https://one."
+"ubuntu.com/services/music/\">Music Streaming</a> for mobile to enjoy your "
+"music on the move."
+msgstr ""
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/music.html:1
+msgid "Take your music with you"
+msgstr "Візьміть вашу музику з собою"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/music.html:8
+msgid ""
+"Ubuntu comes with the amazing Banshee music player. With advanced playback "
+"options and the Ubuntu One music store built in, it’s simple to queue up the "
+"perfect songs. And it works great with CDs and portable music players, so "
+"you can enjoy all your music wherever you go."
+msgstr ""
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/music.html:16
+msgid "Banshee Music Player"
+msgstr "Музичний програвач Banshee"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/music.html:20
+msgid "Ubuntu One Music Store"
+msgstr "Музична крамниця Ubuntu One"
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/office.html:1
+msgid "Write and present for free"
+msgstr ""
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/office.html:8
+msgid ""
+"LibreOffice is a free office suite packed with everything you’ll need to "
+"create impressive documents, spreadsheets, and presentations. LibreOffice "
+"tries its best to work with other office software, and it uses the "
+"OpenDocument standards for far-reaching compatibility."
+msgstr ""
+"LibreOffice — це безкоштовний офісний пакет, що має все що Ви потребуєте для "
+"створення вражаючих документів, таблиць та презентацій. LibreOffice "
+"намагається якнайкраще працювати з іншим офісними програмами, і він "
+"використовує стандарти OpenDocument для найкращої сумісності."
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/office.html:16
+msgid "LibreOffice"
+msgstr "LibreOffice"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/office.html:20
+msgid "Tomboy Notes"
+msgstr "Примітки Tomboy"
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/photos.html:1
+msgid "Have fun with your photos"
+msgstr "Насолоджуйтесь своїми фотографіями"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/photos.html:8
+msgid ""
+"Shotwell is a handy photo manager that is ready for your gadgets. Connect a "
+"camera or a phone to transfer your photos, then it’s easy to share them and "
+"keep them safe. If you’re feeling creative, you can try lots of photo apps "
+"from the Ubuntu Software Center."
+msgstr ""
+"Shotwell — це зручний фото-менеджер, що готовий для вашого обладнання. "
+"Підключіть камеру чи телефон щоб перемістити Ваші фото, а потім легко "
+"ділитися та зберігати їх. Якщо ви почуваєтесь творчо, Ви можете спробувати "
+"велику кількість фото-менеджерів з Центру програмного забезпечення Ubuntu."
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/photos.html:16
+msgid "Shotwell Photo Manager"
+msgstr "Менеджер фотографій Shotwell"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/photos.html:23
+msgid "GIMP Image Editor"
+msgstr "Графічний редактор GIMP"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/photos.html:27
+msgid "Pitivi Video Editor"
+msgstr "Відеоредактор Pitivi"
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/social.html:1
+msgid "Stay connected"
+msgstr "Залишайтесь на зв’язку"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/social.html:8
+msgid ""
+"The Ubuntu Message Indicator gives you an eagle-eye view of incoming "
+"messages from all applications and social networks. See at a glance when "
+"there’s something new to read, regardless how it arrived."
+msgstr ""
+
+#. type: Content of: <div><div><div><h2>
+#: slideshows/oem-config-ubuntu/slides/social.html:12
+msgid "Supported services"
+msgstr "Підтримка соціальних мереж"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/social.html:16
+msgid "Twitter"
+msgstr "Twitter"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/social.html:20
+msgid "Facebook"
+msgstr "Facebook"
+
+#. type: Content of: <div><div><div><ul><li><p>
+#: slideshows/oem-config-ubuntu/slides/social.html:24
+msgid "Identi.ca"
+msgstr "Identi.ca"
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/usc.html:1
+msgid "Find even more software"
+msgstr "Знаходьте більше програм"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/usc.html:8
+msgid ""
+"The Ubuntu Software Center has thousands of new applications ready for your "
+"computer. Just type what you want or explore the categories like games, "
+"science, and education. It is easy to download new stuff and write reviews "
+"to share your experiences."
+msgstr ""
+"Центр програмного забезпечення Ubuntu має тисячі нових програм готових для "
+"Вашого комп'ютера. Просто напишіть що ви хочете, чи досліджуйте категорії "
+"такі як ігри, наука чи навчання. Це легко завантажити нові програми і писати "
+"відгуки щоб поділитися Вашим досвідом."
+
+#. type: Content of: <div><h1>
+#: slideshows/oem-config-ubuntu/slides/welcome.html:1
+msgid "Welcome"
+msgstr "Ласкаво просимо!"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/oem-config-ubuntu/slides/welcome.html:8
+msgid ""
+"Thank you for choosing Ubuntu 11.10. This version brings some exciting "
+"changes including a totally redesigned desktop interface, Unity. While "
+"Ubuntu is configured, this slideshow will show you around."
+msgstr ""
+"Дякуємо за вибір Ubuntu 11.10. Ця версія принесе деякі захопливі зміни, "
+"включаючи повністю змінений дизайн робочого столу, Unity. В той час як "
+"Ubuntu налаштовувалася, Ви продивилися це слайд-шоу."
+
+#~ msgid "Appearance preferences"
+#~ msgstr "Зовнішній вигляд"
+
+#~ msgid ""
+#~ "Ubuntu includes Mozilla Firefox for fast, safe web browsing. You can also "
+#~ "choose alternative browsers from Ubuntu Software Center."
+#~ msgstr ""
+#~ "Ubuntu включає браузер Mozilla Firefox для швидкого та безпечного веб-"
+#~ "серфінгу. Ви також маєте змогу вибрати альтернативний браузер з Ubuntu "
+#~ "Software Center."
+
+#~ msgid "Email and chat"
+#~ msgstr "Елекронна пошта і чат"
+
+#~ msgid "Empathy IM"
+#~ msgstr "Empathy IM"
+
+#~ msgid "Evolution Mail"
+#~ msgstr "Пошта Evolution"
+
+#~ msgid "Skype"
+#~ msgstr "Skype"
+
+#~ msgid "Social from the start"
+#~ msgstr "Соціальні мережі"
+
+#~ msgid ""
+#~ "Thank you for choosing Ubuntu 11.04. This version brings some exciting "
+#~ "changes including a totally redesigned desktop interface, Unity. While "
+#~ "Ubuntu is configured, this slideshow will show you around."
+#~ msgstr ""
+#~ "Дякуємо, що ви обрали Ubuntu 11.04. У цій версії втілено багато цікавих "
+#~ "змін, в тому числі повністю перебудований інтерфейс робочого столу - "
+#~ "Unity. Це слайд-шоу продемонструє вам, що до чого, поки Ubuntu буде "
+#~ "налаштовуватися."
+
+#~ msgid "Mobilise your digital life"
+#~ msgstr "Мобілізуйте ваше цифрове життя"
+
+#~ msgid "Write and present with ease"
+#~ msgstr "Пишіть і презентуйте з легкістю"
+
+#~ msgid ""
+#~ "Thanks again for choosing Ubuntu. Ubuntu is designed to be easy and safe, "
+#~ "so don&#8217;t hesitate to explore! If you have any questions, try the "
+#~ "Help menu in most applications or browse to <a href=\"http://www.ubuntu."
+#~ "com/support\">ubuntu.com/support</a> to explore your other options. We "
+#~ "hope you enjoy Ubuntu."
+#~ msgstr ""
+#~ "Знову дякуємо за те, що обрали Ubuntu. Ubuntu проста і безпечна у "
+#~ "використанні, тому не вагайтеся досліджувати її! Якщо у вас є якісь "
+#~ "питання, спробуйте меню Довідка у більшості програм чи завітайте на "
+#~ "сторінку <a href=\"http://www.ubuntu.com/support\">ubuntu.com/support</a> "
+#~ "щоб дізнатись більше. Сподіваємось, вам сподобається Ubuntu."
+
+#~ msgid ""
+#~ "The Messaging Menu has lots of features to make online communication "
+#~ "effortless. Chat helps you log in to all your instant messaging accounts "
+#~ "including MSN, Jabber, and Facebook. Your contacts appear in the same "
+#~ "place, ready for text or video chat."
+#~ msgstr ""
+#~ "Меню повідомлень містить багато функцій, що роблять спілкування легким. "
+#~ "Чат допоможе вам увійти до усіх ваших облікових засобів миттєвих "
+#~ "повідомлень, включаючи MSN, Jabber та Facebook. Ваші контакти містяться в "
+#~ "одному місці, готові до текстового або відео-чату."
+
+#~ msgid "Thank you"
+#~ msgstr "Дякуємо"
+
+#~ msgid ""
+#~ "Shotwell is a handy photo manager that is ready for your gadgets. Connect "
+#~ "a camera or a phone to transfer your photos, then it&#8217;s easy to "
+#~ "share them and keep them safe. If you&#8217;re feeling creative, you can "
+#~ "try lots of photo apps from the Ubuntu Software Centre."
+#~ msgstr ""
+#~ "Shotwell - це зручний менеджер фотографій, що підійде до ваших пристроїв. "
+#~ "Під'єднайте фотоапарат чи телефон, щоб перемістити ваші фотографії. Потім "
+#~ "ви зможете ділитись ними та безпечно їх зберігати. Якщо ви творча "
+#~ "особистість, ви можете спробувати багато програм для роботи з "
+#~ "фотографіями з Центру програм Ubuntu."
+
+#~ msgid ""
+#~ "LibreOffice is a free office suite packed with everything you&#8217;ll "
+#~ "need to create impressive documents, spreadsheets, and presentations. "
+#~ "LibreOffice tries its best to work with other office software, and it "
+#~ "uses the OpenDocument standards for far-reaching compatibility."
+#~ msgstr ""
+#~ "LibreOffice - це вільний офісний пакет з усім необхідним для того, щоб "
+#~ "створювати вражаючі документи, таблиці та презентації. LibreOffice "
+#~ "прикладає всіх зусиль, щоб працювати з іншими офісними програмами і "
+#~ "використовує стандарти OpenOffice для далекосяжної сумісності."
+
+#~ msgid ""
+#~ "Ubuntu comes with the amazing Banshee music player. With advanced "
+#~ "playback options and the Ubuntu One music store built in, it&#8217;s "
+#~ "simple to queue up the perfect songs. And it works great with CDs and "
+#~ "portable music players, so you can enjoy all your music wherever you go."
+#~ msgstr ""
+#~ "Ubuntu поставляється з чудовим музичним плеєром Banshee. З передовими "
+#~ "функціями відтворення та  вбудованим музичним магазином Ubuntu One, дуже "
+#~ "просто додати в чергу чудові пісні. Також він чудово працює з CD-дисками "
+#~ "та портативними музичними плеєрами, тому ви можете насолоджуватися всією "
+#~ "вашою музикою де б ви не були."
+
+#~ msgid ""
+#~ "At the heart of Ubuntu&#8217;s philosophy is a belief that computing is "
+#~ "for everyone. With advanced accessibility tools and many options like "
+#~ "your preferred fonts, colour schemes, and languages, Ubuntu is all about "
+#~ "working for real people."
+#~ msgstr ""
+#~ "В філософію Ubuntu закладена віра в те, що користуватись комп'ютером може "
+#~ "кожен. З передовими засобами доступності та численними параметрами на "
+#~ "зразок шрифтів, кольорових схем та мов, Ubuntu повністю готова для "
+#~ "використання реальними людьми."
+
+#~ msgid "Stellarium"
+#~ msgstr "Stellarium"
+
+#~ msgid "Frozen Bubble"
+#~ msgstr "Льодяна кулька"
+
+#~ msgid "Inkscape"
+#~ msgstr "Inkscape"
+
+#~ msgid "Some of our favourites"
+#~ msgstr "Дещо з улюбленого нами"
+
+#~ msgid ""
+#~ "The Ubuntu Software Centre has thousands of new applications ready for "
+#~ "your computer. Just type what you want or explore the categories like "
+#~ "games, science, and education. It is simple to download new stuff and "
+#~ "write reviews to share your experiences."
+#~ msgstr ""
+#~ "Центр програм Ubuntu містить тисячі нових програм, приготованих для "
+#~ "вашого комп'ютера. Лише введіть назву бажаної програми або відкрийте такі "
+#~ "категорії як ігри, наука чи освіта. Ще ніколи не було так легко "
+#~ "завантажувати щось нове та писати відгуки, щоб поділитися своїми "
+#~ "враженнями."
+
+#~ msgid ""
+#~ "The Me Menu is your instant connection to web services like Facebook and "
+#~ "Twitter. Just set up your accounts to log in and share with friends. "
+#~ "Anything sent to you appears in the Messaging Menu so you can reply when "
+#~ "you want."
+#~ msgstr ""
+#~ "Me Menu — ваш прямий зв'язок з веб-сервісами на зразок Facebook та "
+#~ "Twitter. Просто налаштуйте свої облікові записи та спілкуйтесь з друзями. "
+#~ "Все, що адресоване вам, з'явиться в Меню повідомлень і ви зможете "
+#~ "відповісти, коли забажаєте."
+
+#~ msgid ""
+#~ "All Ubuntu users get a free <a href=\"https://one.ubuntu.com/\">Ubuntu "
+#~ "One</a> account. Ubuntu One allows you to sync all kinds of files online "
+#~ "so you can access them anywhere. Sync bookmarks, contacts, music, and "
+#~ "pictures across all your computers. Take everything everywhere with "
+#~ "Ubuntu One."
+#~ msgstr ""
+#~ "Усі користувачі Ubuntu отримують безкоштовний обліковий запис <a href="
+#~ "\"https://one.ubuntu.com/\">Ubuntu One</a>. Ubuntu One дозволяє вам "
+#~ "синхронізувати всі види файлів та мати до них доступ звідусіль. "
+#~ "Синхронізовуйте закладки, контакти, музику та зображення між усіма вашими "
+#~ "комп'ютерами. Отримуйте все і будь-де з Ubuntu One."

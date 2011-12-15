@@ -1,0 +1,10 @@
+build:
+  name: Build
+  command: make
+  show-in: any
+  offline: True
+test:
+  name: Test
+  command: ./test-slideshow.sh
+  show-in: any
+  offline: True

@@ -39,3 +39,10 @@ if ! ls $WORKPATH/Tools/syslinux-themes-xbmcbuntu_* > /dev/null 2>&1; then
 fi
 
 cp $WORKPATH/Tools/syslinux-themes-xbmcbuntu-oneiric*.deb $WORKPATH/Files/config/packages.chroot
+
+if ! ls $WORKPATH/Tools/ubiquity-slideshow-xbmcbuntu_* > /dev/null 2>&1; then
+        cd $WORKPATH/Tools/ubiquity-slideshow-xbmcbuntu
+        dpkg-buildpackage -rfakeroot -b -uc -us
+fi
+
+cp $WORKPATH/Tools/ubiquity-slideshow-xbmcbuntu*.deb $WORKPATH/Files/config/packages.chroot

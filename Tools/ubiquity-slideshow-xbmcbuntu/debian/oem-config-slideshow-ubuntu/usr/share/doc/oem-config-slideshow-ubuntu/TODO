@@ -1,0 +1,8 @@
+* Translation infrastructure: Need Javascript solution in
+slides/index.html that will automatically load the appropriate localized
+version of each slide.
+
+* Make a smarter Makefile, with proper targets and the like to avoid
+rebuilding the entire thing every time make gets run.
+
+* Nicer testing tools for contributors to quickly see their work.
