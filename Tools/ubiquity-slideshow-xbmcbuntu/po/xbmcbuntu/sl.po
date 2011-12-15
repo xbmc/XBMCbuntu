@@ -1,0 +1,338 @@
+# Slovenian translation for ubiquity-slideshow-ubuntu
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the ubiquity-slideshow-ubuntu package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubiquity-slideshow-ubuntu\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-09-28 16:16+0200\n"
+"PO-Revision-Date: 2011-09-12 16:24+0000\n"
+"Last-Translator: Andrej Znidarsic <andrej.znidarsic@gmail.com>\n"
+"Language-Team: Slovenian <sl@li.org>\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-10-03 09:07+0000\n"
+"X-Generator: Launchpad (build 14071)\n"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/00_welcome.html:2
+msgid "Congratulations!"
+msgstr "Čestitke!"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/00_welcome.html:7
+msgid "You have chosen to install the latest version of Xubuntu, 11.10."
+msgstr "Odločili ste se, da boste namestili zadnjo različico Xubuntu, 11.10."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/00_welcome.html:8
+msgid ""
+"This exciting piece of software is brought to you free of any fees, for your "
+"use and any others you want to share it with."
+msgstr ""
+"Ta vznemirljiv program vam je na voljo brezplačno za vašo uporabo in za vse "
+"s katerimi ga želite deliti."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/00_welcome.html:9
+msgid ""
+"Since you are installing this software using the Xubuntu Desktop CD, feel "
+"free to examine things as it installs. After the installation, the desktop "
+"will look much the same as it does now."
+msgstr ""
+"Medtem, ko nameščate to programsko opremo z uporabo Xbuntu Desktop CD-ja, "
+"raziskujte naokoli. Po namestitvi bo vaše namizje izgledalo skoraj enako kot "
+"je videti sedaj."
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/01_web.html:2
+msgid "Your web experience"
+msgstr "Vaša spletna izkušnja"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:7
+msgid ""
+"<em>Firefox</em> and <em>Thunderbird</em> are everything you need from web "
+"applications."
+msgstr ""
+"<em>Firefox</em> in <em>Thunderbird</em> sta vse, kar potrebujete od "
+"spletnih programov."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:8
+msgid ""
+"They offer you the web the way you like it: high performance, easy "
+"customization and advanced security."
+msgstr ""
+"Ponujata vam splet na način, ki vam je všeč: visoka hitrost delovanja, "
+"enostavno prilagajanje in napredna varnost."
+
+#. type: Content of: <div><div><div><h2>
+#: slideshows/xubuntu/slides/01_web.html:10
+#: slideshows/xubuntu/slides/02_messaging.html:10
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:10
+#: slideshows/xubuntu/slides/04_office.html:10
+#: slideshows/xubuntu/slides/06_explore.html:11
+msgid "Where?"
+msgstr "Kje?"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:11
+#: slideshows/xubuntu/slides/01_web.html:12
+#: slideshows/xubuntu/slides/02_messaging.html:11
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:11
+#: slideshows/xubuntu/slides/04_office.html:11
+#: slideshows/xubuntu/slides/04_office.html:12
+#: slideshows/xubuntu/slides/06_explore.html:12
+#: slideshows/xubuntu/slides/06_explore.html:13
+msgid "<span>»</span>"
+msgstr "<span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:11
+#: slideshows/xubuntu/slides/01_web.html:12
+#: slideshows/xubuntu/slides/02_messaging.html:11
+msgid "Internet <span>»</span>"
+msgstr "Internet <span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:11
+msgid "Firefox Web Browser"
+msgstr "Firefox spletni brskalnik"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:12
+msgid "Thunderbird Mail/News"
+msgstr "Thunderbird odjemalec pošte in novic"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/02_messaging.html:2
+msgid "Instant messaging"
+msgstr "Hipno sporočanje"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/02_messaging.html:7
+msgid ""
+"Xubuntu is shipping <em>Pidgin</em> as the default instant messaging client."
+msgstr ""
+"Xubuntu vsebuje <em>Pidgin</em> kot privzeti odjemalec hipnega sporočanja."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/02_messaging.html:8
+msgid ""
+"You can connect to various protocols such as AIM, ICQ, IRC, MSN and XMPP "
+"(Google Talk). You can also use the Facebook chat and update your Twitter "
+"account via third-party plugins."
+msgstr ""
+"Povežete se lahko z različnimi protokoli kot so AIM, ICQ, IRC, MSN in XMPP "
+"(Google Talk). Uporabite lahko tudi Facebook klepet in posodobite svoj račun "
+"Twitter preko vstavkov tretjih oseb."
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/02_messaging.html:11
+msgid "Pidgin Internet Messenger"
+msgstr "Pidgin medmrežni sporočilnik"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:2
+msgid "Enjoy your media"
+msgstr "Uživajte v svoji večpredstavnosti"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:7
+msgid ""
+"Whether your collection is small or large, <em>gmusicbrowser</em>, the "
+"default media player in Xubuntu, can handle it!"
+msgstr ""
+"Ne glede na to ali je vaša zbirka majhna ali velika lahko <em>gmusicbrowser</"
+"em> upravlja z njo!"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:8
+msgid ""
+"In Xubuntu, gmusicbrowser comes with the good-looking and easy-to-use "
+"Shimmer theme."
+msgstr ""
+"V Xubuntuju gmusicbrowser uporablja lepo temo Shimmer, ki je enostavna za "
+"uporabo."
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:11
+msgid "Multimedia <span>»</span>"
+msgstr "Večpredstavnost <span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:11
+msgid "gmusicbrowser"
+msgstr "gmusicbrowser"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/04_office.html:2
+msgid "Lighter alternatives"
+msgstr "Lažji nadomestki"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:7
+msgid ""
+"<em>Abiword</em> is a word processor, which can read almost all known "
+"document formats. <em>Gnumeric</em> is a spreadsheet program with an "
+"emphasis on accuracy."
+msgstr ""
+"<em>Abiword</em> je urejevalnik besedila, ki lahko prebere skoraj vse znane "
+"vrste dokumentov. <em>Gnumeric</em> je program za delo s preglednicami s "
+"poudarkom na natančnosti."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:8
+msgid ""
+"While Abiword and Gnumeric are lightweight, they provide almost all of the "
+"functions of the LibreOffice suite."
+msgstr ""
+"Čeprav sta Abiword in Gnumeric lahka, zagotavljata skoraj vse zmožnosti "
+"zbirke LibreOffice."
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:11
+#: slideshows/xubuntu/slides/04_office.html:12
+msgid "Office <span>»</span>"
+msgstr "Pisarna <span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:11
+msgid "Abiword"
+msgstr "Abiword"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:12
+msgid "Gnumeric"
+msgstr "Gnumeric"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/05_desktop.html:2
+msgid "The Xubuntu desktop"
+msgstr "Namizje Xubuntu"
+
+#. type: Attribute 'alt' of: <div><div><p><img>
+#: slideshows/xubuntu/slides/05_desktop.html:8
+msgid "1"
+msgstr "1"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/05_desktop.html:9
+msgid ""
+"The application-menu gives you complete access to all your applications."
+msgstr "Programski meni vam da popoln dostop do vseh vaših programov."
+
+#. type: Attribute 'alt' of: <div><div><p><img>
+#: slideshows/xubuntu/slides/05_desktop.html:12
+msgid "2"
+msgstr "2"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/05_desktop.html:13
+msgid ""
+"The launcher panel gives you <em>quick access</em> to your most important "
+"applications. It is set to autohide by default to preserve screen estate."
+msgstr ""
+"Pult zaganjalnika vam omogoča <em>hiter dostop</em> do vaših najbolj "
+"priljubljenih programov. Privzeto je nastavljen na samodejno skrivanje za "
+"ohranitev prostora na zaslonu."
+
+#. type: Attribute 'alt' of: <div><div><p><img>
+#: slideshows/xubuntu/slides/05_desktop.html:16
+msgid "3"
+msgstr "3"
+
+#. Open windows of r 
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/05_desktop.html:17
+msgid "Running applications are shown in the top panel."
+msgstr "Izvajajoči se programi so prikazani v zgornjem pultu."
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/06_explore.html:2
+msgid "Know your desktop"
+msgstr "Poznajte svoje namizje"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:7
+msgid ""
+"For easy installation of new software, use the <em>Ubuntu Software Center</"
+"em>."
+msgstr ""
+"Za enostavno namestitev novih programov uporabite <em>Programsko središče "
+"Ubuntu</em>."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:8
+msgid ""
+"If you need help, go to <em>Help</em> in the Applications menu or see <a "
+"href=\"http://xubuntu.org/help\">Help & Support</a> on our website."
+msgstr ""
+"V primeru da potrebujete pomoč pojdite na <em>Pomoč</em> v meniju programov "
+"ali si oglejte <a href=\"http://xubuntu.org/help\">Pomoč in podpora</a> na "
+"našem spletišču."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:9
+msgid ""
+"<em>Xfce</em> is the desktop environment in Xubuntu. Read more about Xfce on "
+"the <a href=\"http://xfce.org/\">Xfce website</a>."
+msgstr ""
+"<em>Xfce</em> je namizno okolje v Xubuntuju. Več o Xfce si preberite na <a "
+"href=\"http://xfce.org/\">spletišču Xfce</a>."
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:12
+msgid "Software Center"
+msgstr "Programsko središče"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:13
+msgid "Help"
+msgstr "Pomoč"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/07_thanks.html:2
+msgid "Thank you!"
+msgstr "Hvala!"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/07_thanks.html:7
+msgid ""
+"Thanks for taking the time with us. We'd love to hear about your experiences "
+"with Xubuntu. You can share them on the <a href=\"https://lists.ubuntu.com/"
+"mailman/listinfo/xubuntu-users\">Xubuntu-users mailing list</a>."
+msgstr ""
+"Hvala, ker ste si vzeli čas za nas. Želimo si slišati kaj o vaših izkušnjah "
+"s Xubuntujem. Z nami jih lahko delite na <a href=\"https://lists.ubuntu.com/"
+"mailman/listinfo/xubuntu-users\">dopisnem seznamu Xubuntu-users</a>."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/07_thanks.html:8
+msgid ""
+"Join our IRC channel <em>#xubuntu</em> for online support by <a href="
+"\"http://webchat.freenode.net/?channels=xubuntu&nick=xubuntu..."
+"&prompt=1\">clicking here</a>."
+msgstr ""
+"Za spletno podporo se pridružite našemu IRC kanalu <em>#xubuntu</em> s <a "
+"href=\"http://webchat.freenode.net/?channels=xubuntu&nick=xubuntu..."
+"&prompt=1\">klikom tukaj</a>."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/07_thanks.html:9
+msgid ""
+"Finally, find different ways to contribute to Xubuntu on the <a href="
+"\"http://xubuntu.org/devel\">Get Involved</a> -section of our website. We "
+"need your help!"
+msgstr ""
+"Različne načine na katere lahko prispevate k Xubuntuju lahko najdete v "
+"odseku <a href=\"http://xubuntu.org/devel\">Vključite se Involved</a> na "
+"našem spletišču. Potrebujemo vašo pomoč!"
+
+#~ msgid "You have chosen to install the latest version of Xubuntu, 11.04."
+#~ msgstr "Izbrali ste namestitev zadnje različice Xubuntu, 11.04."

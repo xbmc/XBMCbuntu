@@ -1,0 +1,325 @@
+# Chinese (Hong Kong) translation for ubiquity-slideshow-ubuntu
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the ubiquity-slideshow-ubuntu package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubiquity-slideshow-ubuntu\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-09-28 16:16+0200\n"
+"PO-Revision-Date: 2011-09-09 18:17+0000\n"
+"Last-Translator: Roy Chan <roy.chan@linux.org.hk>\n"
+"Language-Team: Chinese (Hong Kong) <zh_HK@li.org>\n"
+"Language: zh_HK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-10-03 09:08+0000\n"
+"X-Generator: Launchpad (build 14071)\n"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/00_welcome.html:2
+msgid "Congratulations!"
+msgstr "恭喜！"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/00_welcome.html:7
+msgid "You have chosen to install the latest version of Xubuntu, 11.10."
+msgstr "您選擇了安裝最新版本的 Xubuntu - 11.10。"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/00_welcome.html:8
+msgid ""
+"This exciting piece of software is brought to you free of any fees, for your "
+"use and any others you want to share it with."
+msgstr ""
+"最令人振奮的是，這些軟件無論是您想要自己使用或者分享給他人使用，都不會收取任"
+"何費用。"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/00_welcome.html:9
+msgid ""
+"Since you are installing this software using the Xubuntu Desktop CD, feel "
+"free to examine things as it installs. After the installation, the desktop "
+"will look much the same as it does now."
+msgstr ""
+"在您用 Xubuntu Desktop CD 安裝系統的時候，請放心去試試各種的功能。在安裝完成"
+"以後，系統外觀大概就是你現在看到的這樣。"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/01_web.html:2
+msgid "Your web experience"
+msgstr "您的網絡體驗"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:7
+msgid ""
+"<em>Firefox</em> and <em>Thunderbird</em> are everything you need from web "
+"applications."
+msgstr ""
+"眾多網絡應用程式，您只需要 <em>Firefox</em> 和 <em>Thunderbird</em> 就能包辦"
+"每件事。"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:8
+msgid ""
+"They offer you the web the way you like it: high performance, easy "
+"customization and advanced security."
+msgstr "它們提供您依照自己想要的方式探索網絡：高效能、高可自訂性、高安全性。"
+
+#. type: Content of: <div><div><div><h2>
+#: slideshows/xubuntu/slides/01_web.html:10
+#: slideshows/xubuntu/slides/02_messaging.html:10
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:10
+#: slideshows/xubuntu/slides/04_office.html:10
+#: slideshows/xubuntu/slides/06_explore.html:11
+msgid "Where?"
+msgstr "在哪裡？"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:11
+#: slideshows/xubuntu/slides/01_web.html:12
+#: slideshows/xubuntu/slides/02_messaging.html:11
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:11
+#: slideshows/xubuntu/slides/04_office.html:11
+#: slideshows/xubuntu/slides/04_office.html:12
+#: slideshows/xubuntu/slides/06_explore.html:12
+#: slideshows/xubuntu/slides/06_explore.html:13
+msgid "<span>»</span>"
+msgstr "<span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:11
+#: slideshows/xubuntu/slides/01_web.html:12
+#: slideshows/xubuntu/slides/02_messaging.html:11
+msgid "Internet <span>»</span>"
+msgstr "互聯網 <span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:11
+msgid "Firefox Web Browser"
+msgstr "Firefox 網頁瀏覽器"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:12
+msgid "Thunderbird Mail/News"
+msgstr "Thunderbird 電郵/新聞"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/02_messaging.html:2
+msgid "Instant messaging"
+msgstr "即時通訊"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/02_messaging.html:7
+msgid ""
+"Xubuntu is shipping <em>Pidgin</em> as the default instant messaging client."
+msgstr "Xubuntu 收納 <em>Pidgin</em> 作為預設即時通訊客戶端。"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/02_messaging.html:8
+msgid ""
+"You can connect to various protocols such as AIM, ICQ, IRC, MSN and XMPP "
+"(Google Talk). You can also use the Facebook chat and update your Twitter "
+"account via third-party plugins."
+msgstr ""
+"您可以連線到各種協定，例如 AIM、ICQ、IRC、MSN、XMPP (Google Talk) 等。您也可"
+"以藉由第三方外掛程式來進行 Facebook 聊天以及更新您的 Twitter 資訊。"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/02_messaging.html:11
+msgid "Pidgin Internet Messenger"
+msgstr "Pidgin 網絡即時通訊"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:2
+msgid "Enjoy your media"
+msgstr "享受您的影音體驗"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:7
+msgid ""
+"Whether your collection is small or large, <em>gmusicbrowser</em>, the "
+"default media player in Xubuntu, can handle it!"
+msgstr ""
+"無論您珍藏了多少音樂，Xubuntu 的預設音樂播放器 <em>gmusicbrowser</em> 都可以"
+"應付自如！"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:8
+msgid ""
+"In Xubuntu, gmusicbrowser comes with the good-looking and easy-to-use "
+"Shimmer theme."
+msgstr "在 Xubuntu 中，gmusicbrowser 隨附美觀且易用的 Shimmer 佈景主題。"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:11
+msgid "Multimedia <span>»</span>"
+msgstr "多媒體 <span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:11
+msgid "gmusicbrowser"
+msgstr "gmusicbrowser 音樂瀏覽器"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/04_office.html:2
+msgid "Lighter alternatives"
+msgstr "輕量替代品"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:7
+msgid ""
+"<em>Abiword</em> is a word processor, which can read almost all known "
+"document formats. <em>Gnumeric</em> is a spreadsheet program with an "
+"emphasis on accuracy."
+msgstr ""
+"<em>Abiword</em> 是一個文書軟件，可以讀取多數常見的文件格式。<em>Gnumeric</"
+"em>則是一個注重精準度的試算表軟件。"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:8
+msgid ""
+"While Abiword and Gnumeric are lightweight, they provide almost all of the "
+"functions of the LibreOffice suite."
+msgstr ""
+"雖然 Abiword 和 Gnumeric 為輕量級軟件，但它們卻能提供大部份 LiberOffice 中的"
+"功能。"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:11
+#: slideshows/xubuntu/slides/04_office.html:12
+msgid "Office <span>»</span>"
+msgstr "辦公 <span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:11
+msgid "Abiword"
+msgstr "Abiword"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:12
+msgid "Gnumeric"
+msgstr "Gnumeric"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/05_desktop.html:2
+msgid "The Xubuntu desktop"
+msgstr "Xubuntu 桌面"
+
+#. type: Attribute 'alt' of: <div><div><p><img>
+#: slideshows/xubuntu/slides/05_desktop.html:8
+msgid "1"
+msgstr "1"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/05_desktop.html:9
+msgid ""
+"The application-menu gives you complete access to all your applications."
+msgstr "應用程式選單可以讓您存取所有的應用程式。"
+
+#. type: Attribute 'alt' of: <div><div><p><img>
+#: slideshows/xubuntu/slides/05_desktop.html:12
+msgid "2"
+msgstr "2"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/05_desktop.html:13
+msgid ""
+"The launcher panel gives you <em>quick access</em> to your most important "
+"applications. It is set to autohide by default to preserve screen estate."
+msgstr ""
+"啟動器面板讓您可以 <em>快速存取</em> 您最常用的應用程式。為了節省螢幕空間，它"
+"預設自動隱藏。"
+
+#. type: Attribute 'alt' of: <div><div><p><img>
+#: slideshows/xubuntu/slides/05_desktop.html:16
+msgid "3"
+msgstr "3"
+
+#. Open windows of r 
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/05_desktop.html:17
+msgid "Running applications are shown in the top panel."
+msgstr "正在執行的應用程式會顯示在頂端的面板中。"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/06_explore.html:2
+msgid "Know your desktop"
+msgstr "認識您的桌面"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:7
+msgid ""
+"For easy installation of new software, use the <em>Ubuntu Software Center</"
+"em>."
+msgstr "使用 <em>Ubuntu 軟件中心</em> 可以讓您方便且容易地安裝新軟件。"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:8
+msgid ""
+"If you need help, go to <em>Help</em> in the Applications menu or see <a "
+"href=\"http://xubuntu.org/help\">Help & Support</a> on our website."
+msgstr ""
+"如果您需要幫助，開啟應用程式選單中的 <em>求助</em> 或者參考我們網站上的<a "
+"href=\"http://xubuntu.org/help\">幫助與支援</a>。"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:9
+msgid ""
+"<em>Xfce</em> is the desktop environment in Xubuntu. Read more about Xfce on "
+"the <a href=\"http://xfce.org/\">Xfce website</a>."
+msgstr ""
+"<em>Xfce</em> 是 Xubuntu 的預設桌面環境。您可以在<a href=\"http://xfce.org/"
+"\">Xfce 網站</a>上瞭解更多 Xfce 的細節。"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:12
+msgid "Software Center"
+msgstr "軟件中心"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:13
+msgid "Help"
+msgstr "求助"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/07_thanks.html:2
+msgid "Thank you!"
+msgstr "多謝!"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/07_thanks.html:7
+msgid ""
+"Thanks for taking the time with us. We'd love to hear about your experiences "
+"with Xubuntu. You can share them on the <a href=\"https://lists.ubuntu.com/"
+"mailman/listinfo/xubuntu-users\">Xubuntu-users mailing list</a>."
+msgstr ""
+"感謝您的耐心等待。我們想要聽聽您對 Xubuntu 的使用體驗。您可以在 <a href="
+"\"https://lists.ubuntu.com/mailman/listinfo/xubuntu-users\">Xubuntu-users 郵"
+"遞清單</a> 上分享它們。"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/07_thanks.html:8
+msgid ""
+"Join our IRC channel <em>#xubuntu</em> for online support by <a href="
+"\"http://webchat.freenode.net/?channels=xubuntu&nick=xubuntu..."
+"&prompt=1\">clicking here</a>."
+msgstr ""
+"若要獲得線上支援，請<a href=\"http://webchat.freenode.net/?"
+"channels=xubuntu&nick=xubuntu...&prompt=1\">點選這裡</a>來加入我們的 IRC 頻"
+"道 <em>#xubuntu</em>。"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/07_thanks.html:9
+msgid ""
+"Finally, find different ways to contribute to Xubuntu on the <a href="
+"\"http://xubuntu.org/devel\">Get Involved</a> -section of our website. We "
+"need your help!"
+msgstr ""
+"最後，您可以在我們網站上的 <a href=\"http://xubuntu.org/devel\">Get "
+"Involved</a> 區塊中用不同的方法來貢獻 Xubuntu。Xubuntu 的未來需要您的協助！"
+
+#~ msgid "You have chosen to install the latest version of Xubuntu, 11.04."
+#~ msgstr "您已選擇安裝最新版本的 Xubuntu，11.04。"

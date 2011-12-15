@@ -1,12 +1,10 @@
-Source: ubiquity-slideshow-ubuntu
+Source: ubiquity-slideshow-xbmcbuntu
 Section: x11
 Priority: optional
-Maintainer: Teamxbmc - Piethein Strengholt <erhnam@xbmc.org>
+Maintainer: Luigi Capriotti l.capriotti@xbmc.org>
 Build-Depends: cdbs, debhelper (>= 5)
 Build-Depends-Indep: po4a, python-utidylib
-Vcs-Bzr: https://code.launchpad.net/~ubiquity-slideshow/ubiquity-slideshow-ubuntu/html
 Standards-Version: 3.9.1
-Homepage: https://launchpad.net/ubiquity-slideshow-ubuntu
 
 Package: ubiquity-slideshow-xbmcbuntu
 Architecture: all
@@ -14,16 +12,6 @@ Provides: ubiquity-slideshow
 Conflicts: ubiquity-slideshow
 Replaces: ubiquity-slideshow
 Depends: ${misc:Depends}
-Description: Ubiquity slideshow for Ubuntu
+Description: Ubiquity slideshow for XBMCbuntu
  A slideshow intended for the Ubiquity installer, designed as a quick 
- introduction to Ubuntu.
-
-Package: oem-config-slideshow-ubuntu
-Architecture: all
-Provides: oem-config-slideshow
-Conflicts: oem-config-slideshow
-Replaces: oem-config-slideshow
-Depends: ${misc:Depends}
-Description: OEM slideshow for Ubuntu
- A slideshow intended for the post-OEM-install configuration, designed
- as a quick introduction to Ubuntu.
+ introduction to XBMCbuntu.

@@ -1,23 +1,19 @@
-# Makefile for ubiquity-slideshow-xbmcbuntu
+# Makefile for ubiquity-slideshow-ubuntu
 
 SOURCE=.
 BUILD=$(SOURCE)/build
 SOURCESLIDES=$(SOURCE)/slideshows
 
-all: clean build_ubuntu build_oem_config_ubuntu translations
+all: clean build_xbmcbuntu translations
 
 build_init:
 	mkdir -p $(BUILD)
 
-build_ubuntu: build_init
-	cp -rL $(SOURCESLIDES)/ubuntu $(BUILD)
-
-build_oem_config_ubuntu: build_init
-	cp -rL $(SOURCESLIDES)/oem-config-ubuntu $(BUILD)
+build_xbmcbuntu: build_init
+	cp -rL $(SOURCESLIDES)/xbmcbuntu $(BUILD)
 
 translations:
-	./generate-local-slides.sh ubuntu
-	./generate-local-slides.sh oem-config-ubuntu
+	./generate-local-slides.sh xbmcbuntu
 
 .PHONY : clean
 
