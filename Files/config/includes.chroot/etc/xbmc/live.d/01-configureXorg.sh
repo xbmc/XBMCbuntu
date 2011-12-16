@@ -71,6 +71,9 @@ if [ "$GPUTYPE" = "AMD" ]; then
 
         ldconfig
 
+	#disable underscan
+	aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
+
         if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
                 mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
                 cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
