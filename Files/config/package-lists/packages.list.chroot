@@ -33,7 +33,7 @@ lubuntu-core
 # lubuntu-artwork lubuntu-icon-theme
 
 # Included in core: lubuntu-default-settings policykit-desktop-privileges
-ubiquity-slideshow-lubuntu 
+ubiquity-slideshow-xbmcbuntu 
 
 network-manager
 
