@@ -40,134 +40,19 @@ if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
 fi
 
 #
-# Set AMD Fusion HDMI variables
-#
-
-HDMICARD=$(aplay -l | grep 'HDMI' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
-HDMIDEVICE=$(aplay -l | grep 'HDMI' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
-
-if [ -n "$AMDFusion" ] ; then
-        # "ALC892 Digital"
-        DIGITALCONTROL="ALC892 Digital"
-fi
-
-#
-# Retrieve Analog Settings before .asoundrc creation
-#
-
-ANALOGCARD=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
-ANALOGDEVICE=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $2 }' | awk '{ print $6 }')
-
-#
-# Bails out if we don't have digital outputs
-#
-if [ -z $HDMICARD ] || [ -z $HDMIDEVICE ] || [ -z $ANALOGCARD ] || [ -z $ANALOGDEVICE ]; then
-        echo "exit weg"
-        exit 0
-fi
-
-#
 # Setup .asoundrc
 #
 
 if [ ! -f /home/$xbmcUser/.asoundrc ] ; then
         cat > /home/$xbmcUser/.asoundrc << 'EOF'
-
-pcm.both {
-        type route
-        slave {
-                pcm multi
-                channels 6
-        }
-        ttable.0.0 1.0
-        ttable.1.1 1.0
-        ttable.0.2 1.0
-        ttable.1.3 1.0
-}
-
-pcm.multi {
-        type multi
-        slaves.a {
-                pcm "hdmi_hw"
-                channels 2
-        }
-        slaves.b {
-                pcm "analog_hw"
-                channels 2
-        }
-        bindings.0.slave a
-        bindings.0.channel 0
-        bindings.1.slave a
-        bindings.1.channel 1
-        bindings.2.slave b
-        bindings.2.channel 0
-        bindings.3.slave b
-        bindings.3.channel 1
-}
-
-pcm.hdmi_hw {
-        type hw
-        =HDMICARD=
-        =HDMIDEVICE=
-        channels 2
-}
-
-pcm.hdmi_formatted {
-        type plug
-        slave {
-                pcm hdmi_hw
-                rate 48000
-                channels 2
-        }
-}
-
-pcm.hdmi_complete {
-        type softvol
-        slave.pcm hdmi_formatted
-        control.name hdmi_volume
-        control.=HDMICARD=
-}
-
-pcm.analog_hw {
-        type hw
-        =ANALOGCARD=
-        =ANALOGDEVICE=
-        channels 2
+pcm.!default {
+	type plug
+	slave {
+		pcm "hdmi"
+	}
 }
 EOF
-
-        sed -i "s/=HDMICARD=/card $HDMICARD/g" /home/$xbmcUser/.asoundrc
-        sed -i "s/=HDMIDEVICE=/device $HDMIDEVICE/g" /home/$xbmcUser/.asoundrc
-
-        sed -i "s/=ANALOGCARD=/card $ANALOGCARD/g" /home/$xbmcUser/.asoundrc
-        sed -i "s/=ANALOGDEVICE=/device $ANALOGDEVICE/g" /home/$xbmcUser/.asoundrc
-
         chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc
-
-        #
-        # Setup Triple Audiooutput
-        #
-        if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
-                mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
-                cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
-<settings>
-    <audiooutput>
-        <audiodevice>custom</audiodevice>
-        <channellayout>0</channellayout>
-        <customdevice>plug:both</customdevice>
-        <mode>2</mode>
-        <passthroughdevice>alsa:hdmi</passthroughdevice>
-    </audiooutput>
-</settings>
-EOF
-                chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
-        else
-                sed -i 's#\(<audiodevice>\)[0-9]*\(</audiodevice>\)#\1'custom'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-                sed -i 's#\(<channellayout>\)[0-9]*\(</channellayout>\)#\1'0'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-                sed -i 's#\(<customdevice>\)[0-9]*\(</customdevice>\)#\1'plug:both'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-                sed -i 's#\(<mode>\)[0-9]*\(</mode>\)#\1'2'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-                sed -i 's#\(<passthroughdevice>\)[0-9]*\(</passthroughdevice>\)#\1'alsa:hdmi'\2#g' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-        fi
 fi
 
 exit 0
