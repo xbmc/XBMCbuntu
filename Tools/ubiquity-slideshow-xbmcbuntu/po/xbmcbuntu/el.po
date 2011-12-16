@@ -1,0 +1,342 @@
+# Greek translation for ubiquity-slideshow-ubuntu
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the ubiquity-slideshow-ubuntu package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubiquity-slideshow-ubuntu\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-09-28 16:16+0200\n"
+"PO-Revision-Date: 2011-04-17 21:03+0000\n"
+"Last-Translator: Simos Xenitellis <Unknown>\n"
+"Language-Team: Greek <el@li.org>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-10-03 09:07+0000\n"
+"X-Generator: Launchpad (build 14071)\n"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/00_welcome.html:2
+msgid "Congratulations!"
+msgstr "Συγχαρητήρια!"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/00_welcome.html:7
+msgid "You have chosen to install the latest version of Xubuntu, 11.10."
+msgstr ""
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/00_welcome.html:8
+msgid ""
+"This exciting piece of software is brought to you free of any fees, for your "
+"use and any others you want to share it with."
+msgstr ""
+"Αυτό το λογισμικό σάς προσφέρεται ελεύθερο από κάθε επιβάρυνση, για χρήση "
+"από εσάς και όποιους άλλους θέλουν να το μοιραστούν μαζί σας."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/00_welcome.html:9
+msgid ""
+"Since you are installing this software using the Xubuntu Desktop CD, feel "
+"free to examine things as it installs. After the installation, the desktop "
+"will look much the same as it does now."
+msgstr ""
+"Καθώς εγκαθιστάτε αυτό το λογισμικό χρησιμοποιώντας το Xubuntu Desktop CD, "
+"μπορείτε κατά την διάρκεια της εγκατάστασης να περιεργαστείτε διάφορα "
+"πράγματα. Μετά από την εγκατάσταση, η επιφάνεια εργασίας θα φαίνεται σχεδόν "
+"ίδια όπως τώρα."
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/01_web.html:2
+msgid "Your web experience"
+msgstr "Η διαδικτυακή σας εμπειρία"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:7
+msgid ""
+"<em>Firefox</em> and <em>Thunderbird</em> are everything you need from web "
+"applications."
+msgstr ""
+"Ο <em>Firefox</em> και ο <em>Thunderbird</em> είναι ό,τι χρειάζεστε από "
+"διαδικτυακές εφαρμογές."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:8
+msgid ""
+"They offer you the web the way you like it: high performance, easy "
+"customization and advanced security."
+msgstr ""
+"Σας προσφέρουν το διαδίκτυο με τον τρόπο που σας αρέσει· υψηλές επιδόσεις, "
+"εύκολη παραμετροποίηση και προηγμένη ασφάλεια."
+
+#. type: Content of: <div><div><div><h2>
+#: slideshows/xubuntu/slides/01_web.html:10
+#: slideshows/xubuntu/slides/02_messaging.html:10
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:10
+#: slideshows/xubuntu/slides/04_office.html:10
+#: slideshows/xubuntu/slides/06_explore.html:11
+msgid "Where?"
+msgstr "Που;"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:11
+#: slideshows/xubuntu/slides/01_web.html:12
+#: slideshows/xubuntu/slides/02_messaging.html:11
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:11
+#: slideshows/xubuntu/slides/04_office.html:11
+#: slideshows/xubuntu/slides/04_office.html:12
+#: slideshows/xubuntu/slides/06_explore.html:12
+#: slideshows/xubuntu/slides/06_explore.html:13
+msgid "<span>»</span>"
+msgstr "<span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:11
+#: slideshows/xubuntu/slides/01_web.html:12
+#: slideshows/xubuntu/slides/02_messaging.html:11
+msgid "Internet <span>»</span>"
+msgstr "Διαδίκτυο <span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:11
+msgid "Firefox Web Browser"
+msgstr "Περιηγητής Firefox"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/01_web.html:12
+msgid "Thunderbird Mail/News"
+msgstr "Λογισμικό Thunderbird (Αλληλογραφία/Νέα)"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/02_messaging.html:2
+msgid "Instant messaging"
+msgstr "Άμεσα μηνύματα"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/02_messaging.html:7
+msgid ""
+"Xubuntu is shipping <em>Pidgin</em> as the default instant messaging client."
+msgstr ""
+"Το Xubuntu χρησιμοποιεί το <em>Pidgin</em> για διαχείριση των άμεσων "
+"μηνυμάτων."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/02_messaging.html:8
+msgid ""
+"You can connect to various protocols such as AIM, ICQ, IRC, MSN and XMPP "
+"(Google Talk). You can also use the Facebook chat and update your Twitter "
+"account via third-party plugins."
+msgstr ""
+"Μπορείτε να συνδεθείτε σε πολλές υπηρεσίες όπως AIM, ICQ, IRC, MSN and XMPP "
+"(Google Talk). Επίσης μπορείτε να χρησιμοποιήσετε το Facebook chat και το "
+"λογαριασμό σας στο Twitter μέσω διαθέσιμων επεκτάσεων."
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/02_messaging.html:11
+msgid "Pidgin Internet Messenger"
+msgstr "Αποστολέας μηνυμάτων διαδικτύου Pidgin"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:2
+msgid "Enjoy your media"
+msgstr "Απόλαυσε τα αρχεία πολυμέσων που έχετε"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:7
+msgid ""
+"Whether your collection is small or large, <em>gmusicbrowser</em>, the "
+"default media player in Xubuntu, can handle it!"
+msgstr ""
+"Είτε η συλλογή σας είναι μικρή ή μεγάλη, ο <em>gmusicbrowser</em>, η "
+"προεπιλεγμένη εφαρμογή αναπαραγωγής πολυμέσων στο Xubuntu, μπορεί να τη "
+"χειριστεί!"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:8
+msgid ""
+"In Xubuntu, gmusicbrowser comes with the good-looking and easy-to-use "
+"Shimmer theme."
+msgstr ""
+"Στο Xubuntu, ο gmusicbrowser έρχεται με όμορφη εμφάνιση και το ευκολόχρηστο "
+"θέμα Shimmer."
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:11
+msgid "Multimedia <span>»</span>"
+msgstr "Πολυμέσα <span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/03_gmusicbrowser.html:11
+msgid "gmusicbrowser"
+msgstr "gmusicbrowser"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/04_office.html:2
+msgid "Lighter alternatives"
+msgstr "Ευκολότερες εναλλακτικές λύσεις"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:7
+msgid ""
+"<em>Abiword</em> is a word processor, which can read almost all known "
+"document formats. <em>Gnumeric</em> is a spreadsheet program with an "
+"emphasis on accuracy."
+msgstr ""
+"Ο <em>Abiword</em> είναι ο επεξεργαστής κειμένου που μπορεί να διαβάσει "
+"αρχεία σε όλα τα formats. Το <em>Gnumeric</em> eίναι ένα πρόγραμμα "
+"διαχείρισης υπολογιστικών φύλλων μεγάλης ακρίβειας."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:8
+msgid ""
+"While Abiword and Gnumeric are lightweight, they provide almost all of the "
+"functions of the LibreOffice suite."
+msgstr ""
+"Τα προγράμματα Abiword and Gnumeric μπορούν να καλύψουν σχεδόν όλες τις "
+"λειτουργίες της σουίτας LibreOffice."
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:11
+#: slideshows/xubuntu/slides/04_office.html:12
+msgid "Office <span>»</span>"
+msgstr "Λογισμικό γραφείου <span>»</span>"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:11
+msgid "Abiword"
+msgstr "Abiword"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/04_office.html:12
+msgid "Gnumeric"
+msgstr "Gnumeric"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/05_desktop.html:2
+msgid "The Xubuntu desktop"
+msgstr "Επιφάνεια εργασίας Xubuntu"
+
+#. type: Attribute 'alt' of: <div><div><p><img>
+#: slideshows/xubuntu/slides/05_desktop.html:8
+msgid "1"
+msgstr "1"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/05_desktop.html:9
+msgid ""
+"The application-menu gives you complete access to all your applications."
+msgstr "Το μενού-εφαρμογών δίνει πλήρη πρόσβαση σε όλες τις εφαρμογές."
+
+#. type: Attribute 'alt' of: <div><div><p><img>
+#: slideshows/xubuntu/slides/05_desktop.html:12
+msgid "2"
+msgstr "2"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/05_desktop.html:13
+msgid ""
+"The launcher panel gives you <em>quick access</em> to your most important "
+"applications. It is set to autohide by default to preserve screen estate."
+msgstr ""
+"Ο εκκινητής δίνει <em>γρήγορη πρόσβαση</em> στις περισσότερο σημαντικές "
+"εφαρμογές. Είναι προρυθμισμένος για αυτόματη απόκρυψη για πιο ελεύθερη "
+"επιφάνεια εργασίας."
+
+#. type: Attribute 'alt' of: <div><div><p><img>
+#: slideshows/xubuntu/slides/05_desktop.html:16
+msgid "3"
+msgstr "3"
+
+#. Open windows of r 
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/05_desktop.html:17
+msgid "Running applications are shown in the top panel."
+msgstr "Οι εφαρμογές που εκτελούνται φαίνονται στην πάνω γραμμή εφαρμογών."
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/06_explore.html:2
+msgid "Know your desktop"
+msgstr "Γνώρισε την επιφάνεια εργασίας σου"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:7
+msgid ""
+"For easy installation of new software, use the <em>Ubuntu Software Center</"
+"em>."
+msgstr ""
+"Για ευκολότερη εγκατάσταση νέου λογισμικού, χρησιμοποίησε το <em>Κέντρο "
+"λογισμικού Ubuntu</em>."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:8
+msgid ""
+"If you need help, go to <em>Help</em> in the Applications menu or see <a "
+"href=\"http://xubuntu.org/help\">Help & Support</a> on our website."
+msgstr ""
+"Αν χρειάζεσαι βοήθεια, πήγαινε στη <em>Βοήθεια</em> στο μενού Εφαρμογές ή "
+"επισκέψου τη <a href=\"http://xubuntu.org/help\">Βοήθεια & Υποστήριξη</a> "
+"στην ιστοσελίδα μας."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:9
+msgid ""
+"<em>Xfce</em> is the desktop environment in Xubuntu. Read more about Xfce on "
+"the <a href=\"http://xfce.org/\">Xfce website</a>."
+msgstr ""
+"<em>Xfce</em> είναι το γραφικό περιβάλον του Xubuntu. Διάβασε περισσότερα "
+"για το Xfce στο <a href=\"http://xfce.org/\">Διαδικτυακό τόπο Xfce</a>."
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:12
+msgid "Software Center"
+msgstr "Κέντρο λογισμικού"
+
+#. type: Content of: <div><div><div><p>
+#: slideshows/xubuntu/slides/06_explore.html:13
+msgid "Help"
+msgstr "Βοήθεια"
+
+#. type: Content of: <div><h1>
+#: slideshows/xubuntu/slides/07_thanks.html:2
+msgid "Thank you!"
+msgstr "Ευχαριστούμε!"
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/07_thanks.html:7
+msgid ""
+"Thanks for taking the time with us. We'd love to hear about your experiences "
+"with Xubuntu. You can share them on the <a href=\"https://lists.ubuntu.com/"
+"mailman/listinfo/xubuntu-users\">Xubuntu-users mailing list</a>."
+msgstr ""
+"Σας ευχαριστούμε για τον χρόνο που μας διαθέσατε. Θα χαρούμε να ακούσουμε "
+"τις εμπειρίες σας από το Xubuntu. Μπορείτε να τις μοιραστείτε μαζί μας στο "
+"<a href=\"https://lists.ubuntu.com/mailman/listinfo/xubuntu-users\">Xubuntu-"
+"users mailing list</a>."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/07_thanks.html:8
+msgid ""
+"Join our IRC channel <em>#xubuntu</em> for online support by <a href="
+"\"http://webchat.freenode.net/?channels=xubuntu&nick=xubuntu..."
+"&prompt=1\">clicking here</a>."
+msgstr ""
+"Εγγραφείτε στο IRC κανάλι μας <em>#xubuntu</em> για υποστήριξη μέσω "
+"διαδικτύου <a href=\"http://webchat.freenode.net/?"
+"channels=xubuntu&nick=xubuntu...&prompt=1\">πατώντας εδώ</a>."
+
+#. type: Content of: <div><div><p>
+#: slideshows/xubuntu/slides/07_thanks.html:9
+msgid ""
+"Finally, find different ways to contribute to Xubuntu on the <a href="
+"\"http://xubuntu.org/devel\">Get Involved</a> -section of our website. We "
+"need your help!"
+msgstr ""
+"Τέλος, αν θέλετε με κάποιο τρόπο να βοηθήσετε το Xubuntu, μπορείτε στο τμήμα "
+"<a href=\"http://xubuntu.org/devel\">Συνεισφέρετε και εσείς!</a>. "
+"Χρειαζόμαστε τη βοήθειά σας!"
+
+#~ msgid "You have chosen to install the latest version of Xubuntu, 11.04."
+#~ msgstr "Επιλέξατε να εγκαταστήσετε την τελευταία έκδοση του Xubuntu, 11.04."

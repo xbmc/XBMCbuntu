@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<title>ubiquity-slideshow-ubuntu</title>
+	
+	<link href="link/general.css" rel="stylesheet" type="text/css" />
+	
+	<base target="_blank" />
+	
+	<script type="text/javascript" src="link-core/jquery.js"></script>
+	<script type="text/javascript" src="link-core/jquery.cycle.all.js"></script>
+	<script type="text/javascript" src="directory.js"></script>
+	<script type="text/javascript">
+		SLIDESHOW_OPTIONS = {
+			timeout:50000,
+			speed:600,
+		}
+	</script>
+	<script type="text/javascript" src="link-core/slideshow.js"></script>
+</head>
+
+<body>
+
+<div id="slideshow">
+	<div><a href="00_welcome.html"></a></div>
+	<div><a href="01_web.html"></a></div>
+	<div><a href="02_messaging.html"></a></div>
+	<div><a href="03_gmusicbrowser.html"></a></div>
+	<div><a href="04_office.html"></a></div>
+	<div><a href="05_desktop.html"></a></div>
+	<div><a href="06_explore.html"></a></div>
+	<div><a href="07_thanks.html"></a></div>
+</div>
+
+<div id="controls">
+	<a class="control-arrow" id="prev-slide"></a>
+	<a class="control-arrow" id="next-slide"></a>
+	<input type="hidden" id="current-slide" />
+</div>
+
+</body>
+
+</html>
