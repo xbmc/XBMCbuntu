@@ -100,7 +100,7 @@ EOF
                 # Let the X default ati driver handle the card
 
                 # revert to mesa
-                update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/mesa/ld.so.conf
+                update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld.so.conf
 
                 # TODO cleanup environment and guisettings
 
