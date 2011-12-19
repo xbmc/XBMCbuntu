@@ -29,6 +29,7 @@ if [ -f /etc/alternatives/default.plymouth ]; then
 		echo ""
 
 		update-alternatives --set default.plymouth /lib/plymouth/themes/xbmc-logo/xbmc-logo.plymouth
+		update-alternatives --set default.plymouth /lib/plymouth/themes/xbmc-logo/xbmc-logo.plymouth
 
 		# update-initramfs -u
 	fi
