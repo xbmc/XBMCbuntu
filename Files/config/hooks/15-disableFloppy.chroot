@@ -27,4 +27,4 @@ echo "" >> /etc/modprobe.d/blacklist.conf
 echo "# Boot speed optimization" >> /etc/modprobe.d/blacklist.conf
 echo "blacklist floppy" >> /etc/modprobe.d/blacklist.conf
 
-update-initramfs -u 
+# update-initramfs -u 
