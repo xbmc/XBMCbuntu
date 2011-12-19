@@ -29,9 +29,12 @@ if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
         exit 0
 fi
 
-# Generates valid xorg.conf for proprietary drivers if missing
+#
+# Generates valid xorg.conf for proprietary drivers
+#
+
 if [ -e /etc/X11/xorg.conf ] ; then
-        exit 0
+	rm -f /etc/X11/xorg.conf
 fi
 
 # Identify GPU, Intel by default
