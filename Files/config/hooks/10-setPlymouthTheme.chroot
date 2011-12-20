@@ -28,8 +28,8 @@ if [ -f /etc/alternatives/default.plymouth ]; then
 		echo "Set default plymouth theme..."
 		echo ""
 
-		update-alternatives --set default.plymouth /lib/plymouth/themes/xbmc-logo/xbmc-logo.plymouth
-		update-alternatives --set text.plymouth /lib/plymouth/themes/xbmc-text/xbmc-text.plymouth
+		update-alternatives --set default.plymouth /lib/plymouth/themes/xbmcbuntu-logo/xbmcbuntu-logo.plymouth
+		update-alternatives --set text.plymouth /lib/plymouth/themes/xbmcbuntu-text/xbmcbuntu-text.plymouth
 
 		# update-initramfs -u
 	fi
