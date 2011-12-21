@@ -54,3 +54,6 @@ xbmcbuntu-plymouth-theme
 
 # Required by YouTube addon
 python-pysqlite2
+
+# Required by wunderground
+python-simplejson
