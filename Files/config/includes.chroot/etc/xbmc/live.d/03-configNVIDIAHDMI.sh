@@ -36,8 +36,8 @@ fi
 # Set Nvidia HDMI variables
 #
 
-HDMICARD=$(aplay -l | grep 'NVIDIA HDMI' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
-HDMIDEVICE=$(aplay -l | grep 'NVIDIA HDMI' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
+HDMICARD=$(aplay -l | grep 'HDA NVidia' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
+HDMIDEVICE=$(aplay -l | grep 'HDA NVidia' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
 
 #
 # Bails out if we don't have digital outputs
@@ -96,4 +96,3 @@ if [ -n "$restartALSA" ] ; then
 fi
 
 exit 0
-
