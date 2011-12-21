@@ -57,3 +57,6 @@ python-pysqlite2
 
 # Required by wunderground
 python-simplejson
+
+# Temporary add MPEG Audio Decoder, fixes audio
+libmad0
