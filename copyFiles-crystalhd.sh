@@ -22,7 +22,7 @@ echo "--------------------------------"
 echo "Retrieving CrystalHD drivers... "
 echo "--------------------------------"
 
-mkdir -p $WORKPATH/Files/chroot_local-includes/root &> /dev/null
+mkdir -p $WORKPATH/Files/config/includes.chroot/root &> /dev/null
 
 if ! ls $WORKPATH/crystalhd.tar > /dev/null 2>&1; then
 	cd $WORKPATH
@@ -35,4 +35,4 @@ if ! ls $WORKPATH/crystalhd.tar > /dev/null 2>&1; then
 	tar cf crystalhd.tar crystalhd/
 fi
 
-cp $WORKPATH/crystalhd.tar $WORKPATH/Files/chroot_local-includes/root
+cp $WORKPATH/crystalhd.tar $WORKPATH/Files/config/includes.chroot/root
