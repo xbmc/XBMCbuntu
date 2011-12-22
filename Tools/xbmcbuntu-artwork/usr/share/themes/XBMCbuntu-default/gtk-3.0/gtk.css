@@ -1,0 +1,89 @@
+/* 
+	AUTHOR: lassekongo83
+	WEBSITE: http://lassekongo83.deviantart.com
+	LICENSE: GPL
+	DESCRIPTION: A minimalistic and usable theme made for gtk3 apps.
+*/
+
+/* default color scheme */
+@define-color bg_color #dcdcdc;
+@define-color fg_color #3c3c3c;
+@define-color base_color #f7f7f7;
+@define-color text_color #3c3c3c;
+@define-color selected_bg_color #a2b8ca;
+@define-color selected_fg_color #ffffff;
+@define-color tooltip_bg_color #F5F5B5;
+@define-color tooltip_fg_color #3c3c3c;
+
+/* other color schemes could simply override these */
+@define-color theme_bg_color @bg_color;
+@define-color theme_fg_color @fg_color;
+@define-color theme_base_color @base_color;
+@define-color theme_text_color @text_color;
+@define-color theme_selected_bg_color @selected_bg_color;
+@define-color theme_selected_fg_color @selected_fg_color;
+@define-color theme_tooltip_bg_color @tooltip_bg_color;
+@define-color theme_tooltip_fg_color @tooltip_fg_color;
+
+/* misc colors used by gtk+ */
+@define-color link_color #08c;
+@define-color warning_color #f57900;
+@define-color error_color #cc0000;
+@define-color success_color #4e9a06;
+
+/* theme common colors */
+@define-color button_bg_color #e2e2e2;
+@define-color button_insensitive_bg_color mix (@button_bg_color, @theme_bg_color, 0.6);
+@define-color dark_bg_color #3c3b37;
+@define-color dark_fg_color #dfdbd2;
+
+@define-color internal_element_color #afafaf;
+@define-color insensitive_bg_color #f5f5f5;
+@define-color insensitive_fg_color #a7a7a7;
+@define-color insensitive_border_color shade (@internal_element_color, 1.37);
+@define-color inactive_frame_color #c8c8c8;
+@define-color inactive_frame_border_a #8b8b8b;
+@define-color inactive_frame_border_b #c6c6c6;
+
+@define-color trough_bg_color_a #efefef;
+@define-color trough_bg_color_b #e0e0e0;
+
+@define-color toolbar_gradient_base #dcdcdc;
+@define-color toolbar_gradient_final #d1d1d1;
+@define-color toolbar_border #ccc;
+
+@define-color button_gradient_color_a #fbfbfb;
+@define-color button_gradient_color_b #dedede;
+@define-color button_hover_gradient_color_a shade (@button_gradient_color_a, 1.10);
+@define-color button_hover_gradient_color_b shade (@button_gradient_color_b, 1.10);
+@define-color button_active_gradient_color_a shade (@button_gradient_color_b, 0.80);
+@define-color button_active_gradient_color_b shade (@button_gradient_color_a, 0.80);
+
+@define-color progressbar_through_a #c7c7c7;
+@define-color progressbar_through_b #d7d7d7;
+@define-color progressbar_through_border #a3a3a3;
+@define-color progressbar_background_a #a2b8cb;
+@define-color progressbar_background_b #b5c8d7;
+@define-color progressbar_border #8298aa;
+
+@define-color menuitem_background_a #8ba4b8;
+@define-color menuitem_background_b #7a94a9;
+
+/* User defined for this theme */
+@define-color theme_border_color_a #afafaf;
+@define-color theme_border_color_b #7a7a7a;
+@define-color scrollslider_gradient_a #d8d8d8;
+@define-color scrollslider_gradient_b #bdbdbd;
+@define-color scrollslider_border #9a9a9a;
+@define-color listview_header_gradient_a #ececec;
+@define-color listview_header_gradient_b #d8d8d8;
+@define-color listview_border #cbcbcb;
+@define-color sidebar_color #e8e8e8;
+/* End user defined for this theme */
+
+@import url("gtk-widgets.css");
+@import url("gtk-buttons.css");
+@import url("gtk-frames.css");
+@import url("gtk-bars.css");
+@import url("gtk-menus.css");
+@import url("gtk-misc.css");

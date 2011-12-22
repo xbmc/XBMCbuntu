@@ -5,6 +5,21 @@ Build-Depends: debhelper (>= 7.0.50~)
 Maintainer: Luigi Capriotti <l.capriotti@xbmc.org>
 Standards-Version: 3.9.1
 
+Package: xbmcbuntu-artwork
+Architecture: all
+Depends: ${misc:Depends}, gtk2-engines-murrine, gtk3-engines-unico, libnewt0.52 (>= 0.52.11-2ubuntu7)
+Description: artwork for XBMCbuntu
+ Artwork for XBMCbuntu, contained the wallpaper and others specific images and 
+ logos.
+
+Package: xbmcbuntu-icon-theme
+Architecture: all
+Depends: ${misc:Depends}, elementary-icon-theme (>= 2.6)
+Description: icon theme for XBMCbuntu
+ This package contain a specific XBMCbuntu icon theme. It provides specific icons
+ for main menu and distributor icons.
+
+
 Package: xbmcbuntu-plymouth-theme
 Architecture: all
 Depends: ${misc:Depends}, plymouth-theme-xbmcbuntu-logo, plymouth-theme-xbmcbuntu-text

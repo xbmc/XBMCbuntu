@@ -1,0 +1,85 @@
+#Ozone2 theme for XBMCbuntu 
+border.color: #555555
+border.width: 1
+menu.items.active.bg: Gradient Vertical Flat
+menu.items.active.bg.color: #7E9EBD
+menu.items.active.bg.colorTo: #4F6F8E
+menu.items.active.disabled.text.color: #4C6C8B
+menu.items.active.text.color: #f5f5f5
+menu.items.bg: Solid Flat
+menu.items.bg.color: #DCDCDC
+menu.items.disabled.text.color: #555555
+menu.items.font: shadow=n
+menu.items.text.color: #3C3C3C
+menu.overlap.x: 1
+menu.separator.color: #aaaaaa
+menu.separator.padding.width: 10
+menu.title.bg: Gradient Vertical Flat
+menu.title.bg.color: #7E9EBD
+menu.title.bg.colorTo: #4F6F8E
+menu.title.text.color: #f5f5f5
+menu.title.text.font: shadow=y:shadowtint=100:shadowoffset=1
+menu.title.text.justify: center
+osd.bg: flat solid
+osd.bg.color: #dcdcdc
+osd.border.color: #555555
+osd.hilight.bg: flat gradient vertical
+osd.hilight.bg.color: #A7C4E0
+osd.hilight.bg.colorTo: #7E9EBD
+osd.label.text.color: #3c3c3c
+osd.unhilight.bg: flat gradient vertical
+osd.unhilight.bg.color: #7E9EBD
+osd.unhilight.bg.colorTo: #4C6C8B
+padding.height: 3
+padding.width: 5
+window.active.border.color: #505050
+window.active.button.disabled.bg: parentrelative
+window.active.button.disabled.image.color: #768FA7
+window.active.button.hover.image.color: #008AFF
+window.active.button.pressed.bg: parentrelative
+window.active.button.pressed.image.color: #000000
+window.active.button.toggled.hover.image.color: #008AFF
+window.active.button.toggled.image.color: #505050
+window.active.button.toggled.pressed.image.color: #008AFF
+window.active.button.unpressed.bg: parentrelative
+window.active.button.unpressed.image.color: #696969
+window.active.grip.bg: Solid Raised
+window.active.grip.bg.color: #DCDCDC
+window.active.grip.bg.border.color: #DCDCDC
+window.active.handle.bg: Gradient Vertical Raised
+window.active.handle.bg.color: #DCDCDC
+window.active.handle.bg.colorTo: #AAAAAA
+window.active.handle.bg.border.color: #DCDCDC
+window.active.label.bg: parentrelative
+window.active.label.text.color: #555555
+window.active.label.text.font: shadow=n
+window.active.title.bg: Gradient Vertical Flat
+window.active.title.bg.color: #F5F5F5
+window.active.title.bg.colorTo: #DCDCDC
+window.active.title.separator.color: #DCDCDC
+window.client.padding.width: 0
+window.handle.width: 2
+window.inactive.button.disabled.bg: parentrelative
+window.inactive.button.disabled.image.color: #BDBDBD
+window.inactive.button.hover.image.color: #008AFF
+window.inactive.button.pressed.bg: parentrelative
+window.inactive.button.pressed.image.color: #008AFF
+window.inactive.button.toggled.hover.image.color: #008AFF
+window.inactive.button.toggled.image.color: #BDBDBD
+window.inactive.button.unpressed.bg: parentrelative
+window.inactive.button.unpressed.image.color: #BDBDBD
+window.inactive.grip.bg: Solid Raised
+window.inactive.grip.bg.color: #DCDCDC
+window.inactive.grip.bg.border.color: #DCDCDC
+window.inactive.handle.bg: Gradient Vertical Raised
+window.inactive.handle.bg.color: #DCDCDC
+window.inactive.handle.bg.colorTo: #EEEEEE
+window.inactive.handle.bg.border.color: #DCDCDC
+window.inactive.label.bg: parentrelative
+window.inactive.label.text.color: #AAAAAA
+window.inactive.label.text.font: shadow=n
+window.inactive.title.bg: Gradient Vertical Flat
+window.inactive.title.bg.color: #F5F5F5
+window.inactive.title.bg.colorTo: #DCDCDC
+window.inactive.title.separator.color: #DCDCDC
+window.label.text.justify: center

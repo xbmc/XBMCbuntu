@@ -1,0 +1,16 @@
+Source: xbmcbuntu-meta
+Section: metapackages
+Priority: optional
+Maintainer: Luigi Capriotti <l.capriotti@xbmc.org>
+Standards-Version: 3.8.3
+Build-Depends: debhelper (>= 7.0.50), germinate (>= 1.18)
+
+Package: xbmcbuntu-core
+Architecture: i386
+Depends: ${germinate:Depends}, ${misc:Depends}
+Recommends: ${germinate:Recommends}
+Description: XBMCbuntu Desktop environment - minimal installation
+ This package is the LXDE desktop as a XBMCbuntu environment.
+ .
+ This package provides the minimal installation of XBMCbuntu.
+ 

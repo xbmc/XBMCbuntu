@@ -1,0 +1,50 @@
+### This style handles the dark toolbars. Some ugly workarounds in use may cause some bugs. (But hopefully not.) :P ###
+
+style "pixbuf-toolbar" = "murrine-thin"
+{
+	bg[NORMAL]	= @bg_color
+	fg[NORMAL]	= @base_color
+	text[NORMAL]	= @base_color
+
+	engine "pixmap" {
+	image {
+			function	= BOX
+			file		= "widgets/Others/toolbar.png"
+			border		= { 1, 1, 0, 37 }
+			stretch		= TRUE
+		}
+	}
+}
+
+# Makes the text in a dark toolbar light.
+style "dark-toolbutton" {
+	fg[NORMAL]	= @base_color
+	fg[PRELIGHT]	= @text_color
+	fg[ACTIVE]	= @bg_color
+	fg[SELECTED]	= @bg_color
+	fg[INSENSITIVE]	= shade (0.95, @base_color)
+
+	engine "murrine" { textstyle = 0 }
+}
+
+# Invisible toolbar separator
+style "murrine-toolseparator" {
+	xthickness = 0
+  	ythickness = 0
+
+	engine "pixmap" {
+		image {
+			function	= BOX
+			file		= "widgets/Others/null.png"
+			border		= { 2, 2, 2, 2 }
+			stretch		= TRUE
+    		}
+ 	}
+}
+
+class "*GtkToolbar*"			style "pixbuf-toolbar" 
+widget_class "*ToolButton*"		style "dark-toolbutton"
+widget_class "*GtkToolbar*GtkLabel*"	style "dark-toolbutton"
+widget_class "*GtkToolbar*GtkEntry*"	style "dark-toolbutton"
+class "GtkSeparatorToolItem"		style "murrine-toolseparator"
+

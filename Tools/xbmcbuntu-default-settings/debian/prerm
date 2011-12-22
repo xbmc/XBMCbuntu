@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+set -e
+
+if [ "$1" = "remove" ] ; then
+  update-alternatives --remove lxdm.conf /etc/xdg/xbmcbuntu/lxdm/lxdm.conf 
+fi
+
+#DEBHELPER#
+exit 0

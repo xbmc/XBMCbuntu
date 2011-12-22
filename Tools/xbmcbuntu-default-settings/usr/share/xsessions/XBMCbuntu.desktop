@@ -1,0 +1,10 @@
+[Desktop Entry]
+# The names/descriptions should really be better
+Name=XBMCbuntu
+Comment=XBMCbuntu - Lightweight media center based on XBMC
+Comment[zh_TW]=XBMCbuntu - Lightweight media center based on XBMC
+Comment[fi]=XBMCbuntu - Lightweight media center based on XBMC
+Comment[ja]=XBMCbuntu - Lightweight media center based on XBMC
+Exec=/usr/bin/startxbmcbuntu
+# Icon=
+Type=Application

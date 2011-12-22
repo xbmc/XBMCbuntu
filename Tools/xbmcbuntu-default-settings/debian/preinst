@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+set -e
+
+if dpkg-maintscript-helper supports mv_conffile 2>/dev/null; then
+    dpkg-maintscript-helper mv_conffile /etc/xdg/pcmanfm/xbmcbuntu.conf /etc/xdg/pcmanfm/xbmcbuntu/pcmanfm.conf 0.15 -- "$@"
+fi
+
+#DEBHELPER#
+exit 0

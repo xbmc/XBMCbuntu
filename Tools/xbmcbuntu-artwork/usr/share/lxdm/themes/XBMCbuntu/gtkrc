@@ -1,0 +1,50 @@
+style "back"
+{
+	engine "pixmap"
+	{
+		image
+		{
+			function = FLAT_BOX
+			shadow = NONE
+			state = NORMAL
+			file = "wall.png"
+			stretch = TRUE
+			detail = "base"
+		}
+	}
+}
+
+style "time"
+{
+	fg[NORMAL] = "#ffffff"
+	font_name = "Ubuntu 10"
+}
+
+style "prompt"
+{
+	fg[NORMAL] = "#ffffff"
+	font_name = "Ubuntu Bold 10"
+}
+
+# Normally this won't paint an invisible event box, but we did some hacks in greeter.c.
+style "bottom"
+{
+	font_name = "Ubuntu 10"
+	fg[NORMAL] = "#9E9D9B"
+	engine "pixmap"
+	{
+		image
+		{
+			function = FLAT_BOX
+			file = "shade.png"
+			stretch = TRUE
+			detail = "eventbox"
+		}
+	}
+}
+
+widget "lxdm" style "back"
+widget "lxdm.*.time" style "time"
+widget "lxdm.*.prompt" style "prompt"
+widget "lxdm.*.bottom_pane" style "bottom"
+widget_class "GtkWindow.*.GtkEventBox.*.<GtkLabel>" style "bottom"

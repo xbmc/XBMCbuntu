@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Lxsession
+TryExec=/usr/bin/lxsession -s XBMCbuntu
+Exec=/usr/bin/lxsession -s XBMCbuntu
+OnlyShowIn=GNOME;LXDE;
+X-GNOME-Autostart-Phase=Initialization
+X-GNOME-Autostart-Notify=true
+X-GNOME-AutoRestart=true

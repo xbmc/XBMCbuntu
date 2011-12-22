@@ -1,0 +1,32 @@
+#!/bin/sh -e
+
+set -e
+
+# Remove alternative file if it's not a symlink, workaround for broken upgrade
+# See bug #625485
+if [ -f /etc/alternatives/lxdm.conf ] ; then
+  if [ ! -h "/etc/alternatives/lxdm.conf" ] ; then
+    rm -f "/etc/alternatives/lxdm.conf"
+  fi
+fi
+
+if dpkg-maintscript-helper supports mv_conffile 2>/dev/null; then
+    dpkg-maintscript-helper mv_conffile /etc/xdg/pcmanfm/xbmcbuntu.conf /etc/xdg/pcmanfm/xbmcbuntu/pcmanfm.conf 0.15 -- "$@"
+fi
+
+if [ "$1" = configure ]; then
+  update-alternatives --install /etc/lxdm/default.conf \
+    lxdm.conf /etc/xdg/xbmcbuntu/lxdm/lxdm.conf 60 
+fi
+
+case "$1" in
+  configure|upgrade)
+    if [ -x /usr/lib/lightdm/lightdm-set-defaults ] ; then
+      /usr/lib/lightdm/lightdm-set-defaults --keep-old --session=XBMC || true
+      /usr/lib/lightdm/lightdm-set-defaults --keep-old --greeter=lightdm-gtk-greeter || true
+    fi
+    ;;
+esac
+
+#DEBHELPER#
+exit 0

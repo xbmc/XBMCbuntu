@@ -1,0 +1,7 @@
+#! /usr/bin/make -f
+%:
+	dh --with germinate $@
+
+
+override_dh_auto_build:
+	#Skip to not try to execute the Makefile.
