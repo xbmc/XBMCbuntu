@@ -89,6 +89,13 @@ fi
 if [ ! -f /home/$xbmcUser/.asoundrc ] ; then
 	cat > /home/$xbmcUser/.asoundrc << 'EOF'
 
+pcm.!default {
+	type plug
+	slave {
+		pcm .both.
+	}
+}
+
 pcm.both {
         type route
         slave {
