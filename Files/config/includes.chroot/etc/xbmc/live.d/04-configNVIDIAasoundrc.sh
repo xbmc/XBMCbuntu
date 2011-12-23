@@ -92,7 +92,7 @@ if [ ! -f /home/$xbmcUser/.asoundrc ] ; then
 pcm.!default {
 	type plug
 	slave {
-		pcm .both.
+		pcm "both"
 	}
 }
 
