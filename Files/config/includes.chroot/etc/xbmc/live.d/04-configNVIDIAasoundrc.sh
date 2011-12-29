@@ -62,7 +62,8 @@ if [ -n "$NvidiaHDMISecondGen" ] ; then
 	# "ALC887 Digital"
 	# "ALC888 Digital"
 	# "ALC880 Digital"
-	DIGITALCONTROL="ALC888 Digital\|ALC887 Digital\|ALC880 Digital"
+	# "ALC892 Digital"
+	DIGITALCONTROL="ALC888 Digital\|ALC887 Digital\|ALC880 Digital\|ALC892 Digital"
 fi
 
 #
