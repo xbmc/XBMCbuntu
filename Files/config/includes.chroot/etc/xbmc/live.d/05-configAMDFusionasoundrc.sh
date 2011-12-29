@@ -40,20 +40,36 @@ if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
 fi
 
 #
+# Retrieve Digital Settings before .asoundrc creation
+#
+
+HDMICARD=$(aplay -l | grep 'HDMI 0' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
+HDMIDEVICE=$(aplay -l | grep 'HDMI 0' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
+
+#
+# Bails out if we don't have digital outputs
+#
+
+if [ -z $HDMICARD ] || [ -z $HDMIDEVICE ]; then
+	exit 0
+fi
+
+#
 # Setup .asoundrc
 #
 
 if [ ! -f /home/$xbmcUser/.asoundrc ] ; then
-        cat > /home/$xbmcUser/.asoundrc << 'EOF'
+	cat > /home/$xbmcUser/.asoundrc << 'EOF'
 pcm.!default {
-	type plug
-	slave {
-		pcm "hdmi"
-	}
+	type hw
+	=HDMICARD=
+	=HDMIDEVICE=
 }
 EOF
-        chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc
+	sed -i "s/=HDMICARD=/card $HDMICARD/g" /home/$xbmcUser/.asoundrc
+	sed -i "s/=HDMIDEVICE=/device $HDMIDEVICE/g" /home/$xbmcUser/.asoundrc
+
+	chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc
 fi
 
 exit 0
-
