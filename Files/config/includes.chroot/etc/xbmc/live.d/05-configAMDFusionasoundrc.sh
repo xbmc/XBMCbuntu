@@ -61,13 +61,15 @@ fi
 if [ ! -f /home/$xbmcUser/.asoundrc ] ; then
 	cat > /home/$xbmcUser/.asoundrc << 'EOF'
 pcm.!default {
-	type hw
-	=HDMICARD=
-	=HDMIDEVICE=
+  type plug
+  slave {
+    pcm "hw:=HDMICARD=,=HDMIDEVICE=" #delete the first hash for sound over hdmi
+    rate 48000
+  }
 }
 EOF
-	sed -i "s/=HDMICARD=/card $HDMICARD/g" /home/$xbmcUser/.asoundrc
-	sed -i "s/=HDMIDEVICE=/device $HDMIDEVICE/g" /home/$xbmcUser/.asoundrc
+	sed -i "s/=HDMICARD=/$HDMICARD/g" /home/$xbmcUser/.asoundrc
+	sed -i "s/=HDMIDEVICE=/$HDMIDEVICE/g" /home/$xbmcUser/.asoundrc
 
 	chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc
 fi
