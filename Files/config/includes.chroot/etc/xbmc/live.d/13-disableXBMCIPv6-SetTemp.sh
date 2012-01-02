@@ -33,6 +33,12 @@ if [ ! -f /home/$xbmcUser/.xbmc/userdata/advancedsettings.xml ] ; then
 	mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
 	cat > /home/$xbmcUser/.xbmc/userdata/advancedsettings.xml << 'EOF'
 <advancedsettings>
+  <useddsfanart>true</useddsfanart>
+  <cputempcommand>cputemp</cputempcommand>
+  <gputempcommand>gputemp</gputempcommand>
+  <samba>
+    <clienttimeout>30</clienttimeout>
+  </samba>
   <network>
     <disableipv6>true</disableipv6>
   </network>
