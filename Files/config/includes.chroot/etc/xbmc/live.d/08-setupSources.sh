@@ -79,6 +79,6 @@ if [ ! -f /home/$xbmcUser/userdata/sources.xml ] ; then
 EOF
 fi
 
-chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/Downloads
+chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/
 
 exit 0
