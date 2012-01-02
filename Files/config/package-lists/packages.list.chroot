@@ -13,6 +13,7 @@ python-apt
 wpasupplicant wireless-tools
 avahi-daemon
 pkg-config
+lm-sensors
 
 lirc
 
