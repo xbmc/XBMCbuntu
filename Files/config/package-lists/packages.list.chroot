@@ -47,7 +47,7 @@ fglrx fglrx-amdcccle libva1 libva-x11-1 xvba-va-driver
 xserver-xorg-video-intel
 
 # Generic: failsafe
-xserver-xorg-video-vesa xserver-xorg-video-radeon xserver-xorg-video-ati xserver-xorg-video-nouveau
+xserver-xorg-video-vesa
 
 xbmc
 xbmcbuntu-plymouth-theme
