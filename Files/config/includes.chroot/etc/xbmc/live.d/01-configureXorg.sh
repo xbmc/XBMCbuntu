@@ -70,7 +70,7 @@ if [ "$GPUTYPE" = "AMD" ]; then
         echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
         echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
 
-        apt-get purge libvdpau1 -y
+        apt-get purge libvdpau1 -y >/dev/null 2>&1 &
 
         ldconfig
 
