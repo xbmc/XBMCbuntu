@@ -55,6 +55,18 @@ if [ -z $CARD ] || [ -z $DEVICE ]; then
 fi
 
 #
+# Bails out if card or device is not numeric
+#
+
+if ! [ "$CARD" -eq "$CARD" 2> /dev/null ]; then
+	exit 0
+fi
+
+if ! [ "$DEVICE" -eq "$DEVICE" 2> /dev/null ]; then
+        exit 0
+fi
+
+#
 # Setup .asoundrc
 #
 
