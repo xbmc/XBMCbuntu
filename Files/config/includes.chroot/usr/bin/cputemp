@@ -21,7 +21,7 @@
 TEMP="0"
 
 if [ -f /usr/bin/sensors ]; then
-	TEMP=`/usr/bin/sensors -u | tail -n6 | grep temp3_input | awk '{print $2 }' |awk '{printf("%d\n",$1 + 0.5);}'`
+	TEMP=`/usr/bin/sensors -u | tail -n6 | grep input -m1 | awk '{print $2 }' |awk '{printf("%d\n",$1 + 0.5);}'`
 fi
 
 echo "${TEMP} C"
