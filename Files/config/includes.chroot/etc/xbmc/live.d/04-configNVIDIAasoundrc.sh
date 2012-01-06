@@ -44,8 +44,8 @@ fi
 # Set Nvidia HDMI variables
 #
 
-HDMICARD=$(aplay -l | grep 'HDA NVidia' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
-HDMIDEVICE=$(aplay -l | grep 'HDA NVidia' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
+HDMICARD=$(aplay -l | grep 'HDA NVidia' | grep 'HDMI' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
+HDMIDEVICE=$(aplay -l | grep 'HDA NVidia' | grep 'HDMI' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
 
 if [ -n "$NvidiaHDMIFirstGen" ] ; then
 	# "VT1708S Digital"
