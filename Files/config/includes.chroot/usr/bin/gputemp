@@ -24,4 +24,12 @@ if lspci -n | grep 0300 | grep -q 10de; then
 	[ -f /usr/bin/nvidia-smi ] && TEMP=`/usr/bin/nvidia-smi -q -x | grep 'gpu_temp' | awk '{ print $1 }' | sed 's,<gpu_temp>,,g'`
 fi
 
+if lspci -nn | grep '0403' | grep -q '1002:4383'; then
+        TEMP=`/usr/bin/sensors -u k10temp-pci-00c3 | grep input | awk '{print $2 }' |awk '{printf("%d\n",$1 + 0.5);}'`
+fi
+
+if ! [ "$TEMP" -eq "$TEMP" 2> /dev/null ]; then
+        exit 0
+fi
+
 echo "${TEMP} C"
