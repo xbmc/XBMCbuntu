@@ -224,7 +224,7 @@ do
 	oldifs="$IFS"
 	IFS="
 	"
-	for line in $(/usr/bin/amixer -c $i | grep 'Simple mixer control' | grep 'IEC958' | awk '{print $4,$5}');
+	for line in $(/usr/bin/amixer -c $i | grep 'Simple mixer control' | grep 'IEC958' | awk '{print $4,$6}');
 		do
 			/usr/bin/amixer -q -c $i sset $line unmute &> /dev/null;
 		done;
