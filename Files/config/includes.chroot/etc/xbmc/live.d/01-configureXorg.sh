@@ -74,9 +74,6 @@ if [ "$GPUTYPE" = "AMD" ]; then
 
         ldconfig
 
-	#disable underscan
-	aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
-
         if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
                 mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
                 cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
@@ -97,6 +94,9 @@ EOF
         # run aticonfig
         /usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
         ATICONFIG_RETURN_CODE=$?
+
+        #disable underscan
+        aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
 
         if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
                 # aticonfig returns 255 on old unsuported ATI cards
