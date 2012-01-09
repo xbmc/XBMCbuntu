@@ -44,7 +44,7 @@ if [ ! -f /home/$xbmcUser/.xbmc/userdata/advancedsettings.xml ] ; then
   </network>
 </advancedsettings>
 EOF
-	chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
+	chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
 else
 	if ! grep -i -q disableipv6 /home/$xbmcUser/.xbmc/userdata/advancedsettings.xml ; then
 		if grep -i -q "<network>" /home/$xbmcUser/.xbmc/userdata/advancedsettings.xml ; then

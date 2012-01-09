@@ -34,7 +34,7 @@ if [ ! -f /home/$xbmcUser/.smb/smb.conf ] ; then
 	name resolve order = bcast host
 	workgroup = WORKGROUP
 EOF
-	chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc
+	chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc >/dev/null 2>&1 &
 fi
 
 exit 0

@@ -27,23 +27,23 @@ xbmcParams=$2
 
 #create other sources if not exsting
 if [ ! -d "/home/$xbmcUser/Music" ]; then
-	mkdir /home/$xbmcUser/Music
-	chmod 755 /home/$xbmcUser/Music
+	mkdir /home/$xbmcUser/Music >/dev/null 2>&1 &
+	chmod 755 /home/$xbmcUser/Music >/dev/null 2>&1 &
 fi
 
 if [ ! -d "/home/$xbmcUser/Pictures" ]; then
-	mkdir /home/$xbmcUser/Pictures
-	chmod 755 /home/$xbmcUser/Pictures
+	mkdir /home/$xbmcUser/Pictures >/dev/null 2>&1 &
+	chmod 755 /home/$xbmcUser/Pictures >/dev/null 2>&1 &
 fi
 
 if [ ! -d "/home/$xbmcUser/TV Shows" ]; then
-	mkdir "/home/$xbmcUser/TV Shows"
-	chmod 755 "/home/$xbmcUser/TV Shows"
+	mkdir "/home/$xbmcUser/TV Shows" >/dev/null 2>&1 &
+	chmod 755 "/home/$xbmcUser/TV Shows" >/dev/null 2>&1 &
 fi
 
 if [ ! -d "/home/$xbmcUser/Movies" ]; then
-	mkdir /home/$xbmcUser/Movies
-	chmod 755 /home/$xbmcUser/Movies
+	mkdir /home/$xbmcUser/Movies >/dev/null 2>&1 &
+	chmod 755 /home/$xbmcUser/Movies >/dev/null 2>&1 &
 fi
 
 if [ ! -f /home/$xbmcUser/userdata/sources.xml ] ; then
@@ -79,6 +79,6 @@ if [ ! -f /home/$xbmcUser/userdata/sources.xml ] ; then
 EOF
 fi
 
-chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/
+chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/ >/dev/null 2>&1 &
 
 exit 0

@@ -187,7 +187,7 @@ EOF
 	sed -i "s/=ANALOGCARD=/card $ANALOGCARD/g" /home/$xbmcUser/.asoundrc
 	sed -i "s/=ANALOGDEVICE=/device $ANALOGDEVICE/g" /home/$xbmcUser/.asoundrc
 
-	chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc
+	chown $xbmcUser:$xbmcUser /home/$xbmcUser/.asoundrc >/dev/null 2>&1 &
 
 	#
 	# Setup Triple Audiooutput
@@ -226,7 +226,7 @@ do
 	"
 	for line in $(/usr/bin/amixer -c $i | grep 'Simple mixer control' | grep 'IEC958' | awk '{print $4,$6}');
 		do
-			/usr/bin/amixer -q -c $i sset $line unmute &> /dev/null;
+			/usr/bin/amixer -q -c $i sset $line unmute;
 		done;
 	IFS="$oldifs"
 done;
@@ -235,6 +235,6 @@ done;
 # Store alsa settings
 #
 
-alsactl store &> /dev/null
+alsactl store >/dev/null 2>&1 &
 
 exit 0

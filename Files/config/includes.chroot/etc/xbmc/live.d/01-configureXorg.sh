@@ -21,6 +21,13 @@
 xbmcUser=$1
 xbmcParams=$2
 
+# Minimal Xorg.conf for ubiquity installer
+#
+if grep "ubiquity" /proc/cmdline ; then
+	Xorg -configure
+	exit 0
+fi
+
 activationToken="nogenxconf"
 
 # if strings are NOT the same the token is part of the parameters list
@@ -83,11 +90,11 @@ if [ "$GPUTYPE" = "AMD" ]; then
   </videoplayer>
 </settings>
 EOF
-                chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
+                chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
         else
                 if grep -i -q usevdpau /home/$xbmcUser/.xbmc/userdata/guisettings.xml ; then
                         sed -i 's#<usevdpau>.*#<usevdpau>false</usevdpau>#' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-                        chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
+                        chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
                 fi
         fi
 

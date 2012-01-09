@@ -41,7 +41,7 @@ if [ ! -f /home/$xbmcUser/.xbmc/userdata/keymaps/noBS.xml ] ; then
 </global>
 </keyboard>
 EOF
-	chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc
+	chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
 fi
 
 exit 0

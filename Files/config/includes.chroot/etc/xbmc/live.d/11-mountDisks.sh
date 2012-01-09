@@ -29,6 +29,6 @@ if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
 	exit 0
 fi
 
-/usr/bin/diskmounter
+/usr/bin/diskmounter 2>&1 &
 
 exit 0
