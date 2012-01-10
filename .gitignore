@@ -1,0 +1,12 @@
+# Can ignore specific files
+.gitignore
+
+# Use wildcards as well
+*~
+*.iso
+*.tar
+*.tar.gz
+*.deb
+binary.log
+workarea/*
+Tools/live-build/*
