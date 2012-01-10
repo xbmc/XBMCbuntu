@@ -85,7 +85,7 @@ do
 	"
 		for line in $(/usr/bin/amixer -c $i | grep 'Simple mixer control' | grep 'IEC958' | awk '{print $4,$6}');
 		do
-			/usr/bin/amixer -q -c $i sset $line unmute >/dev/null 2>&1 &;
+			/usr/bin/amixer -q -c $i sset $line unmute;
 		done;
 	IFS="$oldifs"
 done;
