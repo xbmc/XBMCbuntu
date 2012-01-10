@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #      Copyright (C) 2005-2008 Team XBMC
 #      http://www.xbmc.org
@@ -18,12 +18,8 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-echo ""
-echo "Set hts_tvheadend user & web credentials..."
-echo ""
-
-#get current xbmc user
-xbmcUser=$(getent passwd 1000 | sed -e 's/\:.*//')
+xbmcUser=$1
+xbmcParams=$2
 
 cat > /etc/default/tvheadend << EOF
 DAEMON_ARGS="-f -u $xbmcUser -g video"
@@ -41,3 +37,5 @@ if [ -d /home/$xbmcUser/.hts ]
 then
     chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.hts
 fi
+
+/etc/init.d/tvheadend restart
