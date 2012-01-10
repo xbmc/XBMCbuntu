@@ -36,6 +36,7 @@ policykit-desktop-privileges
 ubiquity-slideshow-xbmcbuntu 
 
 network-manager
+wicd-curses
 
 # For NVIDIA
 nvidia-current libvdpau1
