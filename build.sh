@@ -155,6 +155,8 @@ if [ -f $WORKPATH/buildDEBs/build.sh ]; then
 	cd $THISDIR
 fi
 
+cd $WORKPATH
+
 #
 # Copy all needed files in place for the real build
 #
@@ -179,6 +181,8 @@ echo "----------------------"
 echo "Perform image build..."
 echo "----------------------"
 echo ""
+
+cd $WORKPATH
 
 lb clean
 lb config

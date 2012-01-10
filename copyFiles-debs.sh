@@ -24,15 +24,15 @@ echo "------------------------------"
 
 mkdir -p $WORKPATH/Files/config/packages.chroot &> /dev/null
 
-cp $WORKPATH/Tools/xbmcbuntu-artwork*.deb $WORKPATH/Files/config/packages.chroot
-cp $WORKPATH/Tools/xbmcbuntu-icon-theme*.deb $WORKPATH/Files/config/packages.chroot
-cp $WORKPATH/Tools/xbmcbuntu-plymouth-theme_* $WORKPATH/Files/config/packages.chroot
-cp $WORKPATH/Tools/plymouth-theme-xbmcbuntu-* $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/xbmcbuntu-artwork*.deb $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/xbmcbuntu-icon-theme*.deb $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/xbmcbuntu-plymouth-theme_* $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/plymouth-theme-xbmcbuntu-* $WORKPATH/Files/config/packages.chroot
 
-cp $WORKPATH/Tools/syslinux-themes-xbmcbuntu-oneiric*.deb $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/syslinux-themes-xbmcbuntu-oneiric*.deb $WORKPATH/Files/config/packages.chroot
 
-cp $WORKPATH/Tools/ubiquity-slideshow-xbmcbuntu*.deb $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/ubiquity-slideshow-xbmcbuntu*.deb $WORKPATH/Files/config/packages.chroot
 
-cp $WORKPATH/Tools/xbmcbuntu-default-settings*.deb $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/xbmcbuntu-default-settings*.deb $WORKPATH/Files/config/packages.chroot
 
-cp $WORKPATH/Tools/xbmcbuntu-core*.deb $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/xbmcbuntu-core*.deb $WORKPATH/Files/config/packages.chroot
