@@ -18,46 +18,21 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-echo "----------------------------------------"
-echo "Building/copying auxiliary packages ... "
-echo "----------------------------------------"
+echo "------------------------------"
+echo "Copying auxiliary packages ..."
+echo "------------------------------"
 
 mkdir -p $WORKPATH/Files/config/packages.chroot &> /dev/null
-
-if ! ls $WORKPATH/Tools/xbmcbuntu-artwork_* > /dev/null 2>&1; then
-	cd $WORKPATH/Tools/xbmcbuntu-artwork
-	dpkg-buildpackage -rfakeroot -b -uc -us
-fi
 
 cp $WORKPATH/Tools/xbmcbuntu-artwork*.deb $WORKPATH/Files/config/packages.chroot
 cp $WORKPATH/Tools/xbmcbuntu-icon-theme*.deb $WORKPATH/Files/config/packages.chroot
 cp $WORKPATH/Tools/xbmcbuntu-plymouth-theme_* $WORKPATH/Files/config/packages.chroot
 cp $WORKPATH/Tools/plymouth-theme-xbmcbuntu-* $WORKPATH/Files/config/packages.chroot
 
-if ! ls $WORKPATH/Tools/syslinux-themes-xbmcbuntu_* > /dev/null 2>&1; then
-	cd $WORKPATH/Tools/syslinux-themes-xbmcbuntu
-	dpkg-buildpackage -rfakeroot -b -uc -us
-fi
-
 cp $WORKPATH/Tools/syslinux-themes-xbmcbuntu-oneiric*.deb $WORKPATH/Files/config/packages.chroot
-
-if ! ls $WORKPATH/Tools/ubiquity-slideshow-xbmcbuntu_* > /dev/null 2>&1; then
-        cd $WORKPATH/Tools/ubiquity-slideshow-xbmcbuntu
-        dpkg-buildpackage -rfakeroot -b -uc -us
-fi
 
 cp $WORKPATH/Tools/ubiquity-slideshow-xbmcbuntu*.deb $WORKPATH/Files/config/packages.chroot
 
-if ! ls $WORKPATH/Tools/xbmcbuntu-default-settings_* > /dev/null 2>&1; then
-        cd $WORKPATH/Tools/xbmcbuntu-default-settings
-        dpkg-buildpackage -rfakeroot -b -uc -us
-fi
-
 cp $WORKPATH/Tools/xbmcbuntu-default-settings*.deb $WORKPATH/Files/config/packages.chroot
-
-if ! ls $WORKPATH/Tools/xbmcbuntu-core_* > /dev/null 2>&1; then
-        cd $WORKPATH/Tools/xbmcbuntu-meta
-        dpkg-buildpackage -rfakeroot -b -uc -us
-fi
 
 cp $WORKPATH/Tools/xbmcbuntu-core*.deb $WORKPATH/Files/config/packages.chroot
