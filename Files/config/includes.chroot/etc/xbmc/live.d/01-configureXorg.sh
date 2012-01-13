@@ -58,6 +58,15 @@ else
         fi
 fi
 
+if grep "boot=casper" /proc/cmdline ; then
+	# Use the generic VESA driver
+	echo 'Section "Device"' > /etc/X11/xorg.conf
+	echo '    Identifier    "Configured Video Device"' >> /etc/X11/xorg.conf
+	echo '    Driver        "vesa"' >> /etc/X11/xorg.conf
+	echo 'EndSection' >> /etc/X11/xorg.conf
+	exit 0
+fi
+
 if [ "$GPUTYPE" = "NVIDIA" ]; then
         update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/nvidia-current/ld.so.conf
         ldconfig
