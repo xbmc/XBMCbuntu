@@ -21,13 +21,6 @@
 xbmcUser=$1
 xbmcParams=$2
 
-# Minimal Xorg.conf for ubiquity installer
-#
-if grep "ubiquity" /proc/cmdline ; then
-	Xorg -configure
-	exit 0
-fi
-
 activationToken="nogenxconf"
 
 # if strings are NOT the same the token is part of the parameters list
@@ -58,7 +51,7 @@ else
         fi
 fi
 
-if grep "boot=casper" /proc/cmdline ; then
+if grep "ubiquity" /proc/cmdline ; then
 	# Use the generic VESA driver
 	echo 'Section "Device"' > /etc/X11/xorg.conf
 	echo '    Identifier    "Configured Video Device"' >> /etc/X11/xorg.conf
