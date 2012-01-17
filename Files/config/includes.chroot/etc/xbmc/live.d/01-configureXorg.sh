@@ -52,29 +52,31 @@ else
 fi
 
 if grep "ubiquity" /proc/cmdline ; then
-	# Remove kernel modules in memory (to avoid "vesa: Ignoring device with a bound kernel driver")
-	if [ "$GPUTYPE" = "NVIDIA" ]; then
-		echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
-		echo "blacklist lbm-nouveau" >> /etc/modprobe.d/blacklist-nvidia.conf
-		echo "blacklist nvidia-96" >> /etc/modprobe.d/blacklist-nvidia.conf
-		echo "blacklist nvidia-173" >> /etc/modprobe.d/blacklist-nvidia.conf
-		echo "alias nvidia nvidia-current"  >> /etc/modprobe.d/blacklist-nvidia.conf
+	if [ "$GPUTYPE" != "INTEL" ]; then
+		# Remove kernel modules in memory (to avoid "vesa: Ignoring device with a bound kernel driver")
+		if [ "$GPUTYPE" = "NVIDIA" ]; then
+			echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
+			echo "blacklist lbm-nouveau" >> /etc/modprobe.d/blacklist-nvidia.conf
+			echo "blacklist nvidia-96" >> /etc/modprobe.d/blacklist-nvidia.conf
+			echo "blacklist nvidia-173" >> /etc/modprobe.d/blacklist-nvidia.conf
+			echo "alias nvidia nvidia-current"  >> /etc/modprobe.d/blacklist-nvidia.conf
 
-		rmmod nvidia > /dev/null 2>&1 || true
+			rmmod nvidia > /dev/null 2>&1 || true
+		fi
+		if [ "$GPUTYPE" = "AMD" ]; then
+			echo "blacklist radeon" > /etc/modprobe.d/blacklist-amd.conf
+			echo "blacklist fglrx" >> /etc/modprobe.d/blacklist-amd.conf
+
+			rmmod fglrx > /dev/null 2>&1 || true
+		fi
+
+		# Use the generic VESA driver
+		echo 'Section "Device"' > /etc/X11/xorg.conf
+		echo '    Identifier    "Configured Video Device"' >> /etc/X11/xorg.conf
+		echo '    Driver        "vesa"' >> /etc/X11/xorg.conf
+		echo 'EndSection' >> /etc/X11/xorg.conf
+		exit 0
 	fi
-	if [ "$GPUTYPE" = "AMD" ]; then
-		echo "blacklist radeon" > /etc/modprobe.d/blacklist-amd.conf
-		echo "blacklist fglrx" >> /etc/modprobe.d/blacklist-amd.conf
-
-		rmmod fglrx > /dev/null 2>&1 || true
-	fi
-
-	# Use the generic VESA driver
-	echo 'Section "Device"' > /etc/X11/xorg.conf
-	echo '    Identifier    "Configured Video Device"' >> /etc/X11/xorg.conf
-	echo '    Driver        "vesa"' >> /etc/X11/xorg.conf
-	echo 'EndSection' >> /etc/X11/xorg.conf
-	exit 0
 fi
 
 if [ "$GPUTYPE" = "NVIDIA" ]; then
