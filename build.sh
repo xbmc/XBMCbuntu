@@ -27,7 +27,7 @@ REQUIREDPACKAGES=( git-core debootstrap asciidoc docbook-xsl curl build-essentia
 NOTINSTALLED=()
 
 for k in "${REQUIREDPACKAGES[@]}" ; do
-	if [ "$( dpkg -l  | grep "ii" | grep "$k" )" = "" ] ; then
+	if [ "$( dpkg -l | grep "ii  $k " )" = "" ] ; then
 		NOTINSTALLED+=($k)
 	fi
 done
