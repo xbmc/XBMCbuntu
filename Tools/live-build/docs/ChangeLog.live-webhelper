@@ -1,0 +1,182 @@
+commit 1f4cf146edbd72a2d61ac2e60324d392569c9f24
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Wed Oct 14 13:35:25 2009 +0200
+
+    Updating vcs fields.
+
+commit d1ab019de29691407e3bde1af2ff5efe9a284380
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Wed May 27 09:42:55 2009 -0500
+
+    Update quoting on variables for safety.
+
+commit 601b25634d291706fc477342b712554a54c42016
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Sat Mar 14 22:19:41 2009 -0500
+
+    update copyright years
+
+commit fed4e5adfd49b339bec16b0338b73f9f90ca40ce
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Sat Mar 14 21:47:27 2009 -0500
+
+    Set lenny as defualt build
+
+commit 083a14f46cc1298b33908991dea145cf4ec7415d
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Sun Nov 30 16:41:15 2008 -0600
+
+    Bug fix on usb-hdd builds.
+
+commit 7742576d3a9b84807c6456007ad3bc0147ca3024
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Thu Nov 27 22:44:51 2008 -0600
+
+    Remove -x flag left on cron during debug operations.
+
+commit 6817dca69fd0c53578c1e14c9c5333d5be94419d
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Thu Nov 27 22:42:58 2008 -0600
+
+    Update to start using more live-helper functions.
+
+commit 649fc3a0fac8eae1b8a239a9ba250e89f4b89dfd
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Wed Nov 26 22:13:57 2008 -0600
+
+    Update Copyright (C) to 2007-2008
+
+commit 5449c921111b2f300006cc41d7b6582270959a82
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Fri Nov 7 18:08:01 2008 +0100
+
+    Replacing obsolete dh_clean -k with dh_prep.
+
+commit cd7a4a353ae652a45057da5726467e23401be52d
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Tue Nov 4 18:40:06 2008 -0600
+
+    Bug fix on custom bootstrap and custom binary.
+
+commit fc227fc32f06ba8e5af8c9ebdcd147f98790b6ea
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Thu Oct 2 17:24:37 2008 -0500
+
+    Bug fix in netboot server and path.
+
+commit 446a99439bfee38c89615e1e24bb4729b2223e9e
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Mon Sep 8 21:39:37 2008 -0500
+
+    Include common functions from live-helper for code reuse.
+
+commit 359e51591318966e97128b00bff38c62d07c6827
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Mon Sep 8 21:35:52 2008 -0500
+
+    Added test for unmounting devpts-live.
+
+commit 3fdcc59654986d57f014b6c6721b2a3abde2f722
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Mon Sep 8 21:29:41 2008 -0500
+
+    Local variable prefix with _ on VAR i.e. _VAR
+
+commit 4bbf10e31754f290d3aa0e158a45d09316487544
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Mon Sep 8 16:12:22 2008 -0500
+
+    Local variable LH_ removal/cleanup.
+
+commit 472a6a0825656fbc16f4df6cb19bb16e1df8605f
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Mon Sep 8 16:02:36 2008 -0500
+
+    Minor local variable confusion for LH_ prefix cleanup.
+
+commit df23442fca1c727dd43ca1ea464b277e3617cb0f
+Author: Richard Nelson <unixabg@gmail.com>
+Date:   Mon Sep 8 15:59:08 2008 -0500
+
+    Upgrade variables to have the LH_ prefix for LH_* variable, to work with the current live-helper version.
+
+commit f00e0cb212e0c84268e099ca35ca386982e4d82b
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Sun Sep 7 21:57:51 2008 +0200
+
+    Removing currently unused Upstream-Depends field in control.
+
+commit 4c85494fa2907a54dd99eaf17816a4d403ddb5bc
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Sun Sep 7 21:57:41 2008 +0200
+
+    Updating vcs fields in control file.
+
+commit eaf87ebd9f828740430cc60d3e9f201d88c67c25
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Thu Aug 28 23:40:35 2008 +0200
+
+    Setting project email address to the new debian-live@lists.debian.org.
+
+commit 6fbca8e14be271dc62988d5555bba9f453ddbaa7
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Wed Apr 23 18:50:17 2008 +0200
+
+    Updating Richards email address.
+
+commit 25e1e7bc4f6a095aaf248a80aeaa3795f4a3e3a9
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Tue Oct 30 11:04:42 2007 +0100
+
+    Correcting vcs fields.
+
+commit c49d9ff77bd5be73d5367fd567a9e39fccf78410
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Wed Oct 3 09:11:29 2007 +0200
+
+    Fixing wrong homepage field.
+
+commit 8e01ba16a737d04a0367ecf1d4f3d7f80437fe97
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Sun Sep 23 16:04:04 2007 +0200
+
+    Using new Homepage field now.
+
+commit 49ca83a4d57051b2b4b4b950178063c6df25e222
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Sun Sep 23 16:04:04 2007 +0200
+
+    Adding Upstream-Depends field.
+
+commit 39a9d3e82c71451734f0d4ddb630b67c9d55541a
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Sun Sep 23 16:04:04 2007 +0200
+
+    Moving from svn to git.
+
+commit 7e823babbe815bdf520becbfd6f4ccec814aa7e2
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Sun Sep 23 16:04:03 2007 +0200
+
+    Removing not uploaded versions.
+
+commit 46e8777246485a15fc6d5a202a361662f4e724b5
+Author: Daniel Baumann <daniel@debian.org>
+Date:   Sun Sep 23 16:03:52 2007 +0200
+
+    Adding live-webhelper trunk 20070911.
+
+2007-07-19  Daniel Baumann  <daniel@debian.org>
+
+	* Introducing build modes.
+
+2007-07-14  Daniel Baumann  <daniel@debian.org>
+
+	* scripts/cgi:
+	  - Quick fix in EMAIL.
+
+2007-06-04  Daniel Baumann  <daniel@debian.org>
+
+	* templates/form.html:
+	  - Set default source image to 'generic'.
+	* Starting live-webhelper.

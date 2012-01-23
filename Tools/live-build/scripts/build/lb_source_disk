@@ -1,0 +1,122 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'install disk information into source')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+case "${LB_SOURCE_IMAGES}" in
+	iso*|hdd*)
+		;;
+
+	*)
+		exit 0
+		;;
+esac
+
+Echo_message "Begin installing disk information..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/source_disk
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+mkdir -p source/.disk
+
+TITLE="Debian GNU/Linux"
+DISTRIBUTION="$(echo ${LB_DISTRIBUTION} | cut -b 1 | tr '[a-z]' '[A-Z]')"
+DISTRIBUTION="${DISTRIBUTION}$(echo ${LB_DISTRIBUTION} | cut -b 2-)"
+eval VERSION="$`echo RELEASE_${LB_DISTRIBUTION}`"
+
+case "${LB_MODE}" in
+	debian)
+		STRING="Official Snapshot ${ARCHITECTURE}"
+		TRACE="project/trace/ftp-master.debian.org"
+		;;
+
+	ubuntu)
+		TITLE="Ubuntu"
+		STRING="Build ${ARCHITECTURE}"
+		TRACE=""
+		;;
+
+	kubuntu)
+		TITLE="Kubuntu"
+		STRING="Build ${ARCHITECTURE}"
+		TRACE=""
+		;;
+
+	*)
+		STRING="Snapshot ${ARCHITECTURE}"
+		TRACE=""
+		;;
+esac
+
+if [ -n "${TRACE}" ]
+then
+	case "${LB_DERIVATIVE}" in
+		true)
+			echo "$(echo ${LB_PARENT_MIRROR_BOOTSTRAP} | awk -F:// '{ print $2 }'): $(wget -q ${LB_PARENT_MIRROR_BOOTSTRAP}/${TRACE} -O - | head -n 1)" \
+			> source/.disk/archive_trace
+
+			echo "$(echo ${LB_MIRROR_BOOTSTRAP} | awk -F:// '{ print $2 }'): $(wget -q ${LB_MIRROR_BOOTSTRAP}/${TRACE} -O - | head -n 1)" \
+			>> source/.disk/archive_trace
+			;;
+
+		false)
+			echo "$(wget -q ${LB_PARENT_MIRROR_BOOTSTRAP}/${TRACE} -O - | head -n 1)" \
+			> source/.disk/archive_trace
+			;;
+	esac
+fi
+
+case "${LB_DEBIAN_INSTALLER}" in
+	cdrom)
+		echo "${TITLE} ${VERSION} \"${DISTRIBUTION}\" - ${STRING} LIVE/CD Source $(date +%Y%m%d-%H:%M)" > source/.disk/info
+		;;
+
+	true|netinst)
+		echo "${TITLE} ${VERSION} \"${DISTRIBUTION}\" - ${STRING} LIVE/NETINST Source $(date +%Y%m%d-%H:%M)" > source/.disk/info
+		;;
+
+	live)
+		echo "${TITLE} ${VERSION} \"${DISTRIBUTION}\" - ${STRING} LIVE/INSTALL Source $(date +%Y%m%d-%H:%M)" > source/.disk/info
+		;;
+
+	businesscard)
+		echo "${TITLE} ${VERSION} \"${DISTRIBUTION}\" - ${STRING} LIVE/BC Source $(date +%Y%m%d-%H:%M)" > source/.disk/info
+		;;
+
+	false)
+		echo "${TITLE} ${VERSION} \"${DISTRIBUTION}\" - ${STRING} LIVE Source $(date +%Y%m%d-%H:%M)" > source/.disk/info
+		;;
+esac
+
+# Creating stage file
+Create_stagefile .stage/source_disk

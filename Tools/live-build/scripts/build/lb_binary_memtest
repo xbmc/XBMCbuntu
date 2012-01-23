@@ -1,0 +1,124 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'installs a memtest into binary')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_BINARY_IMAGES}" = "virtual-hdd" ] || [ "${LB_MEMTEST}" = "false" ] || [ "${LB_MEMTEST}" = "none" ]
+then
+	exit 0
+fi
+
+Echo_message "Begin installing memtest..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_memtest
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+if [ "${LB_ARCHITECTURES}" != "amd64" ] && [ "${LB_ARCHITECTURES}" != "i386" ]
+then
+	Echo_warning "skipping binary_memtest, foreign architecture."
+	exit 0
+fi
+
+if [ "${LB_BUILD_WITH_CHROOT}" = "true" ]
+then
+
+	if [ -f chroot/usr/sbin/grub ] && [ ! -f chroot/boot/grub/menu.lst ]
+	then
+		GRUB="yes"
+
+		mkdir -p chroot/boot/grub
+		touch chroot/boot/grub/menu.lst
+	fi
+fi
+
+# Checking depends
+case "${LB_MEMTEST}" in
+	memtest86)
+		Check_package chroot/boot/memtest86.bin memtest86
+		;;
+
+	memtest86+)
+		Check_package chroot/boot/memtest86+.bin memtest86+
+		;;
+esac
+
+# Restoring cache
+Restore_cache cache/packages_binary
+
+# Installing depends
+Install_package
+
+# Setting destination directory
+case "${LB_INITRAMFS}" in
+	casper)
+		DESTDIR="binary/casper"
+		;;
+
+	live-boot)
+		DESTDIR="binary/live"
+		;;
+
+	*)
+		DESTDIR="binary/boot"
+		;;
+esac
+
+Check_multiarchitectures
+
+# Creating directory
+mkdir -p "${DESTDIR}"
+
+# Installing memtest
+case "${LB_BUILD_WITH_CHROOT}" in
+	true)
+		cp chroot/boot/${LB_MEMTEST}.bin "${DESTDIR}"/memtest
+		;;
+
+	false)
+		cp /boot/${LB_MEMTEST}.bin "${DESTDIR}"/memtest
+		;;
+esac
+
+# Saving cache
+Save_cache cache/packages_binary
+
+# Removing depends
+Remove_package
+
+if [ "${GRUB}" ]
+then
+	rm -rf chroot/boot/grub
+fi
+
+# Creating stage file
+Create_stagefile .stage/binary_memtest

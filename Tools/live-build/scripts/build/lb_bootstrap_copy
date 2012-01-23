@@ -1,0 +1,56 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'bootstrap by copying the host system')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_BOOTSTRAP}" != "copy" ]
+then
+	exit 0
+fi
+
+# Check architecture
+Check_crossarchitectures
+
+Echo_message "Begin bootstrapping system..."
+
+# Ensure that a system is built as root
+lb testroot
+
+# Checking stage file
+Check_stagefile .stage/bootstrap
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Copying host system
+mkdir chroot
+cd chroot
+tar c / --exclude /proc --exclude /sys --exclude "$(dirname ${PWD})" | tar xv
+cd ..
+
+# Creating stage file
+Create_stagefile .stage/bootstrap

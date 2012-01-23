@@ -1,0 +1,23 @@
+# /usr/share/live/build/package-lists/gnustep - package list for live-build(7)
+
+#include <standard-x11>
+
+wdm
+
+gnustep gnumail.app talksoup.app viewpdf.app wmaker gnustep-icons
+gnustep-examples gnumail-doc aclock.app biococoa.app timemon.app cenon.app wmnd
+bubblefishymon wmmixer wmpinboard gworkspace.app clipbook.app poe.app
+plopfolio.app mpdcon.app lusernet.app helpviewer.app gnuwash.app easydiff.app
+displaycalibrator.app cynthiune.app agenda.app stepulator.app edenmath.app
+price.app volumecontrol.app latex.service wildmenus.bundle innerspace.app
+
+gnustep-core
+
+gnustep-core-devel gnustep-base-examples
+
+gnustep-core-doc gnustep-tutorial-html gnustep-tutorial-pdf
+
+gnustep-games gridlock.app
+
+gnustep-devel librenaissance0-dev steptalk libpantomime1-dev
+popplerkit.framework gnustep-netclasses

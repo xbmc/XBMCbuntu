@@ -1,0 +1,340 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'installs grub into binary')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_BOOTLOADER}" != "grub" ]
+then
+	exit 0
+fi
+
+Echo_message "Begin installing grub..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_grub
+
+# Checking grub templates
+Check_templates grub
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Check architecture
+Check_architectures amd64 i386
+Check_crossarchitectures
+
+# Checking depends
+Check_package chroot/usr/sbin/grub grub-legacy
+
+# Restoring cache
+Restore_cache cache/packages_binary
+
+# Installing depends
+Install_package
+
+# Local functions
+Grub_live_entry ()
+{
+	LABEL="${1}"
+	KERNEL="${2}"
+	INITRD="${3}"
+	APPEND="${4}"
+
+	LINUX_LIVE="${LINUX_LIVE}\ntitle\t\tDebian GNU/Linux - ${LABEL}"
+	LINUX_LIVE="${LINUX_LIVE}\nkernel\t\t/${KERNEL} ${INITFS:+boot=${INITFS} }config LB_BOOTAPPEND_LIVE ${APPEND}"
+	LINUX_LIVE="${LINUX_LIVE}\ninitrd\t\t/${INITRD}"
+}
+
+Grub_install_entry ()
+{
+	LABEL="${1}"
+	KERNEL="${2}"
+	INITRD="${3}"
+	APPEND="${4}"
+
+	QAPPEND="quiet"
+
+	for TYPE in Install Expert Rescue Auto
+	do
+		case "${TYPE}" in
+			Install)
+				TAPPEND="${APPEND} ${QAPPEND}"
+				;;
+
+			Expert)
+				TAPPEND="priority=low ${APPEND}"
+				;;
+
+			Rescue)
+				TAPPEND="rescue/enable=true ${APPEND} ${QAPPEND}"
+				;;
+
+			Auto)
+				TAPPEND="auto=true priority=critical ${APPEND} ${QAPPEND}"
+				;;
+		esac
+
+		case "${LABEL}" in
+			Text)
+				TYPE_SUFFIX=""
+				;;
+			GUI)
+				TYPE_SUFFIX="gui"
+				;;
+		esac
+
+
+		LINUX_INSTALL="${LINUX_INSTALL}\ntitle\t\t${LABEL} ${TYPE}"
+		LINUX_INSTALL="${LINUX_INSTALL}\nkernel\t\t/${KERNEL} ${TAPPEND} ${LB_BOOTAPPEND_INSTALL}"
+		LINUX_INSTALL="${LINUX_INSTALL}\ninitrd\t\t/${INITRD}"
+	done
+}
+
+case "${LB_INITRAMFS}" in
+	casper)
+		INITFS="casper"
+		;;
+
+	live-boot)
+		INITFS="live"
+		;;
+
+	*)
+		INITFS=""
+		;;
+esac
+
+# Setting destination directory
+case "${LB_BINARY_IMAGES}" in
+	iso*|tar)
+		case "${LB_INITRAMFS}" in
+			casper)
+				DESTDIR_LIVE="binary/casper"
+				;;
+
+			live-boot)
+				DESTDIR_LIVE="binary/live"
+				;;
+
+			*)
+				DESTDIR_LIVE="binary/boot"
+				;;
+		esac
+
+		DESTDIR_INSTALL="binary/install"
+		;;
+
+	hdd*|net)
+		Echo_warning "Bootloader in this image type not yet supported by live-build."
+		Echo_warning "This would produce a not bootable image, aborting (FIXME)."
+		exit 1
+	;;
+esac
+
+Check_multiarchitectures
+
+# Creating directory
+mkdir -p "${DESTDIR_LIVE}"
+
+# Setting boot parameters
+if [ -n "${LB_USERNAME}" ]
+then
+	case "${LB_INITRAMFS}" in
+		casper)
+			LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} username=${LB_USERNAME}"
+			;;
+
+		live-boot)
+			if [ "${LB_USERNAME}" != "user" ]
+			then
+				LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} username=${LB_USERNAME}"
+			fi
+			;;
+	esac
+fi
+
+if [ -n "${LB_HOSTNAME}" ]
+then
+	case "${LB_INITRAMFS}" in
+		casper)
+			LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} hostname=${LB_HOSTNAME}"
+			;;
+
+		live-boot)
+			if [ "${LB_HOSTNAME}" != "debian" ]
+			then
+				LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} hostname=${LB_HOSTNAME}"
+			fi
+			;;
+	esac
+fi
+
+if [ "${LB_UNION_FILESYSTEM}" != "aufs" ]
+then
+	LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} union=${LB_UNION_FILESYSTEM}"
+fi
+
+if [ -n "${LB_NET_COW_PATH}" ]
+then
+	Echo_error "Net cow not yet supported on grub"
+	exit 1
+fi
+
+if [ "${LB_EXPOSED_ROOT}" != "false" ]
+then
+	LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} exposedroot"
+fi
+
+LB_BOOTAPPEND_LIVE="$(echo ${LB_BOOTAPPEND_LIVE} | sed -e 's|  ||')"
+
+# Parameters are listed at: linux/Documentation/kernel-parameters.txt
+FAILSAFE="noapic noapm nodma nomce nolapic nomodeset nosmp vga=normal"
+
+# Assembling kernel configuration
+
+# Default entries
+DEFAULT_FLAVOUR="$(echo ${LB_LINUX_FLAVOURS} | awk '{ print $1 }')"
+DEFAULT_KERNEL="$(basename chroot/boot/vmlinuz-*${DEFAULT_FLAVOUR})"
+DEFAULT_INITRD="initrd.img-$(echo ${DEFAULT_KERNEL} | sed -e 's|vmlinuz-||')"
+
+Grub_live_entry "live" "$(basename ${DESTDIR_LIVE})/${DEFAULT_KERNEL}" "$(basename ${DESTDIR_LIVE})/${DEFAULT_INITRD}"
+Grub_live_entry "live (fail-safe mode)" "$(basename ${DESTDIR_LIVE})/${DEFAULT_KERNEL}" "$(basename ${DESTDIR_LIVE})/${DEFAULT_INITRD}" "${FAILSAFE}"
+
+for KERNEL in chroot/boot/vmlinuz-*
+do
+	VERSION="$(basename ${KERNEL} | sed -e 's|vmlinuz-||')"
+
+	Grub_live_entry "live, kernel ${VERSION}" "$(basename ${DESTDIR_LIVE})/$(basename ${KERNEL})" "$(basename ${DESTDIR_LIVE})/initrd.img-${VERSION}"
+	Grub_live_entry "live, kernel ${VERSION} (fail-safe mode)" "$(basename ${DESTDIR_LIVE})/$(basename ${KERNEL})" "$(basename ${DESTDIR_LIVE})/initrd.img-${VERSION}" "${FAILSAFE}"
+done
+
+LINUX_LIVE="$(/bin/echo ${LINUX_LIVE} | sed -e 's|binary||g' -e 's|//|/|g')"
+
+# Assembling debian-installer configuration
+if [ "${LB_DEBIAN_INSTALLER}" != "false" ]
+then
+	LINUX_LIVE="title\t\tLive:\nroot\n\n${LINUX_LIVE}"
+	LINUX_INSTALL="title\t\tInstaller:\nroot"
+
+	VMLINUZ_DI="install/vmlinuz"
+	INITRD_DI="install/initrd.gz"
+	APPEND_DI="vga=normal"
+
+	VMLINUZ_GI="install/gtk/vmlinuz"
+	INITRD_GI="install/gtk/initrd.gz"
+	APPEND_GI="video=vesa:ywrap,mtrr vga=788"
+
+	if [ -f "binary/${VMLINUZ_DI}" ] && [ -f "binary/${INITRD_DI}" ]
+	then
+		Grub_install_entry "Text" "${VMLINUZ_DI}" "${INITRD_DI}" "${APPEND_DI}"
+	fi
+
+	if [ -f "binary/${VMLINUZ_GI}" ] && [ -f "binary/${INITRD_GI}" ]
+	then
+		Grub_install_entry "GUI" "${VMLINUZ_GI}" "${INITRD_GI}" "${APPEND_GI}"
+	fi
+fi
+
+LINUX_INSTALL="$(/bin/echo ${LINUX_INSTALL} | sed -e 's|binary||g' -e 's|//|/|g')"
+
+# Assembling memtest configuration
+if [ -f "${DESTDIR_LIVE}"/memtest ]
+then
+	MEMTEST="title\t\tOther:\nroot"
+	MEMTEST="${MEMTEST}\n\ntitle\t\t${LB_MEMTEST}\nkernel\t\t/$(basename ${DESTDIR_LIVE})/memtest"
+	MEMTEST="$(/bin/echo ${MEMTEST} | sed -e 's|//|/|g')"
+fi
+
+# Copying templates
+mkdir -p binary/boot/grub
+cp -r "${TEMPLATES}"/* binary/boot/grub
+
+case ${LB_BINARY_IMAGES} in
+	iso*)
+		FILES="chroot/usr/lib/grub/*/stage2_eltorito"
+		;;
+
+	hdd*|tar)
+		FILES="chroot/usr/lib/grub/*/stage1 chroot/usr/lib/grub/*/e2fs_stage1_5 chroot/usr/lib/grub/*/stage2"
+		;;
+esac
+
+if [ "${LB_BUILD_WITH_CHROOT}" = "false" ]
+then
+	FILES="$(echo ${FILES} | sed -e 's|chroot||g')"
+fi
+
+# Copying grub
+cp ${FILES} binary/boot/grub
+
+# Copying local configuration file
+if [ -f config/binary_grub/menu.lst ]
+then
+	cp config/binary_grub/menu.lst binary/boot/grub/menu.lst
+fi
+
+# Copying splash screen
+if [ -f config/binary_grub/splash.xpm.gz ]
+then
+	LB_GRUB_SPLASH="config/binary_grub/splash.xpm.gz"
+elif [ -f config/binary_grub/splash.xpm ]
+then
+	LB_GRUB_SPLASH="config/binary_grub/splash.xpm"
+fi
+
+if [ -n "${LB_GRUB_SPLASH}" ]
+then
+	if [ "${LB_GRUB_SPLASH}" = "none" ]
+	then
+		# Removing splash file
+		rm -f binary/boot/grub/splash.xpm.gz
+
+		# Removing splash entry
+		sed -i -e "s|splashimage.*||" binary/boot/grub/menu.lst
+	else
+		# Overwriting splash file
+		cp -f "${LB_GRUB_SPLASH}" binary/boot/grub
+		sed -i -e "s|splashimage.*|splashimage /boot/grub/$(basename ${LB_GRUB_SPLASH})|" binary/boot/grub/menu.lst
+	fi
+fi
+
+sed -i -e "s|LINUX_LIVE|${LINUX_LIVE}|" -e "s|LINUX_INSTALL|${LINUX_INSTALL}|" -e "s|MEMTEST|${MEMTEST}|" binary/boot/grub/menu.lst
+sed -i -e "s|LB_BOOTAPPEND_INSTALL|${LB_BOOTAPPEND_INSTALL}|" -e "s|LB_BOOTAPPEND_LIVE|${LB_BOOTAPPEND_LIVE}|" binary/boot/grub/menu.lst
+
+sed -i -e 's|\ $||g' binary/boot/grub/menu.lst
+
+# Saving cache
+Save_cache cache/packages_binary
+
+# Removing depends
+Remove_package
+
+# Creating stage file
+Create_stagefile .stage/binary_grub

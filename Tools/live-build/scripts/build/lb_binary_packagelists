@@ -1,0 +1,131 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'install local packages into binary')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+Echo_message "Begin installing local package lists..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_packagelists
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+if ls config/package-lists/*.list > /dev/null 2>&1 || \
+   ls config/package-lists/*.list.binary > /dev/null 2>&1
+then
+	# Restoring cache
+	Restore_cache cache/packages_chroot
+
+	# Check depends
+	Check_package chroot/usr/bin/apt-ftparchive apt-utils
+
+	# Installing depends
+	Install_package
+
+	mkdir -p chroot/binary.deb/archives/partial
+	mv chroot/var/lib/dpkg/status chroot/var/lib/dpkg/status.tmp
+	touch chroot/var/lib/dpkg/status
+
+	for LIST in config/package-lists/*.list \
+		    config/package-lists/*.list.binary
+	do
+		# Generate package list
+		Expand_packagelist "${LIST}" "config/package-lists" > chroot/root/"$(basename ${LIST})"
+
+		# Downloading additional packages
+		Chroot chroot "xargs --arg-file=/root/$(basename ${LIST}) apt-get ${APT_OPTIONS} -o Dir::Cache=/binary.deb --download-only install"
+
+		# Remove package list
+		rm chroot/root/"$(basename ${LIST})"
+	done
+
+	for FILE in chroot/binary.deb/archives/*.deb
+	do
+		SOURCE="$(dpkg -f ${FILE} Source | awk '{ print $1 }')"
+		SECTION="$(dpkg -f ${FILE} Section | awk '{ print $1 }')"
+
+		if [ -z "${SOURCE}" ]
+		then
+			SOURCE="$(basename ${FILE} | awk -F_ '{ print $1 }')"
+		fi
+
+		case "${SOURCE}" in
+			lib?*)
+				LETTER="$(echo ${SOURCE} | sed 's|\(....\).*|\1|')"
+				;;
+
+			*)
+				LETTER="$(echo ${SOURCE} | sed 's|\(.\).*|\1|')"
+				;;
+		esac
+
+		if echo "${SECTION}" | grep -qs contrib
+		then
+			SECTION="contrib"
+		elif echo "${SECTION}" | grep -qs non-free
+		then
+			SECTION="non-free"
+		else
+			SECTION="main"
+		fi
+
+		# Install directory
+		mkdir -p binary/pool/${SECTION}/"${LETTER}"/"${SOURCE}"
+
+		# Move files
+		mv "${FILE}" binary/pool/${SECTION}/"${LETTER}"/"${SOURCE}"
+	done
+
+	cd binary
+
+	for SECTION in pool/*
+	do
+		SECTION="$(basename ${SECTION})"
+
+		mkdir -p dists/${LB_PARENT_DISTRIBUTION}/${SECTION}/binary-${LB_ARCHITECTURES}
+		apt-ftparchive packages pool/${SECTION} > dists/${LB_PARENT_DISTRIBUTION}/${SECTION}/binary-${LB_ARCHITECTURES}/Packages
+		gzip -9 -c dists/${LB_PARENT_DISTRIBUTION}/${SECTION}/binary-${LB_ARCHITECTURES}/Packages > dists/${LB_PARENT_DISTRIBUTION}/${SECTION}/binary-${LB_ARCHITECTURES}/Packages.gz
+	done
+
+	cd "${OLDPWD}"
+
+	rm -rf chroot/binary.deb
+	mv chroot/var/lib/dpkg/status.tmp chroot/var/lib/dpkg/status
+
+	# Removing depends
+	Remove_package
+
+	# Saving cache
+	Save_cache cache/packages_chroot
+
+	# Creating stage file
+	Create_stagefile .stage/binary_packagelists
+fi

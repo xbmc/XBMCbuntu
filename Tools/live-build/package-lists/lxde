@@ -1,0 +1,13 @@
+# /usr/share/live/build/package-lists/lxde - package list for live-build(7)
+
+#include <standard-x11>
+
+lxde
+#if DISTRIBUTION squeeze
+gdm
+#endif
+#nif DISTRIBUTION squeeze
+gdm3
+#endif
+network-manager-gnome
+desktop-base

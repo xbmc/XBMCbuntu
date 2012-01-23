@@ -1,0 +1,175 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'build netboot binary image')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if ! In_list net "${LB_BINARY_IMAGES}"
+then
+	exit 0
+fi
+
+if [ "${LB_NET_TARBALL}" = "false" ]
+then
+	exit 0
+fi
+
+Echo_message "Begin building binary netboot image..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_net
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+if [ "${LB_ARCHITECTURES}" = "sparc" ]
+then
+	# Checking depends
+	Check_package chroot/usr/bin/elftoaout sparc-utils
+
+	# Restoring cache
+	Restore_cache cache/packages_binary
+
+	# Installing depends
+	Install_package
+
+	# Set target and source directories
+	DESTDIR="tftpboot"
+	case "${LB_INITRAMFS}" in
+		casper)
+			ORIGDIR="binary/casper"
+			;;
+
+		live-boot)
+			ORIGDIR="binary/live"
+			;;
+
+		*)
+			ORIGDIR="binary/boot"
+			;;
+	esac
+
+	# Find defaults
+	DEFAULT_FLAVOUR="$(echo ${LB_LINUX_FLAVOURS} | awk '{ print $1 }')"
+	DEFAULT_KERNEL="$(basename chroot/boot/vmlinuz-*${DEFAULT_FLAVOUR})"
+	DEFAULT_INITRD="initrd.img-$(echo ${DEFAULT_KERNEL} | sed -e 's|vmlinuz-||')"
+	DEFAULT_MAP="$(echo chroot/boot/System.map-*${DEFAULT_FLAVOUR})"
+
+	gzip -cd ${ORIGDIR}/${DEFAULT_KERNEL} > kernel.tmp
+
+	mkdir -p ${DESTDIR}
+	rm -f ${DESTDIR}/boot.img
+	elftoaout -o ${DESTDIR}/boot.img kernel.tmp
+
+	case "${DEFAULT_FLAVOUR}" in
+		sparc32)
+			piggyback ${DESTDIR}/boot.img ${DEFAULT_MAP} ${ORIGDIR}/${DEFAULT_INITRD}
+			;;
+		sparc64)
+			piggyback64 ${DESTDIR}/boot.img ${DEFAULT_MAP} ${ORIGDIR}/${DEFAULT_INITRD}
+			;;
+		*)
+			Echo_error "Invalid default kernel flavour for sparc \"%s\"" "${DEFAULT_FLAVOUR}"
+			exit 1;
+			;;
+	esac
+
+	# Pad boot.img
+	REMAINDER=$((( 4 - $(stat -c %s ${DESTDIR}/boot.img) % 4 ) % 4))
+	dd if=/dev/zero bs=1 count=${REMAINDER} >> ${DESTDIR}/boot.img
+
+	# No need for kernel and initrd images in the binary
+	rm -f ${ORIGDIR}/vmlinuz-*
+	rm -f ${ORIGDIR}/initrd.img-*
+
+	# Clean temporaries
+	rm -f kernel.tmp
+
+	# Saving cache
+	Save_cache cache/packages_binary
+
+	# Removing depends
+	Remove_package
+fi
+
+# Remove old binary
+rm -f binary-net.tar.bz2 binary-net.tar.gz binary-net.tar.lz binary-net.tar
+
+# Creating image file
+ROOT_DIR=$(basename ${LB_NET_ROOT_PATH})
+
+if [ "${ROOT_DIR}" = "chroot" ]
+then
+	mv chroot chroot.tmp
+fi
+
+if [ "${ROOT_DIR}" != "binary" ]
+then
+	mv binary ${ROOT_DIR}
+fi
+
+mkdir binary.tmp
+mv ${ROOT_DIR} tftpboot binary.tmp
+cd binary.tmp
+
+tar cf ../binary-net.tar *
+
+case "${LB_COMPRESSION}" in
+	bzip2)
+		bzip2 ${BZIP2_OPTIONS} ../binary-net.tar
+		;;
+
+	gzip)
+		gzip ${GZIP_OPTIONS} ../binary-net.tar
+		;;
+
+	lzip)
+		lzip ${LZIP_OPTIONS} ../binary-net.tar
+		;;
+
+	none)
+		;;
+esac
+
+mv * ../
+cd "${OLDPWD}"
+rmdir binary.tmp
+
+if [ "${ROOT_DIR}" != "binary" ]
+then
+	mv ${ROOT_DIR} binary
+fi
+
+if [ "${ROOT_DIR}" = "chroot" ]
+then
+	mv chroot.tmp chroot
+fi
+
+# Creating stage file
+Create_stagefile .stage/binary_net

@@ -1,0 +1,80 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'schedule live packages for installation')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/chroot_live-packages
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Queue installation of live-boot
+if [ -n "${LB_INITRAMFS}" ] && [ "${LB_INITRAMFS}" != "none" ]
+then
+	_PACKAGES="${LB_INITRAMFS}"
+fi
+
+# Queue installation of live-config
+if [ -n "${LB_INITSYSTEM}" ] && [ "${LB_INITSYSTEM}" != "none" ]
+then
+	_PACKAGES="${_PACKAGES} live-config live-config-${LB_INITSYSTEM}"
+fi
+
+# Do initsystem specific hacks
+if [ -n "${LB_INITSYSTEM}" ] && [ "${LB_INITSYSTEM}" != "sysvinit" ]
+then
+	# lets see if we still need the squeeze's "pre init system policy discussion" hack:
+	IS_SYSVINIT_ESSENTIAL="$(Chroot chroot dpkg-query --show --showformat='${Essential}\n' sysvinit)"
+	RC="$?"
+
+	if [ "${IS_SYSVINIT_ESSENTIAL}" != "no" ] && [ "${RC}" = "0" ]
+	then
+		# sysvinit is both installed and essential, ugly hack to remove it
+		Chroot chroot dpkg --force-remove-essential --remove sysvinit || true
+	fi
+fi
+
+# Install live packages
+if [ -n "${_PACKAGES}" ]
+then
+	case "${LB_APT}" in
+		apt|apt-get)
+			Chroot chroot "apt-get ${APT_OPTIONS} install ${_PACKAGES}"
+			;;
+
+		aptitude)
+			Chroot chroot "aptitude ${APTITUDE_OPTIONS} install ${_PACKAGES}"
+			;;
+	esac
+
+	# Creating stage file
+	Create_stagefile .stage/chroot_live-packages
+fi

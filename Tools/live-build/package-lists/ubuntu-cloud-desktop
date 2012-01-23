@@ -1,0 +1,5 @@
+# /usr/share/live/build/package-lists/ubuntu-cloud-desktop - package list for live-build(7)
+
+#include <ubuntu-cloud>
+
+ubuntu-destkop^

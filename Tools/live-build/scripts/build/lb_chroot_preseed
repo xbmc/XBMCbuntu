@@ -1,0 +1,69 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'execute local preseed in chroot')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+Echo_message "Begin executing local preseeds..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/chroot_preseed
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+if ls config/preseed/*.preseed > /dev/null 2>&1 || \
+   ls config/preseed/*.preseed.chroot > /dev/null 2>&1
+then
+	# Check dependency
+	Check_package chroot/usr/bin/debconf-set-selections debconf
+
+	# Install dependency
+	Install_package
+
+	for PRESEED in config/preseed/*.preseed config/preseed/*.preseed.chroot
+	do
+		if [ -e "${PRESEED}" ]
+		then
+			# Copying local preseed
+			cp "${PRESEED}" chroot/root/preseed
+
+			Chroot chroot "debconf-set-selections /root/preseed"
+
+			# Removing local preseed file
+			rm -f chroot/root/preseed
+		fi
+	done
+
+	# Remove dependency
+	Remove_package
+
+	# Creating stage file
+	Create_stagefile .stage/chroot_preseed
+fi

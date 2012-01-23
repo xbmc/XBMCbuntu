@@ -1,0 +1,175 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'bootstrap a Debian system with debootstrap(8)')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_BOOTSTRAP}" != "debootstrap" ]
+then
+	exit 0
+fi
+
+# Check architecture
+Check_crossarchitectures
+
+Echo_message "Begin bootstrapping system..."
+
+Check_package /usr/sbin/debootstrap debootstrap
+
+# Ensure that a system is built as root
+lb testroot
+
+# Checking stage file
+Check_stagefile .stage/bootstrap
+Check_stagefile .stage/bootstrap_cache.restore
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Creating chroot directory
+mkdir -p chroot
+
+# Setting debootstrap options
+if [ -n "${LB_ARCHITECTURES}" ]
+then
+	DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --arch=${LB_ARCHITECTURES}"
+fi
+
+if [ "${LB_ARCHIVE_AREAS}" != "main" ]
+then
+	# Modify archive areas to remove leading/trailing whitespaces and replace other whitepspace with commas
+	DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --components=$(echo ${LB_ARCHIVE_AREAS} | sed -e 's| |,|g')"
+fi
+
+if [ -n "${LB_BOOTSTRAP_INCLUDE}" ]
+then
+	DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --include=$(echo ${LB_BOOTSTRAP_INCLUDE} | sed 's|  *|,|g')"
+fi
+
+if [ -n "${LB_BOOTSTRAP_EXCLUDE}" ]
+then
+	DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --exclude=$(echo ${LB_BOOTSTRAP_EXCLUDE} | sed 's|  *|,|g')"
+fi
+
+if [ "${LB_USE_FAKEROOT}" != "true" ]
+then
+	if [ -z "${LB_BOOTSTRAP_FLAVOUR}" ]
+	then
+		if In_list "stripped minimal" "${LB_PACKAGE_LISTS}"
+		then
+			DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --variant=minbase"
+		fi
+	else
+		case "${LB_BOOTSTRAP_FLAVOUR}" in
+			stripped|minimal)
+				DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --variant=minbase"
+				;;
+			standard)
+				;;
+
+			*)
+				DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --variant=${LB_BOOTSTRAP_FLAVOUR}"
+		esac
+	fi
+else
+	DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --variant=fakechroot"
+fi
+
+if [ "${_VERBOSE}" = "true" ]
+then
+	DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --verbose"
+fi
+
+# If LB_APT_SECURE is false, do not check signatures of the Release file
+# (requires debootstrap >= 1.0.30)
+if [ "${LB_APT_SECURE}" = "false" ] && /usr/sbin/debootstrap --help  | grep -qs '\-\-no-check-gpg'
+then
+	DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --no-check-gpg"
+fi
+
+if [ -x "/usr/sbin/debootstrap" ]
+then
+	if [ "${LB_CACHE_PACKAGES}" = "true" ]
+	then
+		if ls cache/packages_bootstrap/*.deb > /dev/null 2>&1
+		then
+			mkdir -p chroot/var/cache/apt/archives
+			cp cache/packages_bootstrap/*.deb chroot/var/cache/apt/archives
+		fi
+
+		Echo_breakage "Running debootstrap (download-only)... "
+		${LB_ROOT_COMMAND} debootstrap ${DEBOOTSTRAP_OPTIONS} --download-only "${LB_PARENT_DISTRIBUTION}" chroot "${LB_PARENT_MIRROR_BOOTSTRAP}"
+
+		if [ -n "${LB_ROOT_COMMAND}" ]
+		then
+			${LB_ROOT_COMMAND} chown -R $(whoami):$(whoami) chroot
+		fi
+
+		# Removing old cache
+		rm -f cache/packages_bootstrap/*.deb
+
+		# Saving new cache
+		mkdir -p cache/packages_bootstrap
+		cp chroot/var/cache/apt/archives/*.deb cache/packages_bootstrap
+	fi
+
+	Echo_breakage "Running debootstrap... "
+
+	# Run appropriate bootstrap, i.e. foreign or regular bootstrap
+	if [ "${LB_BOOTSTRAP_QEMU_ARCHITECTURES}" = "${LB_ARCHITECTURES}" ]; then
+
+		if [ -n "${LB_BOOTSTRAP_QEMU_EXCLUDE}" ]
+		then
+			DEBOOTSTRAP_OPTIONS="${DEBOOTSTRAP_OPTIONS} --exclude=$(echo ${LB_BOOTSTRAP_QEMU_EXCLUDE} | sed 's|  *|,|g')"
+		fi
+
+		Echo_message "Bootstrap will be foreign"
+		${LB_ROOT_COMMAND} debootstrap ${DEBOOTSTRAP_OPTIONS} --foreign "${LB_PARENT_DISTRIBUTION}" chroot "${LB_PARENT_MIRROR_BOOTSTRAP}"
+
+		Echo_message "Running debootstrap second stage under QEMU"
+		cp ${LB_BOOTSTRAP_QEMU_STATIC} chroot/usr/bin
+		Chroot chroot /debootstrap/debootstrap --second-stage
+	else
+		${LB_ROOT_COMMAND} debootstrap ${DEBOOTSTRAP_OPTIONS} "${LB_PARENT_DISTRIBUTION}" chroot "${LB_PARENT_MIRROR_BOOTSTRAP}"
+	fi
+
+	if [ -n "${LB_ROOT_COMMAND}" ]
+	then
+		${LB_ROOT_COMMAND} chown -R $(whoami):$(whoami) chroot
+	fi
+
+	# Deconfiguring debootstrap configurations
+	rm -f chroot/etc/hosts
+
+	# Removing bootstrap cache
+	rm -f chroot/var/cache/apt/archives/*.deb
+
+	# Creating stage file
+	Create_stagefile .stage/bootstrap
+else
+	Echo_error "Can't process file /usr/bin/debootstrap (FIXME)"
+	exit 1
+fi

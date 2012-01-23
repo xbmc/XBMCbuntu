@@ -1,0 +1,64 @@
+Patches (alphabetical order):
+
+  * Alex Owen <r.a.owen@qmul.ac.uk>
+  * An-Cheng Huang <ancheng@vyatta.com>
+  * Antonio Amorim <Antonio.Amorim@sim.fc.ul.pt>
+  * Antonio Terceiro <terceiro@softwarelivre.org>
+  * Bas Wijnen <wijnen@debian.org>
+  * Ben Armstrong <synrg@debian.org>
+  * Cedric Lucantis <omer@no-log.org>
+  * Chris Lamb <lamby@debian.org>
+  * Cody A.W. Somerville <cody.somerville@canonical.com>
+  * Cyril Brulebois <cyril.brulebois@kerlabs.com>
+  * David Madore <david.madore@ens.fr>
+  * Erwan Le Gall <elegall@linagora.com>
+  * Fathi Boudra <fabo@debian.org>
+  * Franklin Piat <fpiat@bigfoot.com>
+  * Frederic Daniel Luc Lehobey <Frederic@Lehobey.net>
+  * Guerkan Senguen <gurkan@linuks.mine.nu>
+  * Hadar Weiss <whadar@gmail.com>
+  * Inigo Tejedor Arrondo <inigo@navarrux.org>
+  * Jason D. Clinton <me@jasonclinton.com>
+  * Jean Pierre LeJacq <jp.lejacq@quoininc.com>
+  * Jesse Hathaway <jesse@mbuki-mvuki.org>
+  * Justin Pryzby <pryzbyj@justinpryzby.com>
+  * Kai Hendry <hendry@webconverger.com>
+  * Kel Modderman <kel@otaku42.de>
+  * Maarten ter Huurne <maarten@treewalker.org>
+  * Marcelo D. Re <mdre@rectorado.unl.edu.ar>
+  * Marco Amadori <marco.amadori@gmail.com>
+  * Markus Bauer <bauer-markus@web.de>
+  * Mathieu Geli <mathieu.geli@gmail.com>
+  * Otavio Salvador <otavio@debian.org>
+  * Peter Holik <peter@holik.at>
+  * Peter Skogstroem <peter.skogstrom@bitrunner.com>
+  * Rene Merou <ochominutosdearco@gmail.com>
+  * Richard Nelson <unixabg@gmail.com>
+  * Scott Edwards <debian@foss.daxal.com>
+  * Sebastian Raveau <sebastien.raveau@epita.fr>
+  * Thomas Lange <lange@informatik.uni-koeln.de>
+  * Tiago Bortoletto Vaz <tiago@debian-ba.org>
+  * Trent Buck <trentbuck@gmail.com>
+  * Tzafrir Cohen <tzafrir.cohen@xorcom.com>
+  * Vladimir Stavrinov <vs@inist.ru>
+
+Donations (alphabetical order):
+
+  * Gracie <gracie@bithawk.net>
+
+Special thanks (alphabetical order):
+
+  * Ben Armstrong <synrg@debian.org> for his IRC support and tremendous work on
+    documentation.
+  * Jason D. Clinton <me@jasonclinton.com> for his work on netboot type.
+  * Otavio Salvador <otavio@debian.org> for his QA patches.
+  * Richard Nelson <rjent@rjent.pair.com> for live-webhelper.
+  * Sebastian Raveau <sebastien.raveau@epita.fr> for his work on encryption
+    support.
+  * Scott Edwards <debian@foss.daxal.com> for his work on d-i/g-i integration.
+  * Michael Dorrington <mike@zen.co.uk> for distracting Luk Claes on DebConf 7,
+    so that Luk couldn't disturb me all the time and I could finally do some
+    work.
+
+...and countless other people showed up on the #debian-live IRC channel since
+February 2006: thanks for all your help, ideas, and wishes.

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+	<head>
+		<title>Debian Live Build</title>
+		<link rel="icon" href="http://live.debian.net/favicon.ico" type="image/ico">
+		<link rel="stylesheet" type="text/css" href="http://live.debian.net/stylesheet.css" />
+		<meta http-equiv="content-type" content="text/html; charset=iso-8859-15">
+		<meta name="keywords" content="Debian, Live, Project">
+		<meta name="description" content="The Debian Live Project">
+
+		<style type="text/css">
+			label { cursor:pointer; }
+		</style>
+
+		<script type="text/javascript" language="JavaScript">
+			function collapse(x, txt)
+			{
+				var oTemp=document.getElementById("text_"+x);
+				var oClick=document.getElementById("click_"+x);
+				if (oTemp.style.display=="block")
+				{
+					oTemp.style.display="none";
+					oClick.innerHTML=txt+"&nbsp<small>(click to expand)<\/small><br \/>";
+				}
+				else
+				{
+					oTemp.style.display="block";
+					oClick.innerHTML=txt+"&nbsp<small>(click to collapse)<\/small><br \/>";
+				}
+			}
+		</script>
+	</head>
+<body>
+
+<div id="maincontent" style="margin: 0 0 0 0;">
+	<h1 id="title">live-build web-frontend of the <a href="http://live.debian.net/">Debian Live Project</a></h1>
+	<h2 id="subtitle"><a href="http://live.debian.net/">Live Debian systems!</a></h2>
+</div>

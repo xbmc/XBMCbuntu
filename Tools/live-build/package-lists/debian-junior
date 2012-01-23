@@ -1,0 +1,10 @@
+# /usr/share/live/build/package-lists/debian-junior - package list for live-build(7)
+
+#include <standard>
+
+# http://qa.debian.org/developer.php?login=debian-jr@lists.debian.org
+
+junior-sound junior-typing junior-internet junior-toys junior-games-net
+junior-games-sim junior-games-gl junior-puzzle junior-arcade junior-math
+junior-writing junior-games-card junior-programming junior-system junior-art
+junior-doc junior-games-text

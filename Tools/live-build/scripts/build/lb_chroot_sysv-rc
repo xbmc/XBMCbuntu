@@ -1,0 +1,87 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'manage /usr/sbin/policy-rc.d')"
+HELP=""
+USAGE="${PROGRAM} {install|remove} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+case "${1}" in
+	install)
+		Echo_message "Configuring file /usr/sbin/policy-rc.d"
+
+		# Checking stage file
+		Check_stagefile .stage/chroot_sysv-rc
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		if [ -f chroot/usr/sbin/policy-rc.d ]
+		then
+			# Save policy-rc.d file
+			mv chroot/usr/sbin/policy-rc.d chroot/usr/sbin/policy-rc.d.orig
+		fi
+
+		# Create policy-rc.d file
+cat > chroot/usr/sbin/policy-rc.d << EOF
+#!/bin/sh
+echo "All runlevel operations denied by policy" >&2
+exit 101
+EOF
+
+		chmod 0755 chroot/usr/sbin/policy-rc.d
+
+		# Creating stage file
+		Create_stagefile .stage/chroot_sysv-rc
+		;;
+
+	remove)
+		Echo_message "Deconfiguring file /usr/sbin/policy-rc.d"
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		if [ -f chroot/usr/sbin/policy-rc.d.orig ]
+		then
+			# Restore policy-rc.d file
+			mv chroot/usr/sbin/policy-rc.d.orig chroot/usr/sbin/policy-rc.d
+		else
+			# Remove policy-rc.d file
+			rm -f chroot/usr/sbin/policy-rc.d
+		fi
+
+		# Removing stage file
+		rm -f .stage/chroot_sysv-rc
+		;;
+
+	*)
+		Usage
+		;;
+esac

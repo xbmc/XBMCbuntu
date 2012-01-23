@@ -1,0 +1,326 @@
+<h3>Submit your parameters (<b>working</b> email address is required) to generate your very own Debian Live system.</h3>
+
+<form action="live-build" method="get">
+
+<fieldset>
+
+<legend><b>Options</b></legend>
+
+<table>
+	<tr>
+		<td><label for="Email">Email Address:</label> </td>
+		<td><input id="Email" name="email" maxlength="50" size="50" type="text" /></td>
+	</tr>
+</table>
+
+<span id="click_1" onmouseover='javascript:objectOver(this)' onmouseout='javascript:objectOut(this)' onclick='javascript:collapse(1,"<b>Standard options</b>")'>
+	<b>Standard options</b><small>&nbsp;(click to collapse)</small>
+	<br />
+</span>
+
+<div id="text_1" style='margin-left:0;display:block'>
+	<table>
+		<tr>
+			<td><label for="Binary_Images">--binary-images:</label> </td>
+			<td>
+				<select id="Binary_Images" name="binary_images" size="1">
+					<option selected value="iso-hybrid">iso-hybrid</option>
+					<option value="net">net</option>
+					<option value="tar">tar</option>
+					<option value="hdd">hdd</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="Distribution">--distribution:</label> </td>
+			<td>
+				<select id="Distribution" name="distribution" size="1">
+					<option selected value="squeeze">squeeze</option>
+					<option value="wheezy">wheezy</option>
+					<option value="sid">sid</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="Package_Lists">--package-lists:</label> </td>
+			<td>
+				<select id="Package_Lists" name="package_lists" size="1" >
+					<option value="debian-forensics">debian-forensics</option>
+					<option value="debian-junior">debian-junior</option>
+					<option value="debian-live">debian-live</option>
+					<option value="debian-science">debian-science</option>
+					<option value="gnome">gnome</option>
+					<option value="gnome-core">gnome-core</option>
+					<option value="gnome-full">gnome-full</option>
+					<option value="gnome-junior">gnome-junior</option>
+					<option value="gnustep">gnustep</option>
+					<option value="kde">kde</option>
+					<option value="kde-core">kde-core</option>
+					<option value="kde-extra">kde-extra</option>
+					<option value="kde-full">kde-full</option>
+					<option value="kde-junior">kde-junior</option>
+					<option value="lxde">lxde</option>
+					<option value="minimal">minimal</option>
+					<option value="rescue">rescue</option>
+					<option selected value="standard">standard</option>
+					<option value="standard-x11">standard-x11</option>
+					<option value="studio">studio</option>
+					<option value="studio-gnome">studio-gnome</option>
+					<option value="studio-kde">studio-kde</option>
+					<option value="studio-xfce">studio-xfce</option>
+					<option value="xfce">xfce</option>
+					<option value="xfce-junior">xfce-junior</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="Tasks">--tasks:</label> </td>
+			<td><input id="Tasks" name="tasks" maxlength="256" size="50" type="text" /></td>
+		</tr>
+		<tr>
+			<td><label for="Packages">--packages:</label> </td>
+			<td><input id="Packages" name="packages" maxlength="256" size="50" type="text" /></td>
+		</tr>
+	</table>
+</div>
+
+<span id="click_2" onmouseover='javascript:objectOver(this)' onmouseout='javascript:objectOut(this)' onclick='javascript:collapse(2,"<b>Advanced bootstrap options</b>")'>
+	<b>Advanced bootstrap options</b><small>&nbsp;(click to expand)</small>
+	<br />
+</span>
+
+<div id="text_2" style='margin-left:0;display:none'>
+	<table>
+		<tr>
+			<td><label for="Architecture">--architecture:</label> </td>
+			<td>
+				<select id="Architecture" name="architecture" size="1">
+					<option selected value="i386">i386</option>
+				</select>
+			</td>
+		</tr>
+		<!-- LIVE_DISTRIBUTION -->
+		<!-- LIVE_DISTRIBUTION_CONFIG -->
+		<tr>
+			<td><label for="Bootstrap_Flavour">--bootstrap-flavour:</label> </td>
+			<td>
+				<select id="Bootstrap_Flavour" name="bootstrap_flavour" size="1">
+					<option value="minimal">minimal</option>
+					<option selected value="standard">standard</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="Mirror_Bootstrap">--mirror-bootstrap:</label> </td>
+			<td><input id="Mirror_Bootstrap" name="mirror_bootstrap" maxlength="256" size="50" type="text" value="LB_MIRROR_BOOTSTRAP" readonly /></td>
+		</tr>
+		<tr>
+			<td><label for="Mirror_Binary">--mirror-binary:</label> </td>
+			<td><input id="Mirror_Binary" name="mirror_binary" maxlength="256" size="50" type="text" value="LB_MIRROR_BINARY" /></td>
+		</tr>
+		<tr>
+			<td><label for="Mirror_Binary_Security">--mirror-binary-security:</label> </td>
+			<td><input id="Mirror_Binary_Security" name="mirror_binary_security" maxlength="256" size="50" type="text" value="LB_MIRROR_BINARY_SECURITY" readonly /></td>
+		</tr>
+		<tr>
+			<td><label for="Archive_Areas">--archive-areas:</label> </td>
+			<td><input id="Archive_Areas" name="archive_areas" maxlength="128" size="50" type="text" value="main" readonly /></td>
+		</tr>
+	</table>
+</div>
+
+<span id="click_3" onmouseover='javascript:objectOver(this)' onmouseout='javascript:objectOut(this)' onclick='javascript:collapse(3,"<b>Advanced chroot options</b>")'>
+	<b>Advanced chroot options</b><small>&nbsp;(click to expand)</small>
+	<br />
+</span>
+
+<div id="text_3" style='margin-left:0;display:none'>
+	<table>
+		<tr>
+			<td><label for="Chroot_Filesystem">--chroot-filesystem:</label> </td>
+			<td>
+				<select id="Chroot_Filesystem" name="chroot_filesystem" size="1">
+					<option value="ext2">ext2</option>
+					<option value="plain">plain</option>
+					<option selected value="squashfs">squashfs</option>
+				</select>
+			</td>
+		</tr>
+		<!-- LIVE_HOOKS -->
+		<!-- LIVE_INTERACTIVE -->
+		<!-- LIVE_KEYRING_PACKAGES -->
+		<!-- LIVE_LANGUAGE -->
+		<tr>
+			<td><label for="Linux_Flavours">--linux-flavours:</label> </td>
+			<td>
+				<select id="Linux_Flavours" name="linux_flavours" size="1">
+					<option selected value="486">486</option>
+					<option value="686">686</option>
+					<option value="686-bigmem">686-bigmem</option>
+					<option value="amd64">amd64</option>
+					<option value="k7">k7</option>
+					<option value="vserver-686">vserver-686</option>
+					<option value="vserver-k7">vserver-k7</option>
+					<option value="xen-686">xen-686</option>
+				</select>
+			</td>
+		</tr>
+		<!-- LIVE_LINUX_PACKAGES -->
+		<!-- LIVE_PACKAGES -->
+		<!-- LIVE_PACKAGE_LISTS -->
+		<!-- LIVE_TASKS -->
+		<tr>
+			<td><label for="Security">--security:</label> </td>
+			<td>
+				<select id="Security" name="security" size="1">
+					<option selected value="true">true</option>
+					<option value="false">false</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<span id="click_4" onmouseover='javascript:objectOver(this)' onmouseout='javascript:objectOut(this)' onclick='javascript:collapse(4,"<b>Advanced binary options</b>")'>
+	<b>Advanced binary options</b><small>&nbsp;(click to expand)</small>
+	<br />
+</span>
+
+<div id="text_4" style='margin-left:0;display:none'>
+	<table>
+		<!-- LIVE_BINARY_IMAGES -->
+		<tr>
+			<td><label for="Apt_Indices">--apt-indices:</label> </td>
+			<td>
+				<select id="Apt_Indices" name="binary_indices" size="1">
+					<option selected value="true">true</option>
+					<option value="false">false</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="Bootappend_Live">--bootappend-live:</label> </td>
+			<td><input id="Bootappend_Live" name="bootappend_live" maxlength="256" size="50" type="text" value="" /></td>
+		</tr>
+		<tr>
+			<td><label for="Bootloader">--bootloader:</label> </td>
+			<td>
+				<select id="Bootloader" name="bootloader" size="1">
+					<option value="grub">grub</option>
+					<option selected value="syslinux">syslinux</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="Debian_Installer">--debian-installer:</label> </td>
+			<td>
+				<select id="Debian_Installer" name="debian_installer" size="1">
+					<option value="true">true</option>
+					<option selected value="false">false</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="Bootappend_Install">--bootappend-install:</label> </td>
+			<td><input id="Bootappend_Install" name="bootappend_install" maxlength="256" size="50" type="text" value="" /></td>
+		</tr>
+		<!-- LIVE_GRUB_SPLASH -->
+		<tr>
+			<td><label for="Iso_Application">--iso-application:</label> </td>
+			<td><input id="Iso_Application" name="iso_application" maxlength="128" size="50" type="text" value="Debian Live" /></td>
+		</tr>
+		<tr>
+			<td><label for="Iso_Preparer">--iso-preparer:</label> </td>
+			<td><input id="Iso_Preparer" name="iso_preparer" maxlength="128" size="50" type="text" value="live-build; http://packages.qa.debian.org/live-build" /></td>
+		</tr>
+		<tr>
+			<td><label for="Iso_Publisher">--iso-publisher:</label> </td>
+			<td><input id="Iso_Publisher" name="iso_publisher" maxlength="128" size="50" type="text" value="Debian Live project; http://live.debian.net/; debian-live@lists.debian.org" /></td>
+		</tr>
+		<tr>
+			<td><label for="Iso_Volume">--iso-volume:</label> </td>
+			<td><input id="Iso_Volume" name="iso_volume" maxlength="128" size="50" type="text" value="Debian Live DATE" /></td>
+		</tr>
+		<tr>
+			<td><label for="Memtest">--memtest:</label> </td>
+			<td>
+				<select id="Memtest" name="memtest" size="1">
+					<option value="memtest86">memtest86</option>
+					<option selected value="memtest86+">memtest86+</option>
+					<option value="none">none</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="Net_Path">--net-path:</label> </td>
+			<td><input id="Net_Path" name="net_path" maxlength="256" size="50" type="text" value="/srv/debian-live" /></td>
+		</tr>
+		<tr>
+			<td><label for="Net_Server">--net-server:</label> </td>
+			<td><input id="Net_Server" name="net_server" maxlength="15" size="50" type="text" value="192.168.1.1" /></td>
+		</tr>
+		<!-- LIVE_SYSLINUX_SPLASH -->
+	</table>
+</div>
+
+<span id="click_5" onmouseover='javascript:objectOver(this)' onmouseout='javascript:objectOut(this)' onclick='javascript:collapse(5,"<b>Advanced source options</b>")'>
+	<b>Advanced source options</b><small>&nbsp;(click to expand)</small>
+	<br />
+</span>
+
+<div id="text_5" style='margin-left:0;display:none'>
+	<table>
+		<tr>
+			<td><label for="Source">--source:</label> </td>
+			<td>
+				<select id="Source" name="source" size="1">
+					<option value="true">true</option>
+					<option selected value="false">false</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="Source_Images">--source-images:</label> </td>
+			<td>
+				<select id="Source_Images" name="source_images" size="1">
+					<option value="iso">iso</option>
+					<option value="net">net</option>
+					<option selected value="tar">tar</option>
+					<option value="hdd">hdd</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<span id="click_6" onmouseover='javascript:objectOver(this)' onmouseout='javascript:objectOut(this)' onclick='javascript:collapse(6,"<b>Unofficial options</b>")'>
+	<b>Unofficial options</b><small>&nbsp;(click to expand)</small>
+	<br />
+</span>
+
+<div id="text_6" style='margin-left:0;display:none'>
+	<li> With custom.bootstrap the repository will be available at build time, so you just have to list the packages you want in packages. See "Standard options" above.</li>
+	<li> With custom.binary the repository will be added to your live-system's /etc/apt/sources.list .</li>
+	<li> Example custom.{bootstrap,binary}: deb http://live.debian.net/debian/ etch main</li>
+	<table>
+		<tr>
+			<td><label for="Custom_Bootstrap">custom.bootstrap:</label> </td>
+			<td><input id="Custom_Bootstrap" name="custom_bootstrap" maxlength="128" size="50" type="text" /></td>
+		</tr>
+		<tr>
+			<td><label for="Custom_Binary">custom.binary:</label> </td>
+			<td><input id="Custom_Binary" name="custom_binary" maxlength="128" size="50" type="text" /></td>
+		</tr>
+	</table>
+</div>
+
+</fieldset>
+
+<br />
+
+<input type="reset" value="Reset" />
+&nbsp;
+<input type="submit" value="Submit" />
+&nbsp;
+
+</form>

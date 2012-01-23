@@ -1,0 +1,81 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'manage /etc/debian_chroot')"
+HELP=""
+USAGE="${PROGRAM} {install|remove} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+case "${1}" in
+	install)
+		Echo_message "Configuring file /etc/debian_chroot"
+
+		# Checking stage file
+		Check_stagefile .stage/chroot_debianchroot
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		if [ -f chroot/etc/debian_chroot ]
+		then
+			# Save chroot file
+			mv chroot/etc/debian_chroot chroot/etc/debian_chroot.orig
+		fi
+
+		# Create chroot file
+		echo "live" > chroot/etc/debian_chroot
+
+		# Creating stage file
+		Create_stagefile .stage/chroot_debianchroot
+		;;
+
+	remove)
+		Echo_message "Deconfiguring file /etc/debian_chroot"
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		if [ -f chroot/etc/debian_chroot.orig ]
+		then
+			# Restore chroot file
+			mv chroot/etc/debian_chroot.orig chroot/etc/debian_chroot
+		else
+			# Remove chroot file
+			rm -f chroot/etc/debian_chroot
+		fi
+
+		# Removing stage file
+		rm -f .stage/chroot_debianchroot
+		;;
+
+	*)
+		Usage
+		;;
+esac

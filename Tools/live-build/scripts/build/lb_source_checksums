@@ -1,0 +1,91 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'create source checksums')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_CHECKSUMS}" = "none" ] || [ "${LB_SOURCE}" != "true" ]
+then
+	exit 0
+fi
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/source_debian
+
+# Checking stage file
+Check_stagefile .stage/source_checksums
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+for DIRECTORY in source/debian source/debian-live
+do
+	if [ ! -d ${DIRECTORY} ]
+	then
+		continue
+	fi
+
+	for CHECKSUM in ${LB_CHECKSUMS}
+	do
+		Echo_message "Begin creating source ${CHECKSUM}sum.txt..."
+
+		# Remove old checksums
+		if [ -f ${DIRECTORY}/${CHECKSUM}sum.txt ]
+		then
+			rm -f ${DIRECTORY}/${CHECKSUM}sum.txt
+		fi
+
+		# Calculating checksums
+		cd ${DIRECTORY}
+		find . -type f \
+			\! -path './md5sum.txt' \
+			\! -path './sha1sum.txt' \
+			\! -path './sha256sum.txt' \
+		-print0 | sort -z | xargs -0 ${CHECKSUM}sum > ../${CHECKSUM}sum.txt
+
+cat > ${CHECKSUM}sum.txt << EOF
+This file contains the list of ${CHECKSUM} checksums of all files on this medium.
+
+You can verify them automatically with the 'integrity-check' boot parameter,
+or, manually with: '${CHECKSUM}sum -c ${CHECKSUM}sum.txt'.
+
+
+EOF
+
+		cat ../${CHECKSUM}sum.txt >> ${CHECKSUM}sum.txt
+		rm -f ../${CHECKSUM}sum.txt
+
+		cd "${OLDPWD}"
+	done
+
+	# File list
+	cd ${DIRECTORY}
+	find . | sed -e 's|^.||g' | grep "^/" | sort > ../../$(echo ${DIRECTORY} | sed -e 's|/|.|').list
+	cd "${OLDPWD}"
+done
+
+# Creating stage file
+Create_stagefile .stage/source_checksums

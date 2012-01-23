@@ -1,0 +1,125 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'copy chroot into chroot')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+Echo_message "Begin copying chroot..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_chroot
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Normally, virtual filesystems are not mounted here, but people tend to be lazy
+if [ -f chroot/proc/version ]
+then
+	if [ "${LB_USE_FAKEROOT}" != "true" ]
+	then
+		${LB_ROOT_COMMAND} umount chroot/proc
+	else
+		rm -rf chroot/proc
+		mkdir -p chroot/proc
+	fi
+fi
+
+if [ -d chroot/sys/kernel ]
+then
+	if [ "${LB_USE_FAKEROOT}" != "true" ]
+	then
+		${LB_ROOT_COMMAND} umount chroot/sys
+	else
+		rm -rf chroot/sys
+		mkdir -p chroot/sys
+	fi
+fi
+
+# Copying /dev if using fakeroot
+if [ "${LB_USE_FAKEROOT}" = "true" ]
+then
+	rm -rf chroot/dev
+	find /dev | cpio -dmpu chroot
+fi
+
+if [ "${LB_BUILD_WITH_CHROOT}" = "false" ]
+then
+	exit 0
+fi
+
+if [ "${LB_CACHE}" = "true" ] && Find_files cache/stages_rootfs/filesystem*
+then
+	exit 0
+fi
+
+Echo_message "This may take a while."
+
+# Removing old chroot
+${LB_ROOT_COMMAND} rm -rf chroot/chroot
+${LB_ROOT_COMMAND} rm -rf chroot.tmp
+
+# Copying new chroot
+if [ -d cache/stages_bootstrap ] && [ "${LB_CHROOT_FILESYSTEM}" != "none" ]
+then
+	${LB_ROOT_COMMAND} mv chroot chroot.tmp
+	${LB_ROOT_COMMAND} cp -a cache/stages_bootstrap chroot
+	${LB_ROOT_COMMAND} touch chroot/chroot.cache
+else
+	${LB_ROOT_COMMAND} cp -a chroot chroot.tmp
+fi
+
+${LB_ROOT_COMMAND} mv chroot.tmp chroot/chroot
+
+# Handling chroot excludes
+if [ -f config/binary_rootfs/excludes ] && [ "${LB_CHROOT_FILESYSTEM}" != "squashfs" ]
+then
+	case "${LB_BUILD_WITH_CHROOT}" in
+		true)
+			cp config/binary_rootfs/excludes chroot/chroot/excludes
+			# Not using Chroot() here because we want explicitly /bin/bash (for the time being)
+			chroot chroot/chroot /usr/bin/env -i xargs --arg-file=/excludes -I FILE bash -c 'rm -rf FILE'
+			rm -f chroot/chroot/excludes
+			;;
+
+		false)
+			cp config/binary_rootfs/excludes chroot/excludes
+			# Not using Chroot() here because we want explicitly /bin/bash (for the time being)
+			chroot chroot /usr/bin/env -i xargs --arg-file=/excludes -I FILE bash -c 'rm -rf FILE'
+			rm -f chroot/excludes
+			;;
+	esac
+fi
+
+if [ -n "${LB_ROOT_COMMAND}" ]
+then
+	${LB_ROOT_COMMAND} chown -R $(whoami):$(whoami) chroot
+fi
+
+# Creating stage file
+Create_stagefile .stage/binary_chroot

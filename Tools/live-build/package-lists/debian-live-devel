@@ -1,0 +1,22 @@
+# /usr/share/live/build/package-lists/debian-live - package list for live-build(7)
+
+#include <standard>
+
+# http://qa.debian.org/developer.php?login=debian-live@lists.debian.org
+
+# debian-live
+live-build live-manual
+
+aufs-tools dosfstools genisoimage parted squashfs-tools
+syslinux syslinux-common memtest86+
+
+# some other stuff
+bridge-utils lxc kvm
+git gnupg less rsync screen sudo vim
+
+# build
+debootstrap cdebootstrap multistrap
+build-essential debhelper devscripts fakechroot fakeroot lintian wdiff
+
+# bootchart
+acct bootchart

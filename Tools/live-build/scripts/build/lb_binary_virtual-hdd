@@ -1,0 +1,111 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'build binary image')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if ! In_list virtual-hdd "${LB_BINARY_IMAGES}"
+then
+	exit 0
+fi
+
+Echo_message "Begin building binary virtual-hdd image..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap .stage/chroot_proc
+
+# Checking stage file
+Check_stagefile .stage/binary_virtual-hdd
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+if [ "${LB_BUILD_WITH_CHROOT}" = "true" ]
+then
+	case "${LB_BINARY_FILESYSTEM}" in
+		ext2|ext3|ext4)
+			Check_package chroot/sbin/mkfs.${LB_BINARY_FILESYSTEM}  e2fsprogs
+			;;
+	esac
+fi
+
+# Restoring cache
+Restore_cache cache/packages_binary
+
+# Installing depends
+Install_package
+
+# Remove old binary
+if [ -f binary-virtual.img ]
+then
+	rm -f binary-virtual.img
+fi
+
+Echo_message "Creating virtual disk image..."
+dd if=/dev/zero of=binary-virtual.img bs=1024k count=0 seek=${LB_HDD_SIZE}
+
+if [ "${LB_BUILD_WITH_CHROOT}" = "true" ]
+then
+	mv binary-virtual.img chroot
+
+	# hack to recreate mtab from chroot_hacks if its gone for some reason
+	if ! Chroot chroot "test -s /etc/mtab"
+	then
+		Chroot chroot "rm -f /etc/mtab"
+		Chroot chroot "ln -s /proc/mounts /etc/mtab"
+	fi
+
+	case "${LB_BINARY_FILESYSTEM}" in
+		ext2|ext3|ext4)
+			Chroot chroot "mkfs.${LB_BINARY_FILESYSTEM} -F binary-virtual.img"
+			;;
+	esac
+
+	mv chroot/binary-virtual.img ./
+else
+	case "${LB_BINARY_FILESYSTEM}" in
+		ext2|ext3|ext4)
+			mkfs.${LB_BINARY_FILESYSTEM} . -F binary-virtual.img
+			;;
+	esac
+fi
+
+mkdir -p binary.tmp
+${LB_ROOT_COMMAND} mount -o loop binary-virtual.img binary.tmp
+cp -a binary/* binary.tmp
+cp -af binary/.disk* binary.tmp
+
+${LB_ROOT_COMMAND} umount binary.tmp
+rmdir binary.tmp
+
+# Saving cache
+Save_cache cache/packages_binary
+
+# Removing depends
+Remove_package
+
+# Creating stage file
+Create_stagefile .stage/binary_virtual-hdd

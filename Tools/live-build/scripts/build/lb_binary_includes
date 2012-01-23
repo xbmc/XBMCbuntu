@@ -1,0 +1,168 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'copy files into binary')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_INCLUDES}" = "none" ]
+then
+	exit 0
+fi
+
+Echo_message "Begin copying binary includes..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_includes
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Check user includes
+if [ ! -d "${LB_INCLUDES}" ]
+then
+	if [ -d ../"${LB_INCLUDES}" ]
+	then
+		LB_INCLUDES="../${LB_INCLUDES}"
+	else
+		Echo_error "user specified includes not accessible in %s" "${LB_INCLUDES}"
+		exit 1
+	fi
+fi
+
+# Checking local includes
+if [ -d config/includes/"${LB_DISTRIBUTION}" ]
+then
+	LB_INCLUDES="config/includes"
+fi
+
+# Assemble architecture
+case "${LB_ARCHITECTURES}" in
+	amd64)
+		ARCH="amd"
+		;;
+
+	i386)
+		ARCH="386"
+		;;
+
+	powerpc)
+		ARCH="ppc"
+		;;
+
+	sparc)
+		ARCH="spa"
+		;;
+esac
+
+# Working arround vfat limitations
+case "${LB_BINARY_IMAGES}" in
+	hdd*)
+		case "${LB_BINARY_FILESYSTEM}" in
+			fat*)
+				CP_OPTIONS="-L"
+				;;
+		esac
+		;;
+esac
+
+# Copying common templates
+if [ -d "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/common ] && \
+Find_files "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/common/*
+then
+	cp -r ${CP_OPTIONS} "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/common/* binary
+fi
+
+if [ -d "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/common."${ARCH}" ] && \
+Find_files "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/common."${ARCH}"/*
+then
+	cp -r ${CP_OPTIONS} "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/common."${ARCH}"/* binary
+fi
+
+# Copying live templates
+if [ -d "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/live ] && \
+Find_files "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/live/*
+then
+	cp -r ${CP_OPTIONS} "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/live/* binary
+fi
+
+if [ -d "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/live."${ARCH}" ] && \
+Find_files "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/live."${ARCH}"/*
+then
+	cp -r ${CP_OPTIONS} "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/live."${ARCH}"/* binary
+fi
+
+if [ "${LB_DEBIAN_INSTALLER}" != "false" ]
+then
+	# Copying install templates
+	if [ -d "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/install ] && \
+	Find_files "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/install/*
+	then
+		cp -r ${CP_OPTIONS} "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/install/* binary
+	fi
+
+	if [ -d "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/install."${ARCH}" ] && \
+	Find_files "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/install."${ARCH}"/*
+	then
+		cp -r ${CP_OPTIONS} "${LB_INCLUDES}"/"${LB_DISTRIBUTION}"/install."${ARCH}"/* binary
+	fi
+
+	# Adjusting install templates
+	ARCHITECTURE="$(echo ${LB_ARCHITECTURES} | sed -e 's| |/|g')"
+	DISTRIBUTION="$(echo ${LB_DISTRIBUTION} | cut -b 1 | tr '[a-z]' '[A-Z]')"
+	DISTRIBUTION="${DISTRIBUTION}$(echo ${LB_DISTRIBUTION} | cut -b 2-)"
+	eval VERSION="$`echo RELEASE_${LB_DISTRIBUTION}`"
+
+	if [ -d binary/pool/main/l/live-installer ]
+	then
+		TYPE="LIVE/INSTALL"
+	fi
+
+	TYPE="LIVE/NETINST"
+
+	DEBIAN_NAME="Debian GNU/Linux ${VERSION} \"${DISTRIBUTION}\" - Official ${ARCHITECTURE} ${TYPE} Binary $(date +%Y%m%d-%H:%M)"
+	DEBIAN_DATE="$(date +%Y%m%d-%H:%M)"
+
+	if [ "${LB_ARCHITECTURES}" = "i386" ]
+	then
+		DEBIAN_TOOLS_HTML=" <P>\n <tt>&nbsp;\n <A href="tools/">/tools/</a>\n </tt>\n\n and\n <tt>&nbsp;\n <A href="install/floppy/">/install/floppy/</a>\n </tt>"
+		DEBIAN_TOOLS_TXT="/tools/ and   /install/floppy/"
+	else
+		DEBIAN_TOOLS_HTML=" <P>\n <tt>&nbsp;\n <A href="tools/">/tools/</a>\n </tt>\n\n\n\n\n\n"
+		DEBIAN_TOOLS_TXT="/tools/"
+	fi
+
+	if [ -f binary/README.html ]
+	then
+		sed -i -e "s|DEBIAN_NAME|${DEBIAN_NAME}|g" -e "s|DEBIAN_DATE|${DEBIAN_DATE}|g" -e "s|DEBIAN_TOOLS|${DEBIAN_TOOLS_HTML}|g" binary/README.html
+		sed -i -e "s|DEBIAN_NAME|${DEBIAN_NAME}|g" -e "s|DEBIAN_DATE|${DEBIAN_DATE}|g" -e "s|DEBIAN_TOOLS|${DEBIAN_TOOLS_TXT}|g" binary/README.txt
+	fi
+fi
+
+# Creating stage file
+Create_stagefile .stage/binary_includes

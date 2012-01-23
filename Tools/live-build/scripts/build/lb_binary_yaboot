@@ -1,0 +1,315 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'installs yaboot into binary')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_BOOTLOADER}" != "yaboot" ]
+then
+	exit 0
+fi
+
+Echo_message "Begin installing yaboot..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_yaboot
+
+# Checking yaboot templates
+Check_templates yaboot
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Check architecture
+Check_architectures powerpc ppc64
+Check_crossarchitectures
+
+# Checking depends
+Check_package chroot/usr/lib/yaboot/yaboot yaboot
+
+# Restoring cache
+Restore_cache cache/packages_binary
+
+# Installing depends
+Install_package
+
+# Local functions
+Yaboot_live_entry ()
+{
+	LABEL="${1}"
+	KERNEL="${2}"
+	INITRD="${3}"
+	APPEND="${4}"
+
+	DIRECTORY="/$(basename ${DESTDIR_LIVE})"
+
+	LINUX_LIVE="${LINUX_LIVE}\nimage=${DIRECTORY}/${KERNEL}\n"
+	LINUX_LIVE="${LINUX_LIVE}\tlabel=${LABEL}\n"
+	LINUX_LIVE="${LINUX_LIVE}\tinitrd=${DIRECTORY}/${INITRD}\n"
+	LINUX_LIVE="${LINUX_LIVE}\tappend=\"${INITFS:+boot=${INITFS} }config LB_BOOTAPPEND_LIVE ${APPEND}\"\n"
+	LINUX_LIVE="${LINUX_LIVE}\tinitrd-size=10240\n"
+}
+
+Yaboot_install_entry ()
+{
+	LABEL="${1}"
+	KERNEL="${2}"
+	INITRD="${3}"
+	APPEND="${4}"
+
+	DIRECTORY="/$(basename ${DESTDIR_INSTALL})"
+
+	QAPPEND="quiet"
+
+	for TYPE in Install Expert Rescue Auto
+	do
+		case "${TYPE}" in
+			Install)
+				TAPPEND="${APPEND} ${QAPPEND}"
+				;;
+
+			Expert)
+				TAPPEND="priority=low ${APPEND}"
+				;;
+
+			Rescue)
+				TAPPEND="rescue/enable=true ${APPEND} ${QAPPEND}"
+				;;
+
+			Auto)
+				TAPPEND="auto=true priority=critical ${APPEND} ${QAPPEND}"
+				;;
+		esac
+
+		case "${LABEL}" in
+			Text)
+				TYPE_SUFFIX=""
+				;;
+			GUI)
+				TYPE_SUFFIX="gui"
+				;;
+		esac
+
+		LINUX_INSTALL="${LINUX_INSTALL}\nimage=${DIRECTORY}/${KERNEL}\n"
+		LINUX_INSTALL="${LINUX_INSTALL}\tlabel=${TYPE}${TYPE_SUFFIX}\n"
+		LINUX_INSTALL="${LINUX_INSTALL}\tinitrd=${DIRECTORY}/${INITRD}\n"
+		LINUX_INSTALL="${LINUX_INSTALL}\tappend=\"${TAPPEND} ${LB_BOOTAPPEND_INSTALL}\"\n"
+		LINUX_INSTALL="${LINUX_INSTALL}\tinitrd-size=10240\n"
+	done
+}
+
+case "${LB_INITRAMFS}" in
+	casper)
+		INITFS="casper"
+		;;
+
+	live-boot)
+		INITFS="live"
+		;;
+
+	*)
+		INITFS=""
+		;;
+esac
+
+# Setting destination directory
+case "${LB_BINARY_IMAGES}" in
+	iso*)
+		case "${LB_INITRAMFS}" in
+			casper)
+				DESTDIR_LIVE="binary/casper"
+				;;
+
+			live-boot)
+				DESTDIR_LIVE="binary/live"
+				;;
+
+			*)
+				DESTDIR_LIVE="binary/boot"
+				;;
+		esac
+
+		DESTDIR_INSTALL="binary/install"
+		;;
+
+	hdd*|net|tar)
+		Echo_error "not yet supported, aborting (FIXME)."
+		exit 1
+	;;
+esac
+
+Check_multiarchitectures
+
+# Creating directory
+mkdir -p "${DESTDIR_LIVE}"
+
+# Setting boot parameters
+if [ -n "${LB_USERNAME}" ]
+then
+	case "${LB_INITRAMFS}" in
+		casper)
+			LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} username=${LB_USERNAME}"
+			;;
+
+		live-boot)
+			if [ "${LB_USERNAME}" != "user" ]
+			then
+				LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} username=${LB_USERNAME}"
+			fi
+			;;
+	esac
+fi
+
+if [ -n "${LB_HOSTNAME}" ]
+then
+	case "${LB_INITRAMFS}" in
+		casper)
+			LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} hostname=${LB_HOSTNAME}"
+			;;
+
+		live-boot)
+			if [ "${LB_HOSTNAME}" != "debian" ]
+			then
+				LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} hostname=${LB_HOSTNAME}"
+			fi
+			;;
+	esac
+fi
+
+if [ "${LB_UNION_FILESYSTEM}" != "aufs" ]
+then
+	LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} union=${LB_UNION_FILESYSTEM}"
+fi
+
+if [ -n "${LB_NET_COW_PATH}" ]
+then
+	Echo_error "Net cow not yet supported on yaboot"
+	exit 1
+fi
+
+if [ "${LB_EXPOSED_ROOT}" != "false" ]
+then
+	LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} exposedroot"
+fi
+
+LB_BOOTAPPEND_LIVE="$(echo ${LB_BOOTAPPEND_LIVE} | sed -e 's|  ||')"
+
+# Parameters are listed at: linux/Documentation/kernel-parameters.txt
+FAILSAFE="noapic noapm nodma nomce nolapic nomodeset nosmp vga=ofonly"
+
+# Assembling kernel configuration
+
+# Default entries
+DEFAULT_FLAVOUR="$(echo ${LB_LINUX_FLAVOURS} | awk '{ print $1 }')"
+DEFAULT_KERNEL="$(basename chroot/boot/vmlinux-*${DEFAULT_FLAVOUR})"
+DEFAULT_INITRD="initrd.img-$(echo ${DEFAULT_KERNEL} | sed -e 's|vmlinux-||')"
+
+Yaboot_live_entry "live" "${DEFAULT_KERNEL}" "${DEFAULT_INITRD}"
+Yaboot_live_entry "live-failsafe" "${DEFAULT_KERNEL}" "${DEFAULT_INITRD}" "${FAILSAFE}"
+
+if [ "$(echo ${LB_LINUX_FLAVOURS} | wc -w)" -gt "1" ]
+then
+	for KERNEL in chroot/boot/vmlinux-*
+	do
+		KERNEL_IMAGE="$(basename ${KERNEL})"
+		KERNEL_VERSION="$(echo ${KERNEL_IMAGE} | sed -e 's|vmlinux-||')"
+		INITRD="initrd.img-${KERNEL_VERSION}"
+
+		Yaboot_live_entry "live-${KERNEL_VERSION}" "${KERNEL_IMAGE}" "${INITRD}"
+		Yaboot_live_entry "live-${KERNEL_VERSION}-failsafe" "${KERNEL_IMAGE}" "${INITRD}" "${FAILSAFE}"
+	done
+fi
+
+LINUX_LIVE="$(/bin/echo ${LINUX_LIVE} | sed -e 's|binary||g' -e 's|//|/|g')"
+
+# Assembling debian-installer configuration
+if [ "${LB_DEBIAN_INSTALLER}" != "false" ]
+then
+	VMLINUZ_DI="vmlinuz"
+	INITRD_DI="initrd.gz"
+	APPEND_DI="vga=normal"
+
+	VMLINUZ_GI="gtk/vmlinuz"
+	INITRD_GI="gtk/initrd.gz"
+	APPEND_GI="video=vesa:ywrap,mtrr vga=788"
+
+	if [ -f "binary/${DESTDIR_INSTALL}/${VMLINUZ_DI}" ] && [ -f "binary/${DESTDIR_INSTALL}/${INITRD_DI}" ]
+	then
+		Yaboot_install_entry "Text" "${VMLINUZ_DI}" "${INITRD_DI}" "${APPEND_DI}"
+	fi
+
+	if [ -f "binary/${DESTDIR_INSTALL}/${VMLINUZ_GI}" ] && [ -f "binary/${DESTDIR_INSTALL}/${INITRD_GI}" ]
+	then
+		Yaboot_install_entry "GUI" "${VMLINUZ_GI}" "${INITRD_GI}" "${APPEND_GI}"
+	fi
+fi
+
+LINUX_INSTALL="$(/bin/echo ${LINUX_INSTALL} | sed -e 's|binary||g' -e 's|//|/|g')"
+
+case "${LB_BINARY_IMAGES}" in
+	iso*|hdd*)
+		# Copying yaboot
+		mkdir -p binary/yaboot
+
+		case "${LB_BUILD_WITH_CHROOT}" in
+			true)
+				cp chroot/usr/lib/yaboot/yaboot binary/yaboot
+				;;
+
+			false)
+				cp /usr/lib/yaboot/yaboot binary/yaboot
+				;;
+		esac
+
+		cp -r "${TEMPLATES}"/* binary/yaboot
+
+		case "${LB_BINARY_IMAGES}" in
+			hdd*)
+				mv binary/yaboot/yaboot.conf binary/yaboot/yaboot.conf.tmp
+				echo "root=/dev/ram" > binary/yaboot/yaboot.conf
+				cat binary/yaboot/yaboot.conf.tmp >> binary/yaboot/yaboot.conf
+				rm -f binary/yaboot/yaboot.conf.tmp
+				;;
+		esac
+
+		# Configure yaboot templates
+		sed -i -e "s|LINUX_LIVE|${LINUX_LIVE}|" -e "s|LINUX_INSTALL|${LINUX_INSTALL}|" binary/yaboot/yaboot.conf
+		sed -i -e "s|LB_BOOTAPPEND_INSTALL|${LB_BOOTAPPEND_INSTALL}|" -e "s|LB_BOOTAPPEND_LIVE|${LB_BOOTAPPEND_LIVE}|" binary/yaboot/yaboot.conf
+		sed -i -e "s|LB_DATE|$(date +%Y%m%d)|" -e "s|LB_VERSION|${VERSION}|" binary/yaboot/boot.msg
+		;;
+esac
+
+# Saving cache
+Save_cache cache/packages_binary
+
+# Removing depends
+Remove_package
+
+# Creating stage file
+Create_stagefile .stage/binary_yaboot

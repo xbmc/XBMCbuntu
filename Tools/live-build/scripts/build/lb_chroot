@@ -1,0 +1,94 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Automatically populating config tree
+if [ -x auto/config ] && [ ! -e .stage/config ]
+then
+	Echo_message "Automatically populating config tree."
+	lb config
+fi
+
+# Setting static variables
+DESCRIPTION="$(Echo 'customize the Debian system')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Setup cleanup function
+Setup_cleanup
+
+# Configuring chroot
+lb chroot_cache restore ${*}
+lb chroot_devpts install ${*}
+lb chroot_proc install ${*}
+lb chroot_selinuxfs install ${*}
+lb chroot_sysfs install ${*}
+lb chroot_debianchroot install ${*}
+lb chroot_dpkg install ${*}
+lb chroot_tmpfs install ${*}
+lb chroot_sysv-rc install ${*}
+lb chroot_upstart install ${*}
+lb chroot_hosts install ${*}
+lb chroot_resolv install ${*}
+lb chroot_hostname install ${*}
+lb chroot_apt install ${*}
+lb chroot_archives chroot install ${*}
+
+# Customizing chroot
+lb chroot_linux-image ${*}
+lb chroot_preseed ${*}
+
+for _PASS in install live
+do
+	lb chroot_package-lists ${_PASS} ${*}
+	lb chroot_install-packages ${_PASS} ${*}
+	lb chroot_task-lists ${_PASS} ${*}
+
+	if [ "${_PASS}" = install ]
+	then
+		Chroot chroot "dpkg-query -W" > chroot.packages.install
+	fi
+done
+
+lb chroot_live-packages ${*}
+lb chroot_includes ${*}
+lb chroot_local-patches ${*}
+lb chroot_hooks ${*}
+lb chroot_hacks ${*}
+lb chroot_interactive ${*}
+
+Chroot chroot "dpkg-query -W" > chroot.packages.live
+
+# Deconfiguring chroot
+lb chroot_archives chroot remove ${*}
+lb chroot_apt remove ${*}
+lb chroot_hostname remove ${*}
+lb chroot_resolv remove ${*}
+lb chroot_hosts remove ${*}
+lb chroot_sysv-rc remove ${*}
+lb chroot_upstart remove ${*}
+lb chroot_tmpfs remove ${*}
+lb chroot_dpkg remove ${*}
+lb chroot_debianchroot remove ${*}
+lb chroot_sysfs remove ${*}
+lb chroot_selinuxfs remove ${*}
+lb chroot_proc remove ${*}
+lb chroot_devpts remove ${*}
+lb chroot_cache save ${*}

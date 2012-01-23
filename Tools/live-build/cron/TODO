@@ -1,0 +1,10 @@
+General:
+  * add headers to log with build date and versions.
+  * send summary mails to debian-live@l.d.o.
+  * do not hardcode git urls.
+  * add support for git branches.
+  * add live-build-cron-packages.
+
+ * logrotate for images trimming
+ * branch specific git version per release
+ * re-use existing git repository for local lb clone

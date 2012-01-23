@@ -1,0 +1,229 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'build iso binary image')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+case "${LB_BINARY_IMAGES}" in
+	iso)
+		IMAGE="binary.iso"
+		;;
+
+	iso-hybrid)
+		IMAGE="binary-hybrid.iso"
+		;;
+
+	*)
+		exit 0
+		;;
+esac
+
+Echo_message "Begin building binary iso image..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_iso
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Checking depends
+Check_package chroot/usr/bin/genisoimage genisoimage
+
+if [ "${LB_BINARY_IMAGES}" = "iso-hybrid" ]
+then
+	Check_package chroot/usr/bin/isohybrid syslinux
+fi
+
+# Restoring cache
+Restore_cache cache/packages_binary
+
+# Installing depends
+Install_package
+
+# Remove old iso image
+if [ -f ${IMAGE} ]
+then
+	rm -f ${IMAGE}
+fi
+
+# Handle genisoimage generic options
+GENISOIMAGE_OPTIONS="-J -l -cache-inodes -allow-multidot"
+
+# Handle genisoimage live-build specific options
+if [ "${_QUIET}" = "true" ]
+then
+	GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -quiet"
+fi
+
+if [ "${_VERBOSE}" = "true" ]
+then
+	GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -v"
+fi
+
+if [ -n "${LB_ISO_APPLICATION}" ] && [ "${LB_ISO_APPLICATION}" != "none" ]
+then
+	GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -A \"${LB_ISO_APPLICATION}\""
+fi
+
+if [ -n "${LB_ISO_PREPARER}" ] && [ "${LB_ISO_PREPARER}" != "none" ]
+then
+	GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -p \"${LB_ISO_PREPARER}\""
+fi
+
+if [ -n "${LB_ISO_PUBLISHER}" ] && [ "${LB_ISO_PUBLISHER}" != "none" ]
+then
+	GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -publisher \"${LB_ISO_PUBLISHER}\""
+fi
+
+if [ -n "${LB_ISO_VOLUME}" ] && [ "${LB_ISO_VOLUME}" != "none" ]
+then
+	GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -V \"${LB_ISO_VOLUME}\""
+fi
+
+# Handle genisoimage architecture specific options
+case "${LB_BOOTLOADER}" in
+	grub)
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -no-emul-boot -boot-load-size 4 -boot-info-table"
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -r -b boot/grub/stage2_eltorito"
+		GENISOIMAGE_EXCLUDE="boot/grub/stage2_eltorito"
+		;;
+
+	grub2)
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -no-emul-boot -boot-load-size 4 -boot-info-table"
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -r -b boot/grub/grub_eltorito -J"
+		GENISOIMAGE_EXCLUDE="boot/grub/grub_eltorito"
+		;;
+
+	silo)
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -r -G boot/isofs.b -B ..."
+		GENISOIMAGE_EXCLUDE="boot/isofs.b"
+		;;
+
+	syslinux)
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -no-emul-boot -boot-load-size 4 -boot-info-table"
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -r -b isolinux/isolinux.bin -c isolinux/boot.cat"
+		GENISOIMAGE_EXCLUDE="isolinux/isolinux.bin"
+		;;
+
+	yaboot)
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -r --iso-level 2 --netatalk -hfs -probe -map"
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} binary/yaboot/hfs.map --chrp-boot -part -no-desktop"
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -hfs-bless binary/yaboot -hfs-volid Debian/Live_powerpc"
+		GENISOIMAGE_EXCLUDE="yaboot/hfs.map"
+		;;
+
+	*)
+		Echo_warning "Bootloader on your architecture not yet supported by live-build."
+		Echo_warning "This will produce a most likely not bootable image (Continuing in 5 seconds)."
+		sleep 5
+		;;
+esac
+
+if In_list "stripped minimal" "${LB_PACKAGE_LISTS}"
+then
+	if [ "${LB_DEBIAN_INSTALLER}" != "live" ]
+	then
+		GENISOIMAGE_OPTIONS="${GENISOIMAGE_OPTIONS} -m ${GENISOIMAGE_EXCLUDE}"
+	fi
+fi
+
+if [ "${LB_BOOTLOADER}" = "grub2" ]
+then
+
+cat > binary.sh << EOF
+#!/bin/sh
+
+input_dir=/usr/lib/grub/i386-pc
+
+# build core.img
+core_img=\$(mktemp)
+grub-mkimage -d \${input_dir} -o \${core_img} -O i386-pc biosdisk iso9660
+
+# build grub_eltorito image
+cat \${input_dir}/cdboot.img \${core_img} > binary/boot/grub/grub_eltorito
+
+rm -f \${core_img}
+
+for file in \${input_dir}/*.mod \${input_dir}/efiemu??.o \
+	\${input_dir}/command.lst \${input_dir}/moddep.lst \${input_dir}/fs.lst \
+	\${input_dir}/handler.lst \${input_dir}/parttool.lst
+do
+	if test -f "\$file"
+	then
+		cp -f "\$file" binary/boot/grub
+	fi
+done
+EOF
+
+else
+	echo "#!/bin/sh" > binary.sh
+fi
+
+cat >> binary.sh << EOF
+
+genisoimage ${GENISOIMAGE_OPTIONS} -o ${IMAGE} binary
+EOF
+
+if [ "${LB_BINARY_IMAGES}" = "iso-hybrid" ]
+then
+
+cat >> binary.sh << EOF
+
+isohybrid ${ISOHYBRID_OPTIONS} ${IMAGE}
+EOF
+
+fi
+
+case "${LB_BUILD_WITH_CHROOT}" in
+	true)
+		# Moving image
+		mv binary.sh chroot
+		mv binary chroot
+
+		Chroot chroot "sh binary.sh"
+
+		# Move image
+		mv chroot/binary chroot/${IMAGE} ./
+		rm -f chroot/binary.sh
+		;;
+
+	false)
+		sh binary.sh
+		rm -f binary.sh
+		;;
+esac
+
+# Saving cache
+Save_cache cache/packages_binary
+
+# Removing depends
+Remove_package
+
+# Creating stage file
+Create_stagefile .stage/binary_iso

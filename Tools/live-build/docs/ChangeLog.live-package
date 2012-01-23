@@ -1,0 +1,474 @@
+2007-03-10 Daniel Baumann <daniel@debian.org>
+
+	* Added knoppix and knoppix-dvd package lists.
+
+2007-03-09 Daniel Baumann <daniel@debian.org>
+
+	* Getting free loopdevice from inside the chroot, not outside.
+
+2007-03-09 Daniel Baumann <daniel@debian.org>
+
+	* Added kbd to all !minimal lists.
+	* Uploaded 0.99.25.
+
+2007-03-08 Otavio Salvador <otavio@debian.org>
+
+	* helpers/lh_configapt: Fix aptitude configuration to really avoid
+	  recommended packages to get installed.
+	* src/scripts/02defaults.sh: Export LIVE_ISOLINUX_SPLASH.
+
+2007-03-04 Daniel Baumann <daniel@debian.org>
+
+	* Replaced removal of kernel on minimal flavours with excludes on the
+	  mksquashfs call.
+	* Added LIVE_INCLUDE_CHROOT to the manual exported variables as reported
+	  by Mathieu Geli <mathieu.geli@gmail.com>.
+	* Exported CODENAME_* manually as reported by Cédric Lucantis
+	  <omer@no-log.org>.
+	* Fixed typo s/aptiude/aptitude/ as reported by Kai Hendry
+	  <hendry@iki.fi>.
+	* Uploaded 0.99.24.
+
+2007-02-22 Daniel Baumann <daniel@debian.org>
+
+	* Added xresprobe to all x11 lists.
+
+2007-02-22 Daniel Baumann <daniel@debian.org>
+
+	* Applied patches from Otavio Salvador <otavio@debian.org>:
+	  - add and cleanup variable exporting in defaults.
+	  - add LIVE_BOOTSTRAP_CONFIG to lh_debootstrap.
+	* Uploaded 0.99.23.
+
+2007-02-21 Daniel Baumann <daniel@debian.org>
+
+	* Added gnome-junior, kde-junior and xfce-junior lists.
+	* Uploaded 0.99.22.
+
+2007-02-19 Daniel Baumann <daniel@debian.org>
+
+	* Fixed manifest.
+
+2007-02-15 Daniel Baumann <daniel@debian.org>
+
+	* Applied patch from Sebastian Raveau <sebastien.raveau@epita.fr> to
+	  add support for filesystem images encrypted with loop-aes.
+
+2007-02-13 Daniel Baumann <daniel@debian.org>
+
+	* Broken out scripts into modularized lh_* subscripts.
+
+2007-02-12 Daniel Baumann <daniel@debian.org>
+
+	* Added some code as suggested by Alex Owen <r.a.owen@qmul.ac.uk> to
+	  check if the depends (syslinux, memtest etc.) are intentionally
+	  installed in the chroot, and hence, don't remove them.
+	* Moved some depends into the chroot.
+	* Uploaded 0.99.21.
+
+2007-02-11 Daniel Baumann <daniel@debian.org>
+
+	* Added mini flavour.
+
+2007-02-10 Daniel Baumann <daniel@debian.org>
+
+	* Added legacy code for genisoimage.
+	* Uploaded 0.99.20.
+
+2007-02-09 Daniel Baumann <daniel@debian.org>
+
+	* Added usb type.
+
+2007-02-08 Daniel Baumann <daniel@debian.org>
+
+	* Added desktop task to the *-desktop flavours.
+
+2007-02-07 Daniel Baumann <daniel@debian.org>
+
+	* Extended cron job a bit.
+	* Fixed manual pruning in minimal flavour as suggested by Bas Wijnen
+	  <wijnen@debian.org>
+
+2007-02-02 Daniel Baumann <daniel@debian.org>
+
+	* Added "--without-daemons".
+
+2007-02-01 Daniel Baumann <daniel@debian.org>
+
+	* Added "--tasks".
+	* Added desktop-base to all desktop package lists.
+
+2007-01-31 Daniel Baumann <daniel@debian.org>
+
+	* Changed vars in autobuilding script to be able to source
+	  make-live.conf.
+	* Uploaded 0.99.19.
+
+2007-01-30 Daniel Baumann <daniel@debian.org>
+
+	* Added cron job for autobuilding images.
+
+2007-01-25 Daniel Baumann <daniel@debian.org>
+
+	* Added additional pruning to minimal flavour.
+	* Using interactive frontend while processing --hook.
+	* Uploaded 0.99.18.
+
+2007-01-24 Daniel Baumann <daniel@debian.org>
+
+	* Applied patches from Otavio Salvador <otavio@debian.org>:
+	  - adding "--keyring" flag.
+	  - adding LIVE_DISK_VOLUME.
+	  - adding start-stop-daemon wrapper to avoid daemons to be started.
+	  - adding workaround to prevent binfmt locking /proc.
+	  - adding LIVE_ISOLINUX_SPLASH.
+	* Uploaded 0.99.17.
+
+2007-01-19 Daniel Baumann <daniel@debian.org>
+
+	* Replacing mkisofs with genisoimage.
+
+2007-01-18 Daniel Baumann <daniel@debian.org>
+
+	* Cleanups.
+	* Uploaded 0.99.16.
+
+2007-01-16 Daniel Baumann <daniel@debian.org>
+
+	* Switched default distribution back to unstable, as unstable is usable
+	  again from the kernel point of view.
+	* Added file to the minimal package list.
+	* Uploaded 0.99.15.
+
+2007-01-04 Daniel Baumann <daniel@debian.org>
+
+	* Added workaround for new xorg packages by including
+	  xserver-xorg-input-all and xserver-xorg-video-all in all X11 package
+	  lists. See #405639 for more information.
+	* Added xdebconfigurator to all X11 package lists.
+	* Adding workaround for initrd backup files.
+
+2006-11-06 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.14.
+
+2006-11-05 Daniel Baumann <daniel@debian.org>
+
+	* Applied patch from Markus Bauer <bauer-markus@web.de>:
+	  - fixing script sourcing to exclude files in .svn
+
+2006-11-03 Daniel Baumann <daniel@debian.org>
+
+	* Fixed typo in the policy-rc.d hack.
+
+2006-11-02 Daniel Baumann <daniel@debian.org>
+
+	* Using aptitude instead of apt-get.
+	* Added '--with-recommends' and '--without-recommends'.
+
+2006-11-01 Daniel Baumann <daniel@debian.org>
+
+	* Fixed regression when using -d ${CODENAME} wrt/ kernel packages.
+
+2006-10-30 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.13.
+
+2006-10-29 Daniel Baumann <daniel@debian.org>
+
+	* Added minimal-net flavour.
+
+2006-10-28 Daniel Baumann <daniel@debian.org>
+
+	* Added console-common to standard selection.
+
+2006-10-27 Daniel Baumann <daniel@debian.org>
+
+	* Added patch from Otavio Salvador <otavio@debian.org>:
+	  - fixing preseeding error-handling.
+
+2006-10-26 Daniel Baumann <daniel@debian.org>
+
+	* Added gnustep package selection based on the suggestion of
+	  Guerkan Senguen <gurkan@linuks.mine.nu>.
+
+2006-10-25 Daniel Baumann <daniel@debian.org>
+
+	* Applied patch from Marcelo D. Re <mdre@rectorado.unl.edu.ar>:
+	  - skip deb-src source-list entries when building images with
+	    --without-source.
+	* Applied patches from Otavio Salvador <otavio@debian.org>:
+	  - adding '--bootstrap-config' to support cdebootstraps
+	    '--suite-config'.
+	  - allowing override of ${BASE}.
+	  - adjust sourcing of scripts, so that only the real scripts are
+	    sourced and not other (backup) files.
+	  - allowing override of kernel-packages.
+	* Reverted mangling of LIVE_DISTRIBUTION for sources.list generation.
+
+2006-10-23 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.12.
+
+2006-10-18 Daniel Baumann <daniel@debian.org>
+
+	* Autodetecting proxy now.
+
+2006-10-16 Daniel Baumann <daniel@debian.org>
+
+	* Readded and slightly changed --clone and --preseed.
+	* Uploaded 0.99.11.
+
+2006-10-09 Daniel Baumann <daniel@debian.org>
+
+	* Cleanups.
+	* Uploaded 0.99.10.
+
+2006-10-02 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.9.
+
+2006-10-01 Daniel Baumann <daniel@debian.org>
+
+	* Added multiple repositories.
+	* Using LIVE_PROXY_* also for bootstraping.
+
+2006-09-27 Daniel Baumann <daniel@debian.org>
+
+	* Changing manpage section.
+
+2006-09-26 Daniel Baumann <daniel@debian.org>
+
+	* Added default flavour hooks.
+	* minimal flavour does not install debian-archive-keyring to save space.
+	* Adjusted network patch.
+
+2006-09-25 Daniel Baumann <daniel@debian.org>
+
+	* Removed now unused initramfs-tools hack.
+	* Simplified xorg check based on distribution rather than version.
+	* Added fix from Bas Wijnen <wijnen@debian.org> for space handling in
+	  arguments.
+	* Fixed package list handling similar to the fix suggested by Alex Owen
+	  <r.alex.owen@gmail.com>.
+	* Uploaded 0.99.8.
+
+2006-09-24 Marco Amadori <marco.amadori@gmail.com>
+
+	* 13hack.sh: initramfs-tools hack, check added for xorg.
+
+2006-09-18 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.7.
+
+2006-09-15 Daniel Baumann <daniel@debian.org>
+
+	* Added eject to minimal package selection.
+
+2006-09-14 Daniel Baumann <daniel@debian.org>
+
+	* Adjustements for linux 2.6.17 testing propagation.
+
+2006-09-11 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.6.
+
+2006-09-08 Marco Amadori <marco.amadori@gmail.com>
+
+	* 23net.sh: Fixed binary missing directory creation.
+	* templates/iso: Moved common files to templates/common.
+
+2006-09-07 Daniel Baumann <daniel@debian.org>
+
+	* Minor cleanups.
+	* Fixed dist target.
+
+2006-09-06 Marco Amadori <marco.amadori@gmail.com>
+
+	* 14chroot.sh, main.sh: Added manifest support.
+	* 23net.sh: Added 2 variables for basenames to ease readability.
+	* main.sh, 02default.sh: Modified Usage() uses.
+
+2006-09-04 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.5.
+
+2006-09-03 Daniel Baumann <daniel@debian.org>
+
+	* Added dist parameter to easily pull images for live.debian.net.
+	* Added "--output" to specify the image name prefix.
+	* Exclude iso templates for minimal flavour.
+
+2006-09-02 Daniel Baumann <daniel@debian.org>
+
+	* Added experimental as distribution.
+	* Added source image generation.
+	* Using dpkg instead of dpkg-architecture, removed dpkg-dev dependency.
+
+2006-08-31 Daniel Baumann <daniel@debian.org>
+
+	* Added "--disable-generic-indices" and "--enable-generic-indices".
+	* Fixed i18n lists.
+	* Rewritten all lists, comments are now possible.
+	* Lists must be now explicitly given with --package-list, no longer as
+	  last argument of the make-live call.
+	* Setting default sources.list while the image generation, restoring
+	  customized ones afterwards.
+
+2006-08-30 Daniel Baumann <daniel@debian.org>
+
+	* Cleanups:
+	  - moved 14patch_packages.sh to 13hack.sh.
+	  - simplified 13hack.sh.
+
+2006-08-29 Marco Amadori <marco.amadori@gmail.com>
+
+	* pxelinux.cfg: Updated to right defaults, first cifs then nfs or
+	  select your favorite way. Rationale: /dev/nfs is for kernel
+	  discovering, not for initramfs discover, casper will be just fine
+	  with "netboot".
+	* 13chroot.sh, 14patch_packages.sh: Added a simple system for patching
+	  packages, mainly for xserver-xorg so far.
+
+2006-08-28 Daniel Baumann <daniel@debian.org>
+
+	* Updated documentation.
+	* Added patch from Alex Owen <r.a.owen@qmul.ac.uk> to update
+	  pxelinux.cfg for NFS root in casper.
+	* Uploaded 0.99.4.
+
+2006-08-27 Daniel Baumann <daniel@debian.org>
+
+	* Cleanups.
+
+2006-08-27 Marco Amadori <marco.amadori@gmail.com>
+
+	* Added sysv init blocking policy.
+
+2006-08-22 Daniel Baumann <daniel@debian.org>
+
+	* Reorganised sources.
+	* Added staging support.
+	* Cleaned up parameter names.
+	* testing is now supported.
+
+2006-08-21 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.3.
+
+2006-08-02 Marco Amadori <marco.amadori@gmail.com>
+
+	* Rewrote netboot support.
+	* Added support for pure directory rootfs images.
+
+2006-07-31 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.2.
+
+2006-07-28 Daniel Baumann <daniel@debian.org>
+
+	* Added DEBIAN_FRONTEND to chroots(), now completely non-interactive.
+	* Fixed wrong chroot patch.
+
+2006-07-27 Marco Amadori <marco.amadori@gmail.com>
+
+	* Changed amd64 kernel naming scheme.
+
+2006-07-24 Daniel Baumann <daniel@debian.org>
+
+	* Uploaded 0.99.1.
+
+2006-07-19 Daniel Baumann <daniel@debian.org>
+
+	* Bugfixes.
+
+2006-07-18 Daniel Baumann <daniel@debian.org>
+
+	* Added iso templates.
+
+2006-07-17 Daniel Baumann <daniel@debian.org>
+
+	* Added chroot to 01-patch.sh.
+	* Added "--logfile".
+	* Uploaded 0.99.
+
+2006-07-01 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* Added "--flavour".
+
+2006-06-28 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* Added "--debug" and "--verbose".
+
+2006-06-23 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* Rewritten manpages.
+
+2006-06-19 Marco Amadori <marco.amadori@gmail.com>
+
+	* Added "--templates" options.
+	* Fixed some typos.
+
+2006-06-15 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* General fixes.
+
+2006-06-18 Marco Amadori <marco.amadori@gmail.com>
+
+	* Added "-a|--architecture" and "-p|--package-list" options.
+	* Reworked how lists works.
+
+2006-06-15 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* General cleanup.
+
+2006-06-14 Marco Amadori <marco.amadori@gmail.com>
+
+	* Re-added "-f|--filesystem".
+
+2006-06-12 Marco Amadori <marco.amadori@gmail.com>
+
+	* Added "--conffile", "--preseed", "--clone", and "--rootfs" options.
+
+2006-06-12 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* Added new splash.rle.
+	* Added memtest86+.
+	* Added "--distribution", and "--section" options.
+	* Moved /etc/default/make-live to /etc/make-live.conf.
+
+2006-06-11 Marco Amadori <marco.amadori@gmail.com>
+
+	* Added handling of md5sums.
+
+2006-06-09 Marco Amadori <marco.amadori@gmail.com>
+
+	* Added splashy support.
+	* Added ext2 rootfs support.
+	* Added external hook and path support.
+	* Swiched to getopt.
+
+2006-06-02 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* Added patch from Jason D. Clinton <me@jasonclinton.com>:
+	  - Added netboot flavour.
+	  - Thanks to SafeDesk Solutions <http://www.safedesk.com/>.
+
+2006-06-01 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* Moved syslinux inside the chroot.
+
+2006-05-31 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* Added kde-*i18n and standard-i18n lists.
+
+2006-05-28 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* Added patch from Frederic Lehobey <Frederic.Lehobey@free.fr>:
+	  - Added locales to LIVE_PACKAGES.
+	  - Added LIVE_MIRROR_KEY, LIVE_REPOSITORY, LIVE_REPOSITORY_KEY, and
+	    LIVE_BOOTAPPEND.
+
+2006-05-27 Daniel Baumann <daniel.baumann@panthera-systems.net>
+
+	* Initial release.

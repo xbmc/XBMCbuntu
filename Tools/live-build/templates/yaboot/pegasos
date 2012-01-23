@@ -1,0 +1,90 @@
+\ FORTH is identifed by a forth comment at first line
+\
+\ terminal control stuff
+\
+: TTY.CSI d# 27 EMIT ASCII [ EMIT ;
+: TTY.HOME    TTY.CSI ASCII H EMIT ;
+: TTY.CLR_EOS TTY.CSI ASCII J EMIT ;
+: TTY.HOME_CLR TTY.HOME TTY.CLR_EOS ;
+\
+\ boot menu stuff
+\
+: my-max-boot-num 4 ;
+: my-boot-default 1 ;
+: my-boot-delay d# 300 ; \ unit = 100 ms
+: my-print-menu ( -- )
+  TTY.HOME_CLR
+  ."  "                                    			cr
+  ." Welcome to Debian GNU/Linux!"				cr
+  ." "								cr
+  ." This is a Debian Live CDROM,"				cr
+  ." built on LB_DATE."						cr
+  ." "								cr
+  ." The default option is 'live'."				cr
+  ." "								cr
+  ." ************************************"			cr
+  ." If in doubt, just choose (1) 'live'"			cr
+  ." ************************************"			cr
+  ."  "								cr
+  ." 1: install"   						cr
+  ." 2: install"   						cr
+  ." 3: expert"   						cr
+  ." 4: rescue"   						cr
+  ." 5: return to OF prompt"					cr
+  ."  "								cr
+;
+: my-boot-case ( num -- )
+  ."  " cr
+  case
+    1 of " cd live/vmlinuz-chrp.initrd --" endof
+    2 of " cd install/powerpc/vmlinuz-chrp.initrd --" endof
+    3 of " cd install/powerpc/vmlinuz-chrp.initrd DEBCONF_PRIORITY=low --" endof
+    4 of " cd install/powerpc/vmlinuz-chrp.initrd rescue/enable=true --" endof
+    5 of " none" endof
+  endcase
+  $boot
+;
+: my-input-num ( wait-period max-boot-num default-num -- boot-num )
+  1 \ loop-inc = 1
+  3 pick 0 do
+    0d emit
+    ." press 1-"
+    ( wait-period max-boot-num default-num loop-inc )
+    2 pick ascii 0 + emit
+    dup 1 = if
+      ."  within "
+      3 pick i - d# 10 / .d
+      ."  seconds"
+    then
+    ."  (default: "
+    over ascii 0 + emit
+    ." ) :                   "
+    d# 100 ms
+    key? if
+       key
+       ( wait-period max-boot-num default-num loop-inc key )
+       dup 0d = if \ return pressed
+         drop leave
+       then
+
+       ascii 0 -
+       ( wait-period max-boot-num default-num loop-inc num )
+       dup 1 5 pick
+       ( wait-period max-boot-num default-num loop-inc num num 1 max-boot-num )
+       between if
+         rot drop swap leave
+       then
+
+       ( wait-period max-boot-num default-num loop-inc num )
+       2drop 0  \ loop-inc = 0
+    then
+  dup +loop
+  drop
+  ( wait-period max-boot-num boot-num )
+  nip nip
+;
+
+
+my-print-menu
+my-boot-delay my-max-boot-num my-boot-default my-input-num
+my-boot-case

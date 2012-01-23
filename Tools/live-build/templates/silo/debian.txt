@@ -1,0 +1,21 @@
+
+                       Welcome to Debian GNU/Linux!
+
+This is a Debian LB_DISTRIBUTION live image.
+It was built on LB_DATE by live-build LB_VERSION.
+
+You must have at least 64 megabytes of RAM to run this Debian Live system.
+
+See the Live Manual or the FAQ for more information; both documents are
+available at the Debian Live web site, http://live.debian.net/
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted
+by applicable law.
+
+  [ Press ENTER to boot the live system ]
+
+Or:
+
+  "live-failsafe"
+     Start the live system in fail-safe mode.
+

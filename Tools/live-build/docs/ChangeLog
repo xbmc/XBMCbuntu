@@ -1,0 +1,1560 @@
+commit 4217cf64597aa81b82a8c8e6a79fee1381e06aa3
+Author: Daniel Baumann <daniel@debian.org>
+
+    Re-enabling live-initscripts and live-webhelper.
+
+ examples/cron/snapshots.sh |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit c4bb536877d822570176d462a45d3497de05a01b
+Author: Daniel Baumann <daniel@debian.org>
+
+    Respecting LH_QUIET for genisoimage/mkisofs calls, thanks to Justin Pryzby <pryzbyj@justinpryzby.com>.
+
+ helpers/lh_binary_iso |    5 +++++
+ helpers/lh_source_iso |    5 +++++
+ 2 files changed, 10 insertions(+), 0 deletions(-)
+
+commit a019b98615f9edd154f48337f45656fbc86cd181
+Author: Daniel Baumann <daniel@debian.org>
+
+    Respecting LH_QUIET for wget calls, thanks to Justin Pryzby <pryzbyj@justinpryzby.com>.
+
+ helpers/lh_binary_debian-installer |   19 ++++++++++++-------
+ 1 files changed, 12 insertions(+), 7 deletions(-)
+
+commit 09faf3f24b1d24394071fc651685436a269c37a4
+Author: Daniel Baumann <daniel@debian.org>
+
+    Handling case when memtest is disabled.
+
+ helpers/lh_source_debian |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
+
+commit f3706cd7f2fa293fed28523c760715967a7ae2e1
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding check for 'none', not just 'disabled'.
+
+ helpers/lh_binary_memtest |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 793f620b2dd2687f1c1cbb2db6b2eb65ed63275b
+Author: Daniel Baumann <daniel@debian.org>
+
+    Restoring file permissions.
+
+ 0 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 4b52adb6f77b855ac9e6f63de187ae6ecba3602e
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding local udeb_exclude file functionality.
+
+ helpers/lh_binary_debian-installer |    6 ++++++
+ helpers/lh_config                  |    1 +
+ 2 files changed, 7 insertions(+), 0 deletions(-)
+
+commit fbae06c4262ee01d22af51b9720470a87a1e571b
+Author: Daniel Baumann <daniel@debian.org>
+
+    Fixing typing error in lh_binary_syslinux, thanks to Jean Pierre LeJacq <jp.lejacq@quoininc.com> (Closes: #443099).
+
+ debian/changelog           |    2 ++
+ helpers/lh_binary_syslinux |    2 +-
+ 2 files changed, 3 insertions(+), 1 deletions(-)
+
+commit 9ceced95c4a101b632d2b40cb0716338b223faeb
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding preinst to take care about package upgrades with respect to directories that are symlinks now (Closes: #442408, #442922).
+
+ debian/changelog |    4 +++-
+ debian/preinst   |   40 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+), 1 deletions(-)
+
+commit 4d06f0aa2b3a3f8a300b8a45310e1b7b5748c4a3
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding contrib/graph-helpers/*.
+
+ contrib/graph-helpers.py               |   74 --------------------------------
+ contrib/graph-helpers/graph-helpers.py |   74 ++++++++++++++++++++++++++++++++
+ debian/copyright                       |   23 +++++++++-
+ 3 files changed, 95 insertions(+), 76 deletions(-)
+
+commit 39d4c50fc75166d6d8f43126a079e5497e7ff089
+Author: Daniel Baumann <daniel@debian.org>
+
+    Added graph-helpers.py from Chris Lamb <chris@chris-lamb.co.uk>.
+
+ contrib/graph-helpers.py |   74 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 74 insertions(+), 0 deletions(-)
+
+commit 5e759644a47983d74338d46904106b552153c446
+Author: Daniel Baumann <daniel@debian.org>
+
+    Passing live bootappends to debian-installer.
+
+ functions/defaults.sh |    2 +-
+ helpers/lh_config     |   16 ++++++++--------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+commit f64d4d2c3124043b9039a38d9c1f037e923c3297
+Author: Daniel Baumann <daniel@debian.org>
+
+    Preparing live-helper 1.0~a29-1.
+
+ Makefile                                |    6 +++---
+ debian/changelog                        |    6 ++++++
+ functions/common.sh                     |    2 +-
+ manpages/lh_binary.de.1                 |    2 +-
+ manpages/lh_binary.en.1                 |    2 +-
+ manpages/lh_bootstrap.de.1              |    2 +-
+ manpages/lh_bootstrap.en.1              |    2 +-
+ manpages/lh_bootstrap_cdebootstrap.de.1 |    2 +-
+ manpages/lh_bootstrap_cdebootstrap.en.1 |    2 +-
+ manpages/lh_bootstrap_debootstrap.de.1  |    2 +-
+ manpages/lh_bootstrap_debootstrap.en.1  |    2 +-
+ manpages/lh_build.de.1                  |    2 +-
+ manpages/lh_build.en.1                  |    2 +-
+ manpages/lh_chroot.de.1                 |    2 +-
+ manpages/lh_chroot.en.1                 |    2 +-
+ manpages/lh_clean.de.1                  |    2 +-
+ manpages/lh_clean.en.1                  |    2 +-
+ manpages/lh_config.de.1                 |    2 +-
+ manpages/lh_config.en.1                 |    2 +-
+ manpages/lh_source.de.1                 |    2 +-
+ manpages/lh_source.en.1                 |    2 +-
+ manpages/lh_testroot.de.1               |    2 +-
+ manpages/lh_testroot.en.1               |    2 +-
+ manpages/live-helper.de.7               |    2 +-
+ manpages/live-helper.en.7               |    2 +-
+ 25 files changed, 32 insertions(+), 26 deletions(-)
+
+commit 7d5c33610881beee30fea2dc162d21f9e7436039
+Author: Daniel Baumann <daniel@debian.org>
+
+    Releasing live-helper 1.0~a28-1.
+
+ debian/changelog |    2 +-
+ docs/ChangeLog   |  286 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 287 insertions(+), 1 deletions(-)
+
+commit f6d46179dfb64ace95c6cdec6a5b910d9106a7e7
+Author: Daniel Baumann <daniel@debian.org>
+
+    Making binary hooks executable in case the are not.
+
+ helpers/lh_binary_local-hooks |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+commit f36f7d499ad7ba96a66977ae5e8955fb6b74128e
+Author: Daniel Baumann <daniel@debian.org>
+
+    Do not remove pkgsel anymore.
+
+ helpers/lh_binary_debian-installer |    2 --
+ 1 files changed, 0 insertions(+), 2 deletions(-)
+
+commit 2b817e2b897f6db20e81fcd52e40f90bcda16237
+Author: Daniel Baumann <daniel@debian.org>
+
+    Fixed wrong sed call.
+
+ helpers/lh_binary_syslinux |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 1db91d83b0d0311c07d8f96023e850efdb44f7eb
+Author: Daniel Baumann <daniel@debian.org>
+
+    Do not create symlinks on usb-hdd images.
+
+ helpers/lh_binary_debian-installer |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
+
+commit ed5bb2e1870d68a8d6318933d9fe6ca2f1d9069c
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding LH_BOOTAPPEND_INSTALL.
+
+ functions/defaults.sh      |    1 +
+ helpers/lh_binary_grub     |    4 ++--
+ helpers/lh_binary_syslinux |    8 ++++----
+ helpers/lh_binary_yaboot   |    4 ++--
+ helpers/lh_config          |   12 +++++++++++-
+ 5 files changed, 20 insertions(+), 9 deletions(-)
+
+commit 851d21e47455408a300ce8c527e3805f2e039e64
+Author: Daniel Baumann <daniel@debian.org>
+
+    Renaming LH_BOOTAPPEND to LH_BOOTAPPEND_LIVE.
+
+ functions/defaults.sh      |    2 +-
+ helpers/lh_binary_grub     |   18 +++++++++---------
+ helpers/lh_binary_syslinux |   28 ++++++++++++++--------------
+ helpers/lh_binary_yaboot   |   20 ++++++++++----------
+ helpers/lh_config          |   12 ++++++------
+ 5 files changed, 40 insertions(+), 40 deletions(-)
+
+commit 26961cb572225683e29e03176698447b58b19bc4
+Author: Daniel Baumann <daniel@debian.org>
+
+    Making local udebs/local debs architecture aware.
+
+ helpers/lh_binary_debian-installer |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+
+commit caeb8b9d72f691833691f193102537fe6c146422
+Author: Daniel Baumann <daniel@debian.org>
+
+    Setting default distribution to lenny.
+
+ functions/defaults.sh |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
+
+commit 20aad4c211bb423d714a38728ffccea5757840a2
+Author: Daniel Baumann <daniel@debian.org>
+
+    Removing both required local and d-i udebs when using live-installer.
+
+ helpers/lh_binary_debian-installer |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+commit c338316ee23fbf687fc4554765c24887cee2fd1a
+Author: Daniel Baumann <daniel@debian.org>
+
+    Added forgotten path to bootstrap-base removal.
+
+ helpers/lh_binary_debian-installer |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 789677ab838dc589ef954ff4745609e22d9d6d6e
+Author: Daniel Baumann <daniel@debian.org>
+
+    Simplifying debian-installer download.
+
+ helpers/lh_binary_debian-installer |   22 ++++------------------
+ 1 files changed, 4 insertions(+), 18 deletions(-)
+
+commit 0e4a03132a9cb16779d41022ff9f518694295ab6
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding support for live-installer.
+
+ helpers/lh_binary_debian-installer |    8 +++++++-
+ helpers/lh_binary_disk             |   12 ++++++------
+ 2 files changed, 13 insertions(+), 7 deletions(-)
+
+commit 117d1ef02c09404d595a27023e86765841909398
+Author: Daniel Baumann <daniel@debian.org>
+
+    Polishing and updating with recent news.
+
+ docs/NEWS |   28 +++++++++++++++++-----------
+ 1 files changed, 17 insertions(+), 11 deletions(-)
+
+commit 173bd27953afd4020f2ac5700b147e41af727735
+Author: Daniel Baumann <daniel@debian.org>
+
+    Temporarily disabling extended options, they seem to make problems and need testing.
+
+ templates/syslinux/common/syslinux.cfg |   16 ++++++++--------
+ 1 files changed, 8 insertions(+), 8 deletions(-)
+
+commit 508cf68252a5253ba40fcaa0dc46a3ffffc3dbfa
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding Rene Merou <ochominutosdearco@gmail.com>.
+
+ docs/CREDITS |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 7c25acdfc10c851bc30ccafc273a71113758f175
+Author: Daniel Baumann <daniel@debian.org>
+
+    Added Spanish syslinux templates translation from Rene Merou <ochominutosdearco@gmail.com>.
+
+ templates/syslinux/es/boot.txt           |    3 +++
+ templates/syslinux/es/f1.txt.install     |   25 +++++++++++++++++++++++++
+ templates/syslinux/es/f1.txt.live        |   25 +++++++++++++++++++++++++
+ templates/syslinux/es/f10.txt            |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f2.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f2.txt.live        |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f3.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f3.txt.install.g-i |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f3.txt.live        |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f4.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f4.txt.install.g-i |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f4.txt.live        |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f5.txt             |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f6.txt             |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f7.txt             |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f8.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f8.txt.live        |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f9.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/es/f9.txt.live        |   23 +++++++++++++++++++++++
+ 19 files changed, 421 insertions(+), 0 deletions(-)
+
+commit 8407eb17e393c18ce76afe3fc3d48a5128c22344
+Author: Daniel Baumann <daniel@debian.org>
+
+    Added Catalan syslinux templates translation from Rene Merou <ochominutosdearco@gmail.com>.
+
+ templates/syslinux/ca/boot.txt           |    3 +++
+ templates/syslinux/ca/f1.txt.install     |   25 +++++++++++++++++++++++++
+ templates/syslinux/ca/f1.txt.live        |   25 +++++++++++++++++++++++++
+ templates/syslinux/ca/f10.txt            |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f2.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f2.txt.live        |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f3.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f3.txt.install.g-i |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f3.txt.live        |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f4.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f4.txt.install.g-i |   25 +++++++++++++++++++++++++
+ templates/syslinux/ca/f4.txt.live        |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f5.txt             |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f6.txt             |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f7.txt             |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f8.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f8.txt.live        |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f9.txt.install     |   23 +++++++++++++++++++++++
+ templates/syslinux/ca/f9.txt.live        |   23 +++++++++++++++++++++++
+ 19 files changed, 423 insertions(+), 0 deletions(-)
+
+commit 78450950715061a76a7f3bc02bb5bc4b6d21545e
+Author: Daniel Baumann <daniel@debian.org>
+
+    Setting default language to 'en'.
+
+ functions/defaults.sh                    |    2 +-
+ templates/syslinux/common/syslinux.cfg   |   36 ++++++++++++++++++++++++++++++
+ templates/syslinux/en/boot.txt           |    3 ++
+ templates/syslinux/en/f1.txt.install     |   25 ++++++++++++++++++++
+ templates/syslinux/en/f1.txt.live        |   25 ++++++++++++++++++++
+ templates/syslinux/en/f10.txt            |   23 +++++++++++++++++++
+ templates/syslinux/en/f2.txt.install     |   23 +++++++++++++++++++
+ templates/syslinux/en/f2.txt.live        |   23 +++++++++++++++++++
+ templates/syslinux/en/f3.txt.install     |   23 +++++++++++++++++++
+ templates/syslinux/en/f3.txt.install.g-i |   23 +++++++++++++++++++
+ templates/syslinux/en/f3.txt.live        |   23 +++++++++++++++++++
+ templates/syslinux/en/f4.txt.install     |   23 +++++++++++++++++++
+ templates/syslinux/en/f4.txt.install.g-i |   23 +++++++++++++++++++
+ templates/syslinux/en/f4.txt.live        |   23 +++++++++++++++++++
+ templates/syslinux/en/f5.txt             |   23 +++++++++++++++++++
+ templates/syslinux/en/f6.txt             |   23 +++++++++++++++++++
+ templates/syslinux/en/f7.txt             |   23 +++++++++++++++++++
+ templates/syslinux/en/f8.txt.install     |   23 +++++++++++++++++++
+ templates/syslinux/en/f8.txt.live        |   23 +++++++++++++++++++
+ templates/syslinux/en/f9.txt.install     |   23 +++++++++++++++++++
+ templates/syslinux/en/f9.txt.live        |   23 +++++++++++++++++++
+ 21 files changed, 458 insertions(+), 1 deletions(-)
+
+commit 3fddecbe0eab7d49fb67800bec436d9caa72dfa5
+Author: Daniel Baumann <daniel@debian.org>
+
+    Supporting localized syslinux templates based on LH_LANGUAGE.
+
+ helpers/lh_binary_syslinux            |    9 +++++--
+ templates/syslinux/boot.txt           |    3 --
+ templates/syslinux/common/splash.rle  |  Bin 0 -> 10489 bytes
+ templates/syslinux/f1.txt.install     |   25 ----------------------
+ templates/syslinux/f1.txt.live        |   25 ----------------------
+ templates/syslinux/f10.txt            |   23 ---------------------
+ templates/syslinux/f2.txt.install     |   23 ---------------------
+ templates/syslinux/f2.txt.live        |   23 ---------------------
+ templates/syslinux/f3.txt.install     |   23 ---------------------
+ templates/syslinux/f3.txt.install.g-i |   23 ---------------------
+ templates/syslinux/f3.txt.live        |   23 ---------------------
+ templates/syslinux/f4.txt.install     |   23 ---------------------
+ templates/syslinux/f4.txt.install.g-i |   23 ---------------------
+ templates/syslinux/f4.txt.live        |   23 ---------------------
+ templates/syslinux/f5.txt             |   23 ---------------------
+ templates/syslinux/f6.txt             |   23 ---------------------
+ templates/syslinux/f7.txt             |   23 ---------------------
+ templates/syslinux/f8.txt.install     |   23 ---------------------
+ templates/syslinux/f8.txt.live        |   23 ---------------------
+ templates/syslinux/f9.txt.install     |   23 ---------------------
+ templates/syslinux/f9.txt.live        |   23 ---------------------
+ templates/syslinux/splash.rle         |  Bin 10489 -> 0 bytes
+ templates/syslinux/syslinux.cfg       |   36 ---------------------------------
+ 23 files changed, 6 insertions(+), 460 deletions(-)
+
+commit 1956c132a8bac04cd3a025f60acdadb8fa9dd668
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding forgotten cp call.
+
+ helpers/lh_binary_disk |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit f4af8492a6738f873237802e5dd2005e3ca5bab2
+Author: Daniel Baumann <daniel@debian.org>
+
+    Removing cruft from debian-cd templates.
+
+ templates/syslinux/f7.txt         |    2 +-
+ templates/syslinux/f8.txt.install |    2 +-
+ templates/syslinux/f8.txt.live    |    2 +-
+ templates/syslinux/f9.txt.install |    2 +-
+ templates/syslinux/f9.txt.live    |    2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+
+commit 9ec9d931e7809058a4d35991c07af1057d7db875
+Author: Daniel Baumann <daniel@debian.org>
+
+    Using new Homepage field now.
+
+ debian/control |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
+
+commit 9da34f5a3bbd3eaa4ea9f1f91d8a8748ce94f068
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding Marco Amadori <marco.amadori@gmail.com>.
+
+ docs/CREDITS |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 83fc7ca480fb36e40e21dad7c892ec92cf8c3679
+Author: Daniel Baumann <daniel@debian.org>
+
+    Downgrading Ubuntu minimal requirements from gutsy to feisty.
+
+ functions/defaults.sh |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 23c269f3afba1449f2ff6352bf9504fbdba582f8
+Author: Daniel Baumann <daniel@debian.org>
+
+    Simplyfing LH_BASE calls.
+
+ helpers/lh_binary_debian-installer |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 16b85ffe14a24a693cfdafa2d100f96d5d65cf0a
+Author: Daniel Baumann <daniel@debian.org>
+
+    Using udeb_include files from debian-cd.
+
+ helpers/lh_binary_disk |   28 +++-------------------------
+ 1 files changed, 3 insertions(+), 25 deletions(-)
+
+commit e9ed48833fee3e9232917282f0af88d39bca673e
+Author: Daniel Baumann <daniel@debian.org>
+
+    Using Debian terminology for images of unreleased suites.
+
+ functions/releases.sh  |    4 ++--
+ helpers/lh_binary_disk |    5 +++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+commit 6c45ff08704bd84fd7c45b294e843c642cc17a16
+Author: Daniel Baumann <daniel@debian.org>
+
+    Setting debian-installer default flavour to netinst.
+
+ helpers/lh_binary_debian-installer |    2 +-
+ helpers/lh_binary_disk             |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 04f8e669b49da796863e2f548620ee5f15494b2d
+Author: Daniel Baumann <daniel@debian.org>
+
+    Adding forgotten handling of default case.
+
+ helpers/lh_clean |   11 +++++++++--
+ 1 files changed, 9 insertions(+), 2 deletions(-)
+
+commit 9f59f16c7c1da6cd227fa47897dc76bf8004cb8e
+Author: Daniel Baumann <daniel@debian.org>
+
+    Only removing old packages if they exist.
+
+ examples/cron/snapshots.sh |   11 +++++++----
+ 1 files changed, 7 insertions(+), 4 deletions(-)
+
+commit 471b32c6821eea5d1a73c62c16eb31defe9c0895
+Author: Daniel Baumann <daniel@debian.org>
+
+    Fixing typing error.
+
+ debian/control |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit fbd4861b2347b024caa54af443b18ca1c6646a31
+Author: Daniel Baumann <daniel@debian.org>
+
+    Preparing live-helper 1.0~a28-1.
+
+ Makefile                                |    6 +++---
+ debian/changelog                        |    6 ++++++
+ functions/common.sh                     |    2 +-
+ manpages/lh_binary.de.1                 |    2 +-
+ manpages/lh_binary.en.1                 |    2 +-
+ manpages/lh_bootstrap.de.1              |    2 +-
+ manpages/lh_bootstrap.en.1              |    2 +-
+ manpages/lh_bootstrap_cdebootstrap.de.1 |    2 +-
+ manpages/lh_bootstrap_cdebootstrap.en.1 |    2 +-
+ manpages/lh_bootstrap_debootstrap.de.1  |    2 +-
+ manpages/lh_bootstrap_debootstrap.en.1  |    2 +-
+ manpages/lh_build.de.1                  |    2 +-
+ manpages/lh_build.en.1                  |    2 +-
+ manpages/lh_chroot.de.1                 |    2 +-
+ manpages/lh_chroot.en.1                 |    2 +-
+ manpages/lh_clean.de.1                  |    2 +-
+ manpages/lh_clean.en.1                  |    2 +-
+ manpages/lh_config.de.1                 |    2 +-
+ manpages/lh_config.en.1                 |    2 +-
+ manpages/lh_source.de.1                 |    2 +-
+ manpages/lh_source.en.1                 |    2 +-
+ manpages/lh_testroot.de.1               |    2 +-
+ manpages/lh_testroot.en.1               |    2 +-
+ manpages/live-helper.de.7               |    2 +-
+ manpages/live-helper.en.7               |    2 +-
+ 25 files changed, 32 insertions(+), 26 deletions(-)
+2007-09-09  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Fixing typing error.
+	* data/debian-cd:
+	  - Merging debian-cd 3.0.3 data files.
+	* functions/defaults.sh, helpers/lh_config:
+	  - Adding debian-installer daily images option.
+	* helpers/lh_binary_debian-installer:
+	  - Reworking debian-installer flavours and urls.
+	  - Failing when no bootstrap package cache.
+	* helpers/lh_binary_disk:
+	  - Reworking disk information.
+	* helpers/lh_bootstrap_cache:
+	  - Creating bootstrap stagefile when restoring cache.
+	* helpers/lh_bootstrap_cache, lh_chroot_cache:
+	  - Refactoring stage caching.
+	* helpers/lh_clean:
+	  - Removing cache/stages_bootstrap restore.
+	* lists/devel-live:
+	  - Moving from svn to git.
+	* Uploading 1.0~a27-1.
+
+2007-09-04  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_chroot_cache:
+	  - Added forgotten creation of the stagefile as mentioned by
+	    Peter Holik <peter@holik.at>.
+
+2007-09-04  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_syslinux, lh_config:
+	  - Applied fixes from Peter Holik <peter@holik.at>.
+	* helpers/lh_chroot_local-packages:
+	  - Added check for actual packages as mentioned by Peter Holik
+	  <peter@holik.at>.
+	* helpers/lh_bootstrap_cache:
+	  - Added forgotten creation of the stagefile as mentioned by
+	    Peter Holik <peter@holik.at>.
+	* Uploading 1.0~a26-1.
+
+2007-08-28  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Prefering debootstrap over cdebootstrap.
+	* helpers/lh_chroot_local-packages:
+	  - Only copy packages matching the build-architecture. This way, you
+	    can store local packages for different architectures in the very
+	    same config directory.
+	* Uploading 1.0~a25-1.
+
+2007-08-28  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_clean:
+	  - Accepting more than one parameter at the same time.
+	* Uploading 1.0~a24-1.
+
+2007-08-14  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - Added --conffile to all helpers.
+	* manpages/lh_config.de.1, lh_config.en.1:
+	  - Added.
+	* Uploading 1.0~a23-1.
+
+2007-08-13  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_memtest:
+	  - Improved grub workaround.
+
+2007-08-12  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_chroot_dpkg:
+	  - Added.
+
+2007-08-12  Daniel Baumann  <daniel@debian.org>
+
+	* Uploaded 1.0~a22-1.
+
+2007-08-08  Daniel Baumann  <daniel@debian.org>
+
+	* functions/lh_chroot_hacks:
+	  - Remove resume partition configuration in initramfs on etch.
+
+2007-08-07  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Added auto mode for LH_INITRAMFS.
+
+2007-08-05  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Added debian-edu mode.
+	* lists/knoppix, knoppix-dvd:
+	  - Added.
+
+2007-08-05  Mathieu Geli  <mathieu.geli@gmail.com>
+
+	* lists/studio, studio-gnome, studio-kde, studio-xfce:
+	  - Added.
+
+2007-08-04  Daniel Baumann  <daniel@debian.org>
+
+	* functions/*, helpers/*:
+	  - Renaming LIVE_* variables to LH_*.
+	* excamples/cron/*:
+	  - Updated to make-live removal.
+	* helpers/lh_binary_chroot:
+	  - Exit earlier when rootfs was cached.
+	* helpers/lh_binary_debian-installer, lh_binary_includes:
+	  - Fixed some bashisms.
+	* helpers/lh_binary_grub, lh_binary_syslinux, lh_binary_yaboot:
+	  - Workaround from matth over /bin/echo to avoid wrong expansion
+	    of entries when using dash (Closes: #431748).
+	* helpers/lh_chroot_hostname:
+	  - Installing fake hostname, less intrusive approach for the build
+	    system (Closes: #435699).
+	* helpers/lh_config:
+	  - Added argument handling.
+	* helpers/lh_losetup:
+	  - Simplified and corrected to make it actually work.
+	* helpers/lh_source:
+	  - Not using 'echo -e' anymore.
+	* helpers/make-live:
+	  - Replaced with a dummy: make-live is deprecated now, use lh_config
+	    and lh_build instead.
+
+2007-08-03  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_chroot_apt:
+	  - Updated configuration of recommends handling for apt.
+
+2007-07-29  Daniel Baumann  <daniel@debian.org>
+
+	* functions/packages.sh:
+	  - Using dpkg-query to check for packages when building in chroot,
+	    and on systems where dpkg-query is available.
+	* functions/stagefile.sh:
+	  - Added missing NAME.
+	* Uploaded 1.0~a21-1.
+
+2007-07-28  Daniel Baumann  <daniel@debian.org>
+
+	* functions/chroot.sh:
+	  - Added XORG_CONFIG="custom" to chroot call in order to disable
+	    xserver-xorg.postinst (Closes: #430566).
+	* helpers/lh_binary_usb-hdd:
+	  - Fixes for binary non-chroot build.
+
+2007-07-27  Daniel Baumann  <daniel@debian.org>
+
+	* Makefile, debian/postinst, prerm:
+	  - Added alternatives handling for includes and templates.
+	* examples/hooks/*:
+	  - Cleaned up.
+	* helpers/lh_chroot_preseed:
+	  - Process flavour specific preseeds, if available, dropping
+	    LIVE_PRESEED.
+	* helpers/lh_chroot_local-preseed:
+	  - Added.
+	* templates/syslinux:
+	  - Added installer specific templates.
+	  - Renamebled additional boot targets (localboot).
+	* Uploaded 1.0~a20-1.
+
+2007-07-24  Mathieu Geli  <mathieu.geli@gmail.com>
+
+	* helpers/make-live:
+	  - synced usage message and getopts parsing (Closes and extends
+	    #434481).
+
+2007-07-19  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh, package.sh, helpers/lh_config, lh_binary_*:
+	  - Added support for non-chrooted build.
+	  - Added caching of deb packages on this stage too.
+	* helpers/lh_binary_grub:
+	  - Added forgotten destdir for default entries.
+	* helpers/lh_binary_memtest:
+	  - Added workaround for grub inside chroot when installing memtest as
+	    suggested by Vladimir Stavrinov <vs@inist.ru>.
+	* helpers/lh_binary_rootfs:
+	  - Updated squashfs-tools package check.
+	* helpers/lh_binary_syslinux:
+	  - Using etch workaround for long filenames in syslinux on all
+	    distributions.
+	* Uploaded 1.0~a19-1.
+
+2007-07-15  Daniel Baumann  <daniel@debian.org>
+
+	* examples/cron/manpages.sh, examples/hooks/win32-loader.sh:
+	  - Added.
+
+2007-07-15  Otavio Salvador  <otavio@debian.org>
+
+	* functions/templates.sh:
+	  - Changed whole code to export TEMPLATES for the item beeing
+	    checked.
+	* helpers/lh_binary_grub, helpers/lh_binary_syslinux,
+	  helpers/lh_binary_yaboot:
+	  - Changed code to use the new TEMPLATES variable and avoid
+	    hardcoding the path.
+
+2007-07-14  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_debian-installer:
+	  - Addded 'live' mode.
+	  - Fixed a minor typo.
+	* helpers/lh_binary_includes:
+	  - Moved copying of parameters.txt to lh_binary_linux-image.
+	  - Moved parameters.txt.* to live-initramfs and data/casper.
+
+2007-07-12  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_grub, lh_binary_syslinux:
+	  - Also respect local menu.lst and syslinux.cfg.
+	* helpers/lh_binary_syslinux:
+	  - Cleaned up netboot specific parts as suggested by
+	    Vladimir Stavrinov <vs@inist.ru>.
+	* helpers/lh_binary_linux-image:
+	  - Skip vmlinuz/initrd symlinks.
+	* helpers/lh_chroot_hacks:
+	  - Setting correct permissions user home directory in case of includes.
+	* helpers/make-live:
+	  - Fixed typo in variable name.
+	* lists/rescue:
+	  - Added aide and tripwire.
+	* Uploaded 1.0~a18-1.
+
+2007-07-09  Chris Lamb  <chris@chris-lamb.co.uk>
+
+	* functions/chroot.sh, functions/defaults.sh:
+	  - Altered LH_DEBCONF_NOWARNINGS so that it accepts "enabled/disabled"
+	  as well as "yes/no" for consistency.
+
+2007-07-09  Daniel Baumann  <daniel@debian.org>
+
+	* functions/architecture.sh, helpers/lh_binary_debian-installer,
+	  lh_binary_grub, lh_binary_linux-image, lh_binary_memtest,
+	  lh_binary_syslinux, lh_binary_yaboot:
+	  - Simplified multi-arch checks/overrides.
+	* helpers/lh_binary_grub, lh_binary_syslinux, lh_binary_yaboot:
+	  - Added priority=critical for auto/autogui boot labels.
+
+2007-07-07  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_chroot:
+	  - Going back to full copy instead of hardlinks.
+	* helpers/lh_binary_debian-installer:
+	  - Added architectures for daily images.
+	* helpers/lh_binary_grub:
+	  - Refactored.
+	* helpers/lh_binary_grub, lh_binary_syslinux, lh_binary_yaboot:
+	  - Added 'quiet' for everything newer than etch.
+	* helpers/lh_binary_hacks:
+	  - Merged into lh_binary_includes.
+	* helpers/lh_chroot_hacks:
+	  - Added removal of some build-system influenced files.
+	  - Cleaned up a bit.
+	* helpers/lh_chroot_localization:
+	  - Fixed typo.
+	  - Added k3b and gwenview.
+	* helpers/lh_chroot_sysvrc:
+	  - Renamed to lh_chroot_sysv-rc.
+	* hooks/mini, minimal:
+	  - Using apt-get autoremove.
+	* lists/devel-live:
+	  - Added.
+
+2007-07-06  Otavio Salvador  <otavio@debian.org>
+
+	* helpers/lh_binary_rootfs:
+	  - Fix parameters to allow the removal of kernels inside of
+	    squashfs.
+
+2007-07-05  Otavio Salvador  <otavio@debian.org>
+
+	* helpers/lh_binary_rootfs:
+	  - Fix inverted logic error to detect when exclude the kernel
+	    from the squashfs image.
+
+2007-07-04  Otavio Salvador  <otavio@debian.org>
+
+	* helpers/lh_binary_hacks:
+	  - Do not fail if binary/parameters.txt.${LH_INITRAMFS} doesn't
+	  exists.
+	* hooks/mini, hooks/minimal:
+	  - Do not fail if the package isn't installed.
+
+2007-07-04  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Added architecture handling to mirror defaults.
+	* helpers/lh_binary_hacks,
+	  includes/includes/sid/live/parameters.txt.casper,
+	  parameters.txt.live-initramfs:
+	  - Added.
+
+2007-07-02  Otavio Salvador  <otavio@debian.org>
+
+	* helpers/lh_binary_syslinux:
+	  - Fix paths for kernel and initrd image loading.
+
+2007-07-02  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_grub:
+	  - Also respect splash.xpm and not just splash.xpm.gz as local grub
+	    splash images.
+
+2007-07-01  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_debian-installer:
+	  - Added caching of udebs.
+	* functions/defaults.sh, helpers/lh_binary_grub, lh_binary_syslinux,
+	  lh_binary_grub, lh_config:
+	  - Added support for aufs.
+	* Uploaded 1.0~a17-1.
+
+2007-06-30  Daniel Baumann  <daniel@debian.org>
+
+	* functions/releases.sh, helpers/lh_binary_disk, lh_source_disk,
+	  lh_chroot_hostname:
+	  - Added.
+
+2007-06-29  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_syslinux:
+	  - Fixed damaged memtest entry.
+	  - Corrected code style.
+	  - Added NUMBER initaliazation to fixed wrong numbering when in compat
+	    mode.
+	  - Fixed bug with isolinux.cfg fuckup if flavours are in this order:
+	    686 686-bigmem.
+	* helpers/lh_binary_grub, lh_binary_linux-image, lh_binary_memtest,
+	  lh_binary_syslinux:
+	  - Added compat mode for casper/live directories.
+	* helpers/lh_binary_manifest, lh_binary_md5sum, lh_source_mdsum:
+	  - Added introductional text to the generated file.
+	* helpers/lh_binary_manifest:
+	  - Only create the correct manifest file for the respective initramfs.
+	* helpers/lh_binary_disk, lh_source_disk:
+	  - Added.
+
+2007-06-27  Otavio Salvador  <otavio@debian.org>
+
+	* helpers/lh_binary_syslinux:
+	  - Added new methods (syslinux_live_entry and syslinux_di_entry) and
+	    change whole code to use them making it much easier to read and
+	    modify.
+	* functions/arch.sh:
+	  - Added.
+	* helpers/lh_binary_grub, lh_binary_syslinux, lh_binary_yaboot:
+	  - Use the new Check_architecture method to avoid duplicated code.
+	* functions/templates.sh:
+	  - Added.
+	* helpers/lh_binary_grub, helpers/lh_binary_syslinux,
+	  helpers/lh_binary_yaboot:
+	  - Use the new Check_templates method to avoid duplicated code.
+
+2007-06-25  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_local-hooks:
+	  - Added.
+	* helpers/lh_chroot_linux-image:
+	  - Caching downloaded packages.
+	* examples/hooks/qemu-launcher.sh:
+	  - Added.
+	* Uploaded 1.0~a16-1.
+
+2007-06-18  Chris Lamb  <chris@chris-lamb.co.uk>
+
+	* helpers/lh_chroot_packageslists, lh_chroot_local-packageslists:
+	  - Added support for '#<include>' pragma to include other list files.
+	* functions/packagelists.sh:
+	  - Added.
+	* lists/*:
+	  - Translated existing lists to be include-based, added a few missing
+	    lists.
+
+2007-06-18  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - All cache operations use hardlinks now.
+
+2007-06-16  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_bootstrap_clone, lh_bootstrap_copy:
+	  - Added.
+	* helpers/lh_binary_live-installer:
+	  - Added.
+	* Uploaded 1.0~a15-1.
+
+2007-06-10  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - Excluding lenny from the syslinux workarounds as syslinux 3.36 did
+	    migrate into testing.
+	* helpers/lh_bootstrap_cache, lh_chroot_cache:
+	  - Fixed typos which made caching fail on rebuilds.
+	* helpers/lh_clean:
+	  - Added unmount of binfmt on clean.
+	* helpers/lh_binary_usb-hdd:
+	  - Including script to write grub to the loop device from Thomas Lange
+	    <lange@informatik.uni-koeln.de>.
+
+2007-06-10  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_grub, lh_binary_rootfs, lh_binary_yaboot,
+	  lh_binary_syslinux:
+	  - Fixed some typos as found by Peter Holik <holik@it-technology.at>.
+	* manpages/live-helper.en.7:
+	  - Fixed typo.
+	* helpers/lh_bootstrap_cache, lh_chroot_cache:
+	  - Added.
+	* Uploaded 1.0~a14-1.
+
+2007-06-08  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/make-live:
+	  - Adjusted reading of configuration to match the previously renamed
+	    files.
+
+2007-06-04  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_hdd, lh_source_hdd:
+	  - Renamed to lh_binary_tar and lh_source_tar.
+	* helpers/lh_source_generic:
+	  - Removed.
+
+2007-06-03  Daniel Baumann  <daniel@debian.org>
+
+	* Uploaded 1.0~a13-1.
+
+2007-06-02  Otavio Salvador  <otavio@debian.org>
+
+	* helpers/lh_chroot_preseed:
+	  - Use {Check,Install,Remove}_package to handle debconf dependency.
+	* Add support to specify the apt/aptitude pipeline depth.
+
+2007-06-02  Daniel Baumann  <daniel@debian.org>
+
+	* Applied patches from Otavio Salvador <otavio@debian.org>:
+	  - Add support to override helpers base directory
+	  - Use LIVE_BOOTSTRAP_CONFIG instead of LIVE_DISTRIBUTION_CONFIG.
+	  - Add support to specify the keyring to be used while bootstraping.
+	  - Add lh_chroot_preseed helper.
+
+2007-05-28  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - Added initial P: messages.
+	  - Removed some bashisms.
+	  - Added some of the proposed cleanups from Trent Buck
+	    <trentbuck@gmail.com>.
+	* lists/mini, minimal:
+	  - Removed, already pulled in with live-initramfs depends.
+
+2007-05-27  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_rootfs:
+	  - Added check for config/binary_rootfs/squashfs.sort for passing a
+	    sorting list to mksquashfs.
+
+2007-05-26  Daniel Baumann  <daniel@debian.org>
+
+	* lists/rescue:
+	  - Updated with suggestions from Inigo Tejedor Arrondo
+	    <inigo@navarrux.org>
+	* Uploaded 1.0~a12-1.
+
+2007-05-25  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Updated check for LH_BOOTSTRAP on ubuntu.
+	* helpers/lh_binary_iso, lh_source_iso:
+	  - Added configuration support for ISO application, preparer and
+	    publisher field.
+
+2007-05-24  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_syslinux:
+	  - Added dedicated directory handling for syslinux (>= 3.36) on usb.
+	* helpers/lh_binary_debian-installer, lh_binary_linux-image,
+	  lh_binary_memtest, lh_binary_syslinux:
+	  - Added legacy support for syslinux (<< 3.36).
+	* Uploaded 1.0~a11-1.
+
+2007-05-18  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - Renamed LIVE_KERNEL_FLAVOUR to LIVE_LINUX_FLAVOURS.
+	  - Renamed LIVE_KERNEL_PACKAGES to LIVE_LINUX_PACKAGES.
+	  - Renamed LIVE_BINARY_IMAGE to LIVE_BINARY_IMAGES.
+	  - Renamed LIVE_SOURCE_IMAGE to LIVE_SOURCE_IMAGES.
+	  - Renamed LIVE_FILESYSTEM to LIVE_CHROOT_FILESYSTEM.
+	  - Renamed LIVE_SERVER_ADDRESS to LIVE_NET_SERVER.
+	  - Renamed LIVE_SERVER_PATH to LIVE_NET_PATH.
+	* Uploaded 1.0~a10-1.
+
+2007-05-18  Mathieu Geli  <mathieu.geli@gmail.com>
+
+	* examples/hooks/*
+	  - Added new hooks for non-free/contrib drivers
+	    Intel  : ipw3945, ipw2100, ipw2200
+	    Nvidia : nvidia-legacy
+	    Ralink : rt2x00, rt2570
+	  - Changed behavior of beryl hook: autostart beryl
+	    if video driver allows it (minimal detection based on glxinfo)
+
+2007-05-17  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_md5sum, lh_source,md5sum:
+	  - Fixed accidentally inclusion of md5sum.txt itself into
+	    binary/md5sum.txt.
+
+2007-05-16  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - Added check for local includes and templates.
+	  - Renamed LH_APT_GENERIC to LIVE_BINARY_INDICES.
+	  - Renamed lh_binary_localincludes to lh_binary_local-includes.
+	  - Renamed lh_chroot_localhooks to lh_chroot_local-hooks.
+	  - Renamed lh_chroot_localincludes to lh_chroot_local-includes.
+	  - Renamed lh_chroot_localpackages to lh_chroot_local-packages.
+	  - Renamed lh_chroot_localpackageslists to
+	    lh_chroot_local-packageslists.
+	  - Renamed lh_source_download to lh_source_debian.
+	  - Renamed lh_source_config to lh_source_debian-live.
+
+2007-05-09  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - Renamed LH_MIRROR*_BUILD to LH_MIRROR*_BOOTSTRAP.
+	  - Renamed LH_MIRROR*_IMAGE to LH_MIRROR*_BINARY.
+	* helpers/lh_chroot_sources:
+	  - Added aptitude overwrite for untrusted sources.
+	  - Changed checks for *.build/*.image to *.bootstrap/*.binary.
+
+2007-05-08  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - Renamed lh_binary_linuximage to lh_binary_linux-image.
+	  - Renamed lh_chroot_linuximage to lh_chroot_linux-image.
+	* helpers/lh_bootstrap_cdebootstrap, lh_bootstrap_debootstrap:
+	  - Added missing cache directory when only caching stages.
+	* helpers/lh_binary_debian-installer, lh_binary_linux-image,
+	  lh_binary_memtest:
+	  - Changed kernel installation directories.
+
+2007-05-07  Daniel Baumann  <daniel@debian.org>
+
+	* examples/snapshot-build.sh, live-snapshot.sources.list:
+	  - Added.
+	* helpers/lh_binary_rootfs:
+	  - Fixed wrong order of squashfs options.
+
+2007-05-06  Daniel Baumann  <daniel@debian.org>
+
+	* templates/syslinux:
+	  - Updated again.
+	* helpers/lh_config:
+	  - Fixed overwriting of LH_* options.
+	* helpers/lh_binary_includes:
+	  - Fixed a quoting typo.
+	  - Working arround symlinks on usb-hdd binary images.
+	* Uploaded 1.0~a9-1.
+
+2007-04-31  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - Added LH_INITRAMFS.
+	  - Splitted config/image into config/binary and config/source.
+	* Uploaded 1.0~a8-1.
+
+2007-04-26  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/*:
+	  - Implemented paranoid caching with LIVE_CACHE_INDICES,
+	    LIVE_CACHE_PACKAGES and LIVE_CACHE_STAGES. This allows to build
+	    images offline from the cache.
+
+2007-04-25  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_usb, lh_source_usb:
+	  - In preparation of adding support for usb-zip images, the usb binary
+	    type is renamed to usb-hdd.
+
+2007-04-24  Daniel Baumann  <daniel@debian.org>
+
+	* functions/stagefile.sh:
+	  - Requite_stagefile can require more than one stage.
+	* helpers/lh_binary_debian-installer:
+	  - Added.
+
+2007-04-23  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_includes, lh_binary_usb, lh_source_usb:
+	  - Added workaround for vfat limitations.
+
+2007-04-23  Daniel Baumann  <daniel@debian.org>
+
+	* Makefile:
+	  - Added simple test rule.
+	* functions/*, helpers/*:
+	  - Added LH_ROOT_COMMAND to support sudo.
+	* functions/package.sh:
+	  - Added. Helper dependencies in-chroot can now be handled by
+	    functions.
+	* helpers/make-live:
+	  - Added trap to unmount proc and sys on exit and failure.
+	* Uploaded 1.0~a7-1.
+
+2007-04-22  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - In ubuntu mode, setting default sections to main restricted.
+	* helpers/lh_binary_grub:
+	  - Making copy call of grub arch independent.
+	* helpers/lh_chroot_sources:
+	  - In debian mode, checking for non-sid rather than if-etch.
+	  - Fixed wrong Ubuntu security URL.
+
+2007-04-20  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_rootfs, lh_binary_iso:
+	  - Added mksquashfs/genisoimage quiet/verbose options.
+
+2007-04-19  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_grub, lh_binary_syslinux:
+	  - Added check for splash in config directory.
+
+2007-04-18  Daniel Baumann  <daniel@debian.org>
+
+	* debian/cron.daily, default:
+	  - Added.
+	* doc/BUGS, DOWNLOAD:
+	  - Added.
+	* examples/edu.sources.list, fai.sources.list:
+	  - Added.
+	* manpages/*:
+	  - Added language suffix.
+	  - Added German translations.
+
+2007-04-17  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_chroot_hooks:
+	  - Also check for tasks specific hooks, not just for package lists.
+	* helpers/lh_chroot_tasks:
+	  - Allowing to use either aptitude or tasksel.
+	* hooks/kde-desktop:
+	  - Added.
+	* manpages/lh_build.1, lh_source.1:
+	  - Added.
+
+2007-04-16  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Using lsb_release, if existing, to set default mode to ubuntu on
+	    ubuntu systems.
+	  - Moved desktop task to the end, so that gdm doesn't take
+	    gnome-session as default.
+	* helpers/lh_chroot_hooks:
+	  - Added simple --hooks for easy testing.
+	* Uploaded 1.0~a6-1.
+
+2007-04-15  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Set LH_APT to apt-get when using mini or minimal.
+	* helpers/lh_chroot_sources:
+	  - Excluding comments from local sources lists.
+	* helpers/lh_bootstrap_cdebootstrap:
+	  - Removing imported configuration files by cdebootstrap.
+
+2007-04-13  Daniel Baumann  <daniel@debian.org>
+
+	* Moved examples from /usr/share/doc to /usr/share/live-helper.
+	* examples/bpo.sources.list:
+	  - Added.
+	* functions/defaults.sh:
+	  - Setting LH_GENISOIMAGE on ubuntu to legacy mkisofs.
+	* helpers/lh_clean:
+	  - Added missing removal of generic source.
+
+2007-04-12  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_config, make-live:
+	  - Adding --config.
+	* helpers/lh_binary_memtester86:
+	  - Renamed to lh_binary_memtest, made more generic.
+	* functions/defaults.sh:
+	  - Setting default distribution to etch until 2.6.20 has setteled in
+	    unstable.
+
+2007-04-11  Daniel Baumann  <daniel@debian.org>
+
+	* Merging from sidux fllbuilder 1.0.4:
+	  - functions/chroot: Added LH_DEBCONF_NOWARNINGS.
+	  - helpers/lh_chroot_linuximage: Added additional options to
+	    kernel-img.conf.
+	  - helpers/lh_chroot_proc: Made binfmt umount conditional.
+	* contrib/grub-splash/*, templates/grub/splash.xpm.gz:
+	  - Added.
+	* helpers/lh_binary_grub, lh_binary_syslinux:
+	  - Added failsafe kernel entries.
+	* helpers/lh_chroot_apt:
+	  - Using apt.conf.d also for apt, not just for aptitude.
+	  - Minor code cleanup.
+	* helpers/lh_source_*:
+	  - Minor code cleanup.
+	* helpers/lh_source_download:
+	  - Added LIVE_BOOTLOADER to the list of source packages.
+	* contrib/grub-splash/*, templates/grub/splash.xpm.gz:
+	  - Added.
+
+2007-04-10  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_includes, includes/*:
+	  - Redone.
+
+2007-04-09  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_yaboot, templates/yaboot:
+	  - Added.
+
+2007-04-09  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_config, make-live, functions/defaults.sh:
+	  - Added mode to distinguish between Debian and Ubuntu.
+	* helpers/lh_chroot_sources:
+	  - Added check for LIVE_MIRROR_BUILD* to be equal to
+	    LIVE_MIRROR_IMAGE*.
+	* Uploaded 1.0~a5-1.
+
+2007-04-08  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_net:
+	  - Added check for namespace collision with LIVE_SERVER_PATH.
+	* helpers/lh_binary_grub:
+	  - Added functionality for usb|hdd images.
+
+2007-04-07  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_chroot_sources:
+	  - Moved check for local source lists from
+	    config/sources.lists.{build,image} to
+	    config/chroot_sources/*.{build,image}.
+	  - Added check for local gpg keys in
+	    config/chroot_sources/*.{build,image}.gpg.
+	  - Added check for local keyring packages in
+	    config/chroot_sources/*.deb.
+	  - Added LIVE_KEYRING_PACKAGES.
+
+2007-04-06  Daniel Baumann  <daniel@debian.org>
+
+	* functions/breakpoints.sh, helpers/*:
+	  - Added initial breakpoints.
+	* functions/chroot.sh:
+	  - Adding /usr/local to path.
+	* functions/lockfile.sh:
+	  - Added additional signals to the trap.
+	* helpers/lh_binary_includes:
+	  - Respect LIVE_INCLUDES=none.
+	* manpages/*:
+	  - Updated.
+
+2007-04-05  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_grub, templates/grub/menu.lst:
+	  - Added splash functionality.
+	* Uploaded 1.0~a4-1.
+
+2007-04-03  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_grub, lh_binary_grub:
+	  - Added check for LIVE_TEMPLATES to be existing.
+	* helpers/lh_binary_includes:
+	  - Added check for LIVE_INCLUDES to be existing.
+
+2007-04-02  Daniel Baumann  <daniel@debian.org>
+
+	* functions/*, helpers/*:
+	  - Merged LIVE_SYSLINUX and LIVE_GRUB into LIVE_BOOTLOADER.
+	* helpers/lh_binary_iso:
+	  - Added exclude for the bootloader from the iso image content.
+
+2007-04-01  Daniel Baumann  <daniel@debian.org>
+
+	* helper/lh_binary_grub:
+	  - Added.
+
+2007-03-30  Daniel Baumann  <daniel@debian.org>
+
+	* helper/lh_chroot_localincludes:
+	  - Fixed wrong path for hook removal.
+
+2007-03-29  Daniel Baumann  <daniel@debian.org>
+
+	* functions/common.sh, echo.sh:
+	  - Added.
+	* doc/README, helpers/lh_source, manpages/lh_binary.1, live-helper.7:
+	  - Added forgotten helpers.
+	* doc/FAQ:
+	  - Added.
+	* lists/mini, minimal:
+	  - Added --yes to apt call to make them non-interactive.
+	* manpages/lh_chroot.1:
+	  - Added.
+
+2007-03-28  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_bootstrap_cdebootstrap, lh_bootstrap_debootstrap:
+	  - Added --debug, --quiet, and --verbose.
+
+2007-03-27  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_linuximage, lh_binary_memtest86:
+	  - Added missing Read_conffiles to fix foreign architecture builds.
+
+2007-03-26  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_bootstrap_cdebootstrap, lh_bootstrap_debootstrap,
+	  lh_clean:
+	  - Added routine to cache bootstrapped chroot as suggested by Kai
+	    Hendry <hendry@iki.fi>.
+	* helpers/lh_chroot_rootfs:
+	  - Fixed typo in net type.
+	* lists/gnome*, kde*, standard-x11, xfce*:
+	  - Added menu.
+
+2007-03-26  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Fixed handling of desktop list variable loop.
+	* Uploaded 1.0~a3-1.
+
+2007-03-25  Daniel Baumann  <daniel@debian.org>
+
+	* functions/*, helpers/*:
+	  - Renamed LIVE_FLAVOUR to LIVE_BOOTSTRAP_FLAVOUR.
+	  - Renamed LIVE_PACKAGES_LIST to LIVE_PACKAGES_LISTS.
+	* functions/cache.sh:
+	  - Added.
+	* helpers/lh_bootstrap_cdebootstrap:
+	  - Added removal of cdebootstrap-helper-diverts.
+	* helpers/lh_binary_chroot:
+	  - Added.
+	* helpers/lh_binary_rootfs:
+	  - Moved filesystem routines into chroot.
+	* helpers/lh_chroot_localization, lh_chroot_localpackages,
+	  lh_chroot_localpackageslists, lh_chroot_packages,
+	  lh_chroot_packageslists, lh_chroot_tasks:
+	  - Added check for LH_CACHE.
+	* helpers/lh_chroot_apt:
+	  - Removing old apt.conf if existing as suggested by Ben Armstrong
+	    <synrg@debian.org>.
+	* helpers/lh_chroot_hacks:
+	  - Added check for already installed smbfs.
+	  - Added check for already configured initramfs.conf as suggested by
+	    Ben Armstrong <synrg@debian.org>.
+	* helpers/lh_chroot_interactive:
+	  - Added.
+	* helpers/lh_chroot_tasks:
+	  - Added routine for LH_APT=apt.
+	* lists/minimal-net:
+	  - Minimized.
+
+2007-03-24  Daniel Baumann  <daniel@debian.org>
+
+	* functions/*, helpers/*, hooks/*:
+	  - Added GPL blurb.
+	* functions/arguments.sh, helpers/*:
+	  - Added common arguments.
+	* functions/arguments.sh, stagefile.sh, helpers/*,
+	  manpages/live-helper.7:
+	  - Added --force option.
+	* functions/defaults.sh, helpers/lh_binary_syslinux, lh_config,
+	  make-live:
+	  - Added LIVE_USERNAME and LIVE_HOSTNAME.
+	* helpers/lh_binary_linuximage, lh_binary_memtest86,
+	  lh_binary_syslinux:
+	  - Moved kernel directory to live.
+	* helpers/lh_clean:
+	  - Added purge.
+
+2007-03-23  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/make-live:
+	  - Calling Arguments twice to catch case with non-default root.
+
+2007-03-22  Daniel Baumann  <daniel@debian.org>
+
+	* functions/default.sh, helpers/*:
+	  - Renamed lh_chroot_packageslist to lh_chroot_packageslists and
+	    lh_chroot_localpackageslist to lh_chroot_localpackageslists
+	* helpers/lh_binary_includes:
+	  - Using LIVE_INCLUDES now.
+	* helpers/lh_chroot_apt:
+	  - Added LH_APT_SECURE.
+	* helpers/lh_chroot_linuximage:
+	  - Added check for LIVE_KERNEL_PACKGES=none to allow kernel packages as
+	    local packages.
+
+2007-03-21  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_hdd, lh_binary_iso, lh_binary_net, lh_binary_usb:
+	  - Checking earlier if there is something todo.
+	* helpers/lh_binary_linuximage, lh_binary_syslinux,
+	  lh_chroot_linuximage, templates/syslinux/isolinux.cfg:
+	  - Extended to support multiple kernels at once.
+	* helpers/lh_binary_includes, lh_binary_localincludes,
+	  lh_chroot_localincludes:
+	  - Replaced path with variable as suggested Kai Hendry <hendry@iki.fi>.
+	* helpers/lh_source_md5sum:
+	  - Added.
+	* helpers/make-live:
+	  - Added short options in ARGUMENTS.
+	* functions/defaults.sh, helpers/*:
+	  - Renamed LIVE_KERNEL to LIVE_KERNEL_FLAVOUR.
+	  - Renamed LIVE_MIRROR_LOCAL to LIVE_MIRROR_BUILD and
+	    LIVE_MIRROR_GENERIC to LIVE_MIRROR_IMAGE.
+
+2007-03-20  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/make-live:
+	  - Fixed typo in ARGUMENTS.
+
+2007-03-19  Daniel Baumann  <daniel@debian.org>
+
+	* lists/gnome*, kde*, standard-x11, xfce*:
+	  - Added alsa-base, alsa-oss, alsa-utils, and discover.
+
+2007-03-19  Daniel Baumann  <daniel@debian.org>
+
+	* Uploaded 1.0~a2-1.
+
+2007-03-18  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Quoted date call in LIVE_ISO_VOLUME.
+	* manpages/lh_clean.1:
+	  - Added.
+
+2007-03-17  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh, helpers/*:
+	  - Renamed LIVE_MIRROR to LIVE_MIRROR_LOCAL and LIVE_MIRROR_SECURITY
+	    to LIVE_MIRROR_LOCAL_SECURITY.
+	* doc/examples/beryl-hook.sh:
+	  - Added, submitted by Inigo Tejedor Arrondo <inigo@navarrux.org>.
+	* helpers/lh_config, make-live:
+	  - Added check for newconfig to prevent overwriting of non-specified
+	    options to default values.
+	* helpers/lh_chroot_localhooks:
+	  - Added basename where needed.
+	* helpers/lh_chroot_sources:
+	  - Added check for local sources.list in config for custom
+	    repositories.
+	  - Replaced security check for etch with check for not-unstable.
+	* manpages/lh_binary.1, lh_bootstrap.1, lh_bootstrap_cdebootstrap.1,
+	  lh_bootstrap_debootstrap.1, lh_testroot.1:
+	  - Added.
+	* templates/syslinux/pxlinux.cfg:
+	  - Fixed path.
+
+2007-03-16  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_binary_usb: Corrected stagefile creation.
+
+2007-03-15  Daniel Baumann  <daniel@debian.org>
+
+	* Makefile:
+	  - Replaced helper uninstall routine with a less intrusive one.
+	* doc/NEWS:
+	  - Updated.
+	* functions/conffile.sh:
+	  - Beautified.
+	* functions/defaults.sh:
+	  - Added LH_LOSETUP.
+	* functions/lockfile.sh:
+	  - Beautified.
+	* helpers/*:
+	  - Allowing apt-get, not just apt in LH_APT.
+	* helpers/lh_config:
+	  - Added check for existing configuration.
+	* helpers/lh_binary_md5sum:
+	  - Removed legacy code.
+	* helpers/lh_binary_manifest:
+	  - Added creation of packages.txt.
+	* helpers/lh_binary_usb, lh_source_usb:
+	  - Replaced loop device node workaround with a better one.
+	* helpers/lh_chroot_hooks, lh_chroot_localhooks:
+	  - Fixed executable check.
+	* helpers/lh_source_config:
+	  - Added.
+	* helpers/lh_source_download:
+	  - Separeted debian sources and debian-live configuration into
+	    different directories.
+	  - Added live-helper to the sources.
+	* helpers/lh_source_generic, lh_source_iso, lh_source_usb,
+	  lh_source_net:
+	  - Removed annyoing warning when sources are disabled.
+	* helpers/lh_source_net:
+	  - Beautified.
+	* helpers/make-live:
+	  - Fixed typo in ARGUMENTS.
+	  - Moved help, usage, version into functions.
+	  - Removed build pre-option.
+	* manpages/live-helper.7:
+	  - Added.
+	* templates/syslinux/f10.txt:
+	  - Added note about Debian Live project.
+
+2007-03-14  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh, helpers/*:
+	  - Converted LIVE_ROOT to directory, not full path.
+	* functions/*, helpers/*:
+	  - Replaced LIVE_CHROOT with directory name.
+	* functions/conffile.sh:
+	  - Added warning if CONFFILE is not readable.
+	* helpers/lh_chroot_localization:
+	  - Completed check for koffice.
+	* helpers/lh_source_download:
+	  - Fixed typo in old source removal.
+
+2007-03-14  Daniel Baumann  <daniel@debian.org>
+
+	* helpers/lh_chroot_hacks:
+	  - Added removal of udev persistent-net rule.
+	* Uploaded 1.0~a1-3.
+
+2007-03-14  Daniel Baumann  <daniel@debian.org>
+
+	* functions/defaults.sh:
+	  - Fixed setting of LIVE_SYSVINIT.
+	* helpers/lh_chroot_sysvinit:
+	  - Changed check for LIVE_SYSVINIT from disabled to enabled.
+	* Uploaded 1.0~a1-2.
+
+2007-03-12  Daniel Baumann  <daniel@debian.org>
+
+	* Rewritten live-package.
+	* Uploaded 1.0~a1-1.

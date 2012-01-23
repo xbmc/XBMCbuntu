@@ -1,0 +1,95 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'manage /bin/hostname')"
+HELP=""
+USAGE="${PROGRAM} {install|remove} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+case "${1}" in
+	install)
+		Echo_message "Configuring file /etc/hostname"
+
+		# Checking stage file
+		Check_stagefile .stage/chroot_hostname
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		# Save hostname
+		mv chroot/bin/hostname chroot/bin/hostname.orig
+
+		# Create hostname file
+		echo "localhost.localdomain" > chroot/etc/hostname
+
+		Echo_message "Configuring file /bin/hostname"
+
+		# Create hostname program
+
+cat > chroot/bin/hostname << EOF
+#!/bin/sh
+
+echo "localhost.localdomain"
+EOF
+
+		chmod 755 chroot/bin/hostname
+
+		# Creating stage file
+		Create_stagefile .stage/chroot_hostname
+		;;
+
+	remove)
+		Echo_message "Deconfiguring file /etc/hostname"
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		# Copying hostname from includes, if existing
+		if [ -e config/includes.chroot/etc/hostname ]
+		then
+			cp -a config/includes.chroot/etc/hostname chroot/etc/hostname
+		fi
+
+		Echo_message "Deconfiguring file /bin/hostname"
+
+		# Restore hostname file
+		if [ -e chroot/bin/hostname.orig ]
+		then
+			mv chroot/bin/hostname.orig chroot/bin/hostname
+		fi
+
+		# Removing stage file
+		rm -f .stage/chroot_hostname
+		;;
+
+	*)
+		Usage
+		;;
+esac

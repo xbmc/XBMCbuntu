@@ -1,0 +1,158 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Read meta config
+if [ "${1}" != "noauto" ] && [ -x auto/clean ]
+then
+	Echo_message "Executing auto/clean script."
+	./auto/clean "${@}"
+	exit ${?}
+fi
+
+if [ "${1}" = "noauto" ]
+then
+	shift
+fi
+
+# Setting static variables
+DESCRIPTION="$(Echo 'clean up system build directories')"
+HELP=""
+USAGE="${PROGRAM} [--all] [--cache] [--chroot] [--binary] [--purge] [--remove] [--stage] [--source]"
+
+#Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Avoid cases were users accidentally nuke their config/binary
+if [ ! -d config ] && [ "$(basename ${PWD})" = "config" ]
+then
+	Echo_error "%s is not a good Debian Live working directory to clean." "${PWD}"
+	exit 1
+fi
+
+rm -f .lock
+
+if [ -z "${*}" ]
+then
+	ARGUMENTS="--all"
+else
+	ARGUMENTS="${@}"
+fi
+
+for ARGUMENT in ${ARGUMENTS}
+do
+	case "${ARGUMENT}" in
+		--all)
+			LB=1 "${0}" noauto --chroot
+			LB=1 "${0}" noauto --binary
+			LB=1 "${0}" noauto --stage
+			LB=1 "${0}" noauto --source
+
+			rmdir --ignore-fail-on-non-empty auto > /dev/null 2>&1 || true
+			;;
+
+		--cache)
+			${LB_ROOT_COMMAND} rm -rf cache
+			;;
+
+		--chroot)
+			Echo_message "Cleaning chroot"
+			${LB_ROOT_COMMAND} umount -f chroot/run > /dev/null 2>&1 || true
+			${LB_ROOT_COMMAND} umount -f chroot/sys > /dev/null 2>&1 || true
+			${LB_ROOT_COMMAND} umount -f chroot/proc/sys/fs/binfmt_misc > /dev/null 2>&1 || true
+			${LB_ROOT_COMMAND} umount -f chroot/proc > /dev/null 2>&1 || true
+			${LB_ROOT_COMMAND} umount -f chroot/lib/init/rw > /dev/null 2>&1 || true
+			${LB_ROOT_COMMAND} umount -f chroot/dev/shm > /dev/null 2>&1 || true
+			${LB_ROOT_COMMAND} umount -f chroot/dev/pts > /dev/null 2>&1 || true
+			${LB_ROOT_COMMAND} umount -f chroot/dev > /dev/null 2>&1 || true
+			${LB_ROOT_COMMAND} umount -f chroot/var/lib/dpkg > /dev/null 2>&1 || true
+
+			${LB_ROOT_COMMAND} umount -f chroot/binary.tmp > /dev/null 2>&1 || true
+			${LB_ROOT_COMMAND} umount -f chroot/dev.tmp/pts > /dev/null 2>&1 || true
+
+			${LB_ROOT_COMMAND} rm -rf chroot chroot.tmp
+
+			rm -f chroot.packages.live chroot.packages.install
+
+			rm -f .stage/chroot*
+			;;
+
+		--binary)
+			${LB_ROOT_COMMAND} umount -f binary.tmp > /dev/null 2>&1 || true
+			rm -rf binary.tmp binary.deb binary.udeb
+			rm -f binary*.iso
+			rm -f binary*.img
+			rm -f binary*.tar.gz
+			rm -f binary.sh
+			rm -f binary.list binary.packages md5sum.txt
+
+			rm -rf binary
+			rm -rf tftpboot
+
+			rm -f .stage/binary*
+			;;
+
+		--remove)
+			LB=1 "${0}" --all
+			rm -rf cache/packages_*
+			;;
+
+		--purge)
+			LB=1 "${0}" --all
+			LB=1 "${0}" --cache
+
+			if [ -e auto/config ]
+			then
+				rm -f .stage/config
+			fi
+			;;
+
+		--stage)
+			rm -rf .stage
+			;;
+
+		--source)
+			rm -f source*.iso
+			rm -f source*.img
+			rm -f source*.tar
+			rm -f source*.tar.gz
+			rm -f source*.list
+			rm -f source-selection.txt
+
+			rm -rf source
+
+			rm -f .stage/source*
+			;;
+
+		-h|--help)
+			Help
+			;;
+
+		-u|--usage)
+			Usage
+			;;
+
+		-v|--version)
+			Version
+			;;
+
+		*)
+			Usage
+			exit 1
+			;;
+	esac
+done

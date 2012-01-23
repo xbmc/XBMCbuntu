@@ -1,0 +1,5 @@
+# /usr/share/live/build/package-lists/kde-extra - package list for live-build(7)
+
+#include <kde-full>
+
+kde-extras

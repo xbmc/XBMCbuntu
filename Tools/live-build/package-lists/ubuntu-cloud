@@ -1,0 +1,9 @@
+# /usr/share/live/build/package-lists/ubuntu-cloud - package list for live-build(7)
+
+#include <minimal>
+
+# Tasks
+standard^ server^ cloud-image^
+
+# Packages
+landscape-client ubuntu-minimal

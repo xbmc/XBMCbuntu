@@ -1,0 +1,97 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'mount /proc')"
+HELP=""
+USAGE="${PROGRAM} {install|remove} [--force]"
+
+Arguments "${@}"
+
+# Ensure that a system is built as root
+lb testroot
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+case "${1}" in
+	install)
+		Echo_message "Begin mounting /proc..."
+
+		# Checking stage file
+		Check_stagefile .stage/chroot_proc
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		if [ "${LB_USE_FAKEROOT}" != "true" ]
+		then
+			# Creating mountpoint
+			mkdir -p chroot/proc
+
+			# Mounting /proc
+			${LB_ROOT_COMMAND} mount proc-live -t proc chroot/proc
+		else
+			rm -rf chroot/proc
+			ln -s /proc chroot/
+		fi
+
+		# Creating stage file
+		Create_stagefile .stage/chroot_proc
+		;;
+
+	remove)
+		Echo_message "Begin unmounting /proc..."
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		if [ "${LB_USE_FAKEROOT}" != "true" ]
+		then
+			# Workaround binfmt-support /proc locking
+			if [ -e chroot/proc/sys/fs/binfmt_misc/status ]
+			then
+				${LB_ROOT_COMMAND} umount chroot/proc/sys/fs/binfmt_misc
+			fi
+
+			# Unmounting /proc
+			#fuser -km chroot/proc
+			if [ -e chroot/proc/version ]
+			then
+				${LB_ROOT_COMMAND} umount chroot/proc
+			fi
+		else
+			rm -rf chroot/proc
+			mkdir -p chroot/proc
+		fi
+
+		# Removing stage file
+		rm -f .stage/chroot_proc
+		;;
+
+	*)
+		Usage
+		;;
+esac

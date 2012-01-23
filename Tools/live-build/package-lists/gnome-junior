@@ -1,0 +1,6 @@
+# /usr/share/live/build/package-lists/gnome-junior - package list for live-build(7)
+
+#include <gnome>
+#include <debian-junior>
+
+junior-gnome

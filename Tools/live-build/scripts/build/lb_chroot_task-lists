@@ -1,0 +1,151 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'install task lists into chroot')"
+HELP=""
+USAGE="${PROGRAM} {install|live} [--force]"
+
+_PASS="${1}"
+shift
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+Echo_message "Begin installation of task lists (${_PASS} pass)..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/chroot_task-lists.${_PASS}
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+if ls config/task-lists/*.list > /dev/null 2>&1 || \
+   ls config/task-lists/*.list.chroot > /dev/null 2>&1 || \
+   ls config/task-lists/*.list.chroot_${_PASS} > /dev/null 2>&1
+then
+	for LIST in config/task-lists/*.list \
+		    config/task-lists/*.list.chroot \
+		    config/task-lists/*.list.chroot_${_PASS}
+	do
+		if [ -e "${LIST}" ]
+		then
+			# Generating task list
+			Expand_packagelist "$(basename ${LIST})" "config/task-lists" \
+				>> chroot/root/chroot_tasks
+		fi
+	done
+
+	# Restoring cache
+	Restore_cache cache/packages_chroot
+
+	# Checking depends
+	case "${LB_TASKSEL}" in
+		apt)
+			Check_package chroot/usr/bin/apt-get apt
+			;;
+
+		aptitude)
+			Check_package chroot/usr/bin/aptitude aptitude
+			;;
+
+		tasksel)
+			Check_package chroot/usr/bin/tasksel tasksel
+			;;
+	esac
+
+	# Installing depends
+	Install_package
+
+	# Installing tasks
+	case "${LB_TASKSEL}" in
+		apt)
+			# This needs to be cleaned up at some point
+			APT_TASKS=
+
+			case "${LB_MODE}" in
+				ubuntu|kubuntu)
+					TASKS="$(cat chroot/root/chroot_tasks)"
+					;;
+
+				*)
+					# Avoid standard tasks which appears to not exist
+					TASKS="$(cat chroot/root/chroot_tasks | sed -e 's|standard||')"
+					;;
+			esac
+
+			for TASK in ${TASKS}
+			do
+				APT_TASKS="${APT_TASKS:+$APT_TASKS }$TASK^"
+			done
+
+			Chroot chroot "apt-get ${APT_OPTIONS} install ${APT_TASKS}"
+			;;
+
+		aptitude)
+			Chroot chroot "aptitude ${APTITUDE_OPTIONS} install $(cat chroot/root/chroot_tasks)"
+			;;
+
+		tasksel)
+			for TASK in $(cat chroot/root/chroot_tasks)
+			do
+				case "${TASK}" in
+					gnome*)
+						DESKTOP="${DESKTOP} gnome"
+						;;
+
+					kde*)
+						DESKTOP="${DESKTOP} kde"
+						;;
+
+					lxde*)
+						DESKTOP="${DESKTOP} lxde"
+						;;
+
+					xfce*)
+						DESKTOP="${DESKTOP} xfce"
+						;;
+				esac
+
+				echo "tasksel tasksel/desktop multiselect ${DESKTOP}" > chroot/root/preseed
+				Chroot chroot "debconf-set-selections /root/preseed"
+				rm -f chroot/root/preseed
+
+				Chroot chroot "tasksel --debconf-apt-progress --logstderr install ${TASK}"
+			done
+			;;
+	esac
+
+	# Removing depends
+	Remove_package
+
+	# Removing task list
+	rm -f chroot/root/chroot_tasks
+
+	# Saving cache
+	Save_cache cache/packages_chroot
+
+	# Creating stage file
+	Create_stagefile .stage/chroot_task-lists.${_PASS}
+fi

@@ -1,0 +1,99 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+#set -e
+
+Init ()
+{
+	if [ -e /etc/live/build-cron.conf ]
+	then
+		. /etc/live/build-cron.conf
+	fi
+
+	if ls /etc/live/build-cron.d/* > /dev/null 2>&1
+	then
+		for _FILE in /etc/live/build-cron.d/*
+		do
+			. "${_FILE}"
+		done
+	fi
+
+	if [ "${LIVE_BUILD_CRON_MANUAL}" != "true" ]
+	then
+		echo "I: live-build-cron-manual disabled."
+		exit 0
+	fi
+
+	mkdir -p "${LIVE_BUILD_CRON_MANUAL_DIRECTORY}"
+
+	if [ ! -d "${LIVE_BUILD_CRON_MANUAL_DIRECTORY}" ]
+	then
+		echo "E: live-build-cron-manual directory not set."
+		exit 1
+	fi
+}
+
+Setup ()
+{
+	_TMPDIR="$(mktemp -d -t live-build-cron-manual.XXXXXXXX)"
+
+	cd "${_TMPDIR}"
+	git clone git://live.debian.net/git/live-manual.git
+
+	cd live-manual && git checkout debian-next
+}
+
+Build ()
+{
+	cd "${_TMPDIR}/live-manual"
+
+	echo "live-build-cron-manual: $(LC_ALL=C date -R) on ${_HOSTNAME}" | tee build.log
+	echo "Using the following sisu package versions: " | tee -a build.log
+
+	for _PACKAGE in $(dpkg --get-selections | awk '/^sisu/ { print $1 }')
+	do
+		echo ${_PACKAGE} $(apt-cache policy $package | awk '/Installed: / { print $2 }') | tee -a build.log
+	done
+
+	make DEBUG=1 autobuild 2>&1 | tee -a build.log
+}
+
+Install ()
+{
+	cd "${LIVE_BUILD_CRON_MANUAL_DIRECTORY}"
+	rm -rf *
+
+	mv "${_TMPDIR}/live-manual/build/"* ./
+	mv "${_TMPDIR}/live-manual/build.log" ./
+}
+
+Clean ()
+{
+	rm -rf "${_TMPDIR}"
+}
+
+Trace ()
+{
+	echo "$(LC_ALL=C date -R)" > "${LIVE_BUILD_CRON_MANUAL_DIRECTORY}/manual-trace"
+}
+
+Main ()
+{
+	Init
+	Setup
+
+	Build
+	Install
+	Clean
+
+	Trace
+}
+
+Main

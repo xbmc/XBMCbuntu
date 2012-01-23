@@ -1,0 +1,6 @@
+# /usr/share/live/build/package-lists/gnome-full - package list for live-build(7)
+
+#include <gnome>
+
+gnome
+gdm3

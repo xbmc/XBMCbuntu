@@ -1,0 +1,172 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'bootstrap a Debian system with cdebootstrap(1)')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_BOOTSTRAP}" != "cdebootstrap" ] && [ "${LB_BOOTSTRAP}" != "cdebootstrap-static" ]
+then
+	exit 0
+fi
+
+# Check architecture
+Check_crossarchitectures
+
+Echo_message "Begin bootstrapping system..."
+
+Check_package /usr/bin/${LB_BOOTSTRAP} cdebootstrap
+
+# Ensure that a system is built as root
+lb testroot
+
+# Checking stage file
+Check_stagefile .stage/bootstrap
+Check_stagefile .stage/bootstrap_cache.restore
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Creating chroot directory
+mkdir -p chroot
+
+# Setting cdebootstrap options
+if [ -n "${LB_ARCHITECTURES}" ]
+then
+	CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --arch=${LB_ARCHITECTURES}"
+fi
+
+if [ -n "${LB_BOOTSTRAP_INCLUDE}" ]
+then
+	CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --include=$(echo ${LB_BOOTSTRAP_INCLUDE} | sed 's|  *|,|g')"
+fi
+
+if [ -n "${LB_BOOTSTRAP_EXCLUDE}" ]
+then
+	CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --exclude=$(echo ${LB_BOOTSTRAP_EXCLUDE} | sed 's|  *|,|g')"
+fi
+
+if [ -n "${LB_BOOTSTRAP_KEYRING}" ]
+then
+	CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --keyring=${LB_BOOTSTRAP_KEYRING}"
+fi
+
+if [ -z "${LB_BOOTSTRAP_FLAVOUR}" ]
+then
+	case "${LB_PACKAGE_LISTS}" in
+		stripped|minimal)
+			CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --flavour=minimal"
+			;;
+		*)
+			CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --flavour=standard"
+			;;
+	esac
+else
+	case "${LB_BOOTSTRAP_FLAVOUR}" in
+		stripped|minimal)
+			CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --flavour=minimal"
+			;;
+
+		*)
+			CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --flavour=${LB_BOOTSTRAP_FLAVOUR}"
+			;;
+	esac
+fi
+
+if [ "${_DEBUG}" = "true" ]
+then
+	CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --debug"
+fi
+
+if [ "${_QUIET}" = "true" ]
+then
+	CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --quiet"
+fi
+
+if [ "${_VERBOSE}" = "true" ]
+then
+	CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --verbose"
+fi
+
+if [ "${LB_APT_SECURE}" = "false" ]
+then
+	CDEBOOTSTRAP_OPTIONS="${CDEBOOTSTRAP_OPTIONS} --allow-unauthenticated"
+fi
+
+if [ -x "/usr/bin/cdebootstrap" ] || [ -x "/usr/bin/cdebootstrap-static" ]
+then
+	if [ "${LB_CACHE_PACKAGES}" = "true" ]
+	then
+		if ls cache/packages_bootstrap/*.deb > /dev/null 2>&1
+		then
+			mkdir -p chroot/var/cache/bootstrap
+			cp cache/packages_bootstrap/*.deb chroot/var/cache/bootstrap
+		fi
+
+		Echo_breakage "Running ${LB_BOOTSTRAP} (download-only)... "
+		${LB_ROOT_COMMAND} ${LB_BOOTSTRAP} ${CDEBOOTSTRAP_OPTIONS} --download-only "${LB_PARENT_DISTRIBUTION}" chroot "${LB_PARENT_MIRROR_BOOTSTRAP}"
+
+		if [ -n "${LB_ROOT_COMMAND}" ]
+		then
+			${LB_ROOT_COMMAND} chown -R $(whoami):$(whoami) chroot
+		fi
+
+		# Removing old cache
+		rm -f cache/packages_bootstrap/*.deb
+
+		# Saving new cache
+		mkdir -p cache/packages_bootstrap
+		cp chroot/var/cache/bootstrap/*.deb cache/packages_bootstrap
+	fi
+
+	Echo_breakage "Running ${LB_BOOTSTRAP}... "
+	${LB_ROOT_COMMAND} ${LB_BOOTSTRAP} ${CDEBOOTSTRAP_OPTIONS} "${LB_PARENT_DISTRIBUTION}" chroot "${LB_PARENT_MIRROR_BOOTSTRAP}"
+
+	if [ -n "${LB_ROOT_COMMAND}" ]
+	then
+		${LB_ROOT_COMMAND} chown -R $(whoami):$(whoami) chroot
+	fi
+
+	# Remove cdebootstrap-helper-diverts (needed at least for minimal flavours)
+	case "${LB_PACKAGE_LISTS}" in
+		stripped|minimal)
+			Chroot chroot "dpkg -P cdebootstrap-helper-diverts"
+			;;
+	esac
+
+	# Deconfiguring cdebootstrap configurations
+	rm -f chroot/etc/apt/sources.list
+	rm -f chroot/etc/hosts
+	rm -f chroot/etc/resolv.conf
+
+	# Removing bootstrap cache
+	rm -rf chroot/var/cache/bootstrap
+
+	# Creating stage file
+	Create_stagefile .stage/bootstrap
+else
+	Echo_error "Can't process file /usr/bin/${LB_BOOTSTRAP} (FIXME)"
+	exit 1
+fi

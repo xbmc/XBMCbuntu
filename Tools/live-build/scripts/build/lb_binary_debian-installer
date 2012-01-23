@@ -1,0 +1,768 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'install debian-installer into binary')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_BINARY_IMAGES}" = "virtual-hdd" ]
+then
+	exit 0
+fi
+
+if [ "${_DEBUG}" = "true" ]
+then
+	WGET_OPTIONS="${WGET_OPTIONS} --verbose"
+elif [ "${_QUIET}" = "true" ]
+then
+	WGET_OPTIONS="${WGET_OPTIONS} --quiet"
+else
+	WGET_OPTIONS="${WGET_OPTIONS} --no-verbose"
+fi
+
+# Check d-i configuration
+case "${LB_DEBIAN_INSTALLER}" in
+	true|cdrom|netinst|netboot|businesscard|live)
+		;;
+
+	false)
+		exit 0
+		;;
+
+	*)
+		Echo_error "debian-installer flavour %s not supported." "${LB_DEBIAN_INSTALLER}"
+		exit 1
+		;;
+esac
+
+Echo_message "Begin installing debian-installer..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_debian-installer
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Checking depends
+Check_package chroot/usr/bin/wget wget
+Check_package chroot/usr/bin/apt-ftparchive apt-utils
+
+# Restoring cache
+Restore_cache cache/packages_binary
+
+# Installing depends
+Install_package
+
+# Setting destination directory
+case "${LB_BINARY_IMAGES}" in
+	net)
+		DESTDIR="tftpboot/debian-install/${LB_ARCHITECTURES}"
+		;;
+
+	hdd*|tar)
+		DESTDIR="binary/install"
+		;;
+
+	*)
+		DESTDIR="binary/install"
+		;;
+esac
+
+# Set d-i image type
+case "${LB_DEBIAN_INSTALLER}" in
+	businesscard|netboot|netinst)
+		DI_IMAGE_TYPE="netboot"
+		;;
+	*)
+		case "${LB_BINARY_IMAGES}" in
+			net)
+				DI_IMAGE_TYPE="netboot"
+				;;
+
+			*)
+				DI_IMAGE_TYPE="cdrom"
+				;;
+		esac
+		;;
+esac
+
+# Set architecture-specific variables
+case "${LB_ARCHITECTURES}" in
+	armel)
+		DEFAULT_FLAVOUR="$(echo ${LH_LINUX_FLAVOURS} | awk '{ print $1 }')"
+		case "${DI_IMAGE_TYPE}" in
+			cdrom)
+				DI_REMOTE_BASE="${DEFAULT_FLAVOUR}/cdrom"
+				;;
+
+			netboot)
+				DI_REMOTE_BASE="${DEFAULT_FLAVOUR}/netboot"
+				;;
+		esac
+
+		DI_REMOTE_KERNEL="vmlinuz"
+		DI_REMOTE_BASE_GTK="${DI_REMOTE_BASE}/gtk"
+		;;
+
+	powerpc)
+		case "${DI_IMAGE_TYPE}" in
+			cdrom)
+				DI_REMOTE_BASE="${LB_ARCHITECTURES}/cdrom"
+			;;
+
+			netboot)
+				DI_REMOTE_BASE="${LB_ARCHITECTURES}/netboot"
+				;;
+		esac
+
+		DI_REMOTE_KERNEL="vmlinux"
+		DI_REMOTE_BASE_GTK="${DI_REMOTE_BASE}/gtk"
+		;;
+
+	sparc)
+		DEFAULT_FLAVOUR="$(echo ${LB_LINUX_FLAVOURS} | awk '{ print $1 }')"
+		DI_REMOTE_KERNEL="$(basename chroot/boot/vmlinuz-*${DEFAULT_FLAVOUR})"
+		DI_REMOTE_BASE_GTK="none"
+
+		DI_REMOTE_BASE="cdrom"
+		;;
+	*)
+		case "${DI_IMAGE_TYPE}" in
+			netboot)
+				DI_REMOTE_BASE="netboot/debian-installer/${LB_ARCHITECTURES}"
+				DI_REMOTE_BASE_GTK="netboot/gtk/debian-installer/${LB_ARCHITECTURES}"
+				DI_REMOTE_KERNEL="linux"
+				;;
+
+			cdrom)
+				DI_REMOTE_BASE="cdrom"
+				DI_REMOTE_BASE_GTK="cdrom/gtk"
+				DI_REMOTE_KERNEL="vmlinuz"
+				;;
+		esac
+		;;
+esac
+
+Check_multiarchitectures
+
+Install_file() {
+	local FILE
+	FILE="${1}"
+
+	local TARGET
+	TARGET="${2}"
+
+	SOURCE="$(dpkg -f ${FILE} Source | awk '{ print $1 }')"
+
+	if [ -z "${SOURCE}" ]
+	then
+		SOURCE="$(basename ${FILE} | awk -F_ '{ print $1 }')"
+	fi
+
+	case "${SOURCE}" in
+		lib?*)
+			LETTER="$(echo ${SOURCE} | sed 's|\(....\).*|\1|')"
+			;;
+
+		*)
+			LETTER="$(echo ${SOURCE} | sed 's|\(.\).*|\1|')"
+			;;
+	esac
+
+	# Install directory
+	mkdir -p "${TARGET}"/"${LETTER}"/"${SOURCE}"
+
+	# Move files
+	cp "${FILE}" "${TARGET}"/"${LETTER}"/"${SOURCE}"
+}
+
+# Set absolute directory for caching; we require it when we call Download_file
+# from a non-standard cwd.
+_LB_CACHE_DIR="$(pwd)/cache/binary_debian-installer"
+
+Download_file () {
+	local _LB_TARGET
+	_LB_TARGET="${1}"
+
+	local _LB_URL
+	_LB_URL="${2}"
+
+	_LB_CACHE_FILE="${_LB_CACHE_DIR}/$(echo "${_LB_URL}" | sed 's|/|_|g')"
+
+	if [ ! -f "${_LB_CACHE_FILE}" ]
+	then
+		mkdir -p ${_LB_CACHE_DIR}
+		if ! wget ${WGET_OPTIONS} -O "${_LB_CACHE_FILE}" "${_LB_URL}"
+		then
+			rm -f "${_LB_CACHE_FILE}"
+
+			Echo_error "Could not download file: %s" "${_LB_URL}"
+			exit 1
+		fi
+	fi
+
+	if [ "$(stat --printf %d "${_LB_CACHE_DIR}")" = "$(stat --printf %d ./)" ]
+	then
+		CP_OPTIONS="-l"
+	fi
+
+	cp -f ${CP_OPTIONS} -- "${_LB_CACHE_FILE}" "${_LB_TARGET}"
+}
+
+VMLINUZ_DI="vmlinuz"
+INITRD_DI="initrd.gz"
+DESTDIR_DI="${DESTDIR}"
+
+VMLINUZ_GI="gtk/vmlinuz"
+INITRD_GI="gtk/initrd.gz"
+DESTDIR_GI="${DESTDIR}/gtk"
+
+case "${LB_DERIVATIVE}" in
+	false)
+		if [ "${LB_DEBIAN_INSTALLER_DISTRIBUTION}" = "daily" ]
+		then
+			# FIXME: variable name should be decupled from derivatves
+			LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION="sid"
+
+			# Debian Installer daily builds
+			URL="http://d-i.debian.org/daily-images/${LB_ARCHITECTURES}/daily/"
+		else
+			URL="${LB_MIRROR_DEBIAN_INSTALLER}/dists/${LB_DEBIAN_INSTALLER_DISTRIBUTION}/main/installer-${LB_ARCHITECTURES}/current/images/"
+		fi
+		;;
+
+	true)
+		if [ "${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}" = "daily" ]
+		then
+			LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION="sid"
+
+			# Debian Installer daily builds
+			URL="http://d-i.debian.org/daily-images/${LB_ARCHITECTURES}/daily/"
+		else
+			URL="${LB_PARENT_MIRROR_DEBIAN_INSTALLER}/dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/main/installer-${LB_ARCHITECTURES}/current/images/"
+		fi
+		;;
+esac
+
+mkdir -p "${DESTDIR_DI}"
+
+if [ "${LB_ARCHITECTURES}" = "sparc" ] && [ "${DI_IMAGE_TYPE}" = "netboot" ]
+then
+	# There are no prepared kernel/initrd pairs for sparc netboot so we
+	# must unpack them from a mini.iso
+	Download_file mini.iso ${URL}/mini.iso
+
+	mkdir mini.tmp
+	${LB_ROOT_COMMAND} mount -o loop -t iso9660 mini.iso mini.tmp
+
+	cp mini.tmp/boot/vmlinuz-${DEFAULT_FLAVOUR} "${DESTDIR}"/"${VMLINUZ_DI}"
+	cp mini.tmp/boot/initrd.gz "${DESTDIR}"/"${INITRD_DI}"
+
+	${LB_ROOT_COMMAND} umount mini.tmp
+	rm -rf mini.tmp mini.iso
+else
+	# Downloading debian-installer
+	Download_file "${DESTDIR}"/"${VMLINUZ_DI}" ${URL}/${DI_REMOTE_BASE}/${DI_REMOTE_KERNEL}
+	Download_file "${DESTDIR}"/"${INITRD_DI}" ${URL}/${DI_REMOTE_BASE}/initrd.gz
+
+	# Downloading graphical-installer
+	DOWNLOAD_GTK_INSTALLER=0
+	if [ "${LB_DEBIAN_INSTALLER_GUI}" = "true" ]
+	then
+		case "${LB_ARCHITECTURES}" in
+			amd64|i386)
+				DOWNLOAD_GTK_INSTALLER=1
+				;;
+
+			powerpc)
+				if [ "${LB_DEBIAN_INSTALLER}" = "netboot" ]
+				then
+					DOWNLOAD_GTK_INSTALLER=1
+				fi
+				;;
+		esac
+	fi
+
+	if [ ${DOWNLOAD_GTK_INSTALLER} -eq 1 ]
+	then
+		mkdir -p "${DESTDIR_GI}"
+		Download_file "${DESTDIR}"/"${VMLINUZ_GI}" ${URL}/${DI_REMOTE_BASE_GTK}/${DI_REMOTE_KERNEL}
+		Download_file "${DESTDIR}"/"${INITRD_GI}" ${URL}/${DI_REMOTE_BASE_GTK}/initrd.gz
+	fi
+fi
+
+# Only download additional packages if appropriate
+if [ "${DI_IMAGE_TYPE}" != "netboot" ]
+then
+	# Downloading additional packages
+	mkdir -p chroot/binary.deb/archives/partial
+	mkdir -p binary/pool/main
+	mv chroot/var/lib/dpkg/status chroot/var/lib/dpkg/status.tmp
+	touch chroot/var/lib/dpkg/status
+
+	case "${LB_ARCHITECTURES}" in
+		amd64)
+			DI_REQ_PACKAGES="lilo grub grub-pc"
+
+			case "${LB_MODE}" in
+				ubuntu|kubuntu)
+					DI_PACKAGES="${DI_REQ_PACKAGES} linux-generic"
+					;;
+
+				*)
+					DI_PACKAGES="${DI_REQ_PACKAGES} linux-image-2.6-amd64"
+					;;
+			esac
+			;;
+
+		i386)
+			DI_REQ_PACKAGES="elilo lilo grub grub-pc"
+
+			case "${LB_MODE}" in
+				ubuntu|kubuntu)
+					DI_PACKAGES="${DI_REQ_PACKAGES} linux-generic"
+					;;
+
+				*)
+					DI_PACKAGES="${DI_REQ_PACKAGES} linux-image-2.6-486 linux-image-2.6-686"
+					;;
+			esac
+			;;
+
+		sparc)
+			DI_REQ_PACKAGES="silo"
+			case "${LB_MODE}" in
+				ubuntu|kubuntu)
+					DI_PACKAGES="${DI_REQ_PACKAGES} linux-sparc64"
+					;;
+
+				*)
+					DI_PACKAGES="${DI_REQ_PACKAGES} linux-image-2.6-sparc64 linux-image-2.6-sparc64-smp"
+					;;
+			esac
+			;;
+
+		powerpc)
+			DI_REQ_PACKAGES="yaboot"
+			case "${LB_MODE}" in
+				ubuntu|kubuntu)
+					DI_PACKAGES="${DI_REQ_PACKAGES} linux-image-powerpc linux-image-powerpc64-smp"
+					;;
+
+				*)
+					DI_PACKAGES="${DI_REQ_PACKAGES} linux-image-2.6-powerpc linux-image-2.6-powerpc64 linux-image-2.6-powerpc-smp"
+					;;
+			esac
+			;;
+	esac
+
+	DI_PACKAGES="${DI_PACKAGES} busybox cryptsetup mdadm lvm2"
+
+	case "${LB_MODE}" in
+		debian)
+			DI_REQ_PACKAGES="${DI_REQ_PACKAGES} console-setup keyboard-configuration kbd"
+			DI_PACKAGES="${DI_PACKAGES} console-setup keyboard-configuration kbd"
+			;;
+	esac
+
+	# Set apt command prefix
+	_LB_APT_COMMAND="apt-get ${APT_OPTIONS} -o Dir::Cache=/binary.deb -o APT::Install-Recommends=false --download-only"
+
+	if [ "${LB_DEBIAN_INSTALLER}" = "live" ]
+	then
+		# We don't want to duplicate .debs of packages in binary/pool that are already
+		# installed to target/ via live-installer.
+		#
+		# However, we need to force various packages' inclusion in binary/pool/main as
+		# d-i does not support (for example) re-installing grub from target/ - the grub
+		# .debs must actually exist.
+
+		# Modify dpkg status to show the required packages are not installed.
+		cp chroot/var/lib/dpkg/status.tmp chroot/var/lib/dpkg/status
+		for PACKAGE in ${DI_REQ_PACKAGES}
+		do
+			awk -v f=0 '
+				f == 1 { print "Status: purge ok not-installed"; f=0; next }
+				/Package: '"${PACKAGE}"'/ { f=1; }
+				{ print }
+				' chroot/var/lib/dpkg/status > chroot/var/lib/dpkg/status.awk
+			mv chroot/var/lib/dpkg/status.awk chroot/var/lib/dpkg/status
+		done
+
+		# Download .deb's that we just marked as "purged" which caused broken dependencies
+		Chroot chroot ${_LB_APT_COMMAND} -f dist-upgrade
+
+		# Revert dpkg status file
+		mv chroot/var/lib/dpkg/status.tmp chroot/var/lib/dpkg/status
+
+		# Download .debs of the required packages
+		Chroot chroot ${_LB_APT_COMMAND} install ${DI_REQ_PACKAGES}
+		Chroot chroot ${_LB_APT_COMMAND} install ${DI_PACKAGES}
+	else
+		# Download .debs of the required packages
+		Chroot chroot ${_LB_APT_COMMAND} install ${DI_PACKAGES}
+
+		# Revert dpkg status file
+		mv chroot/var/lib/dpkg/status.tmp chroot/var/lib/dpkg/status
+	fi
+
+	mv chroot/binary.deb ./
+
+	if Find_files binary.deb/archives/*.deb
+	then
+		for FILE in binary.deb/archives/*.deb
+		do
+			Install_file "${FILE}" "binary/pool/main"
+		done
+	fi
+
+	if [ "${LB_DEBIAN_INSTALLER}" != "live" ]
+	then
+		# Including base debian packages
+		if ls cache/packages_bootstrap/*.deb > /dev/null 2>&1
+		then
+			for FILE in cache/packages_bootstrap/*.deb
+			do
+				Install_file "${FILE}" "binary/pool/main"
+			done
+		else
+			Echo_error "Could not find packages in cache/packages_bootstrap."
+			Echo_error "You selected values of LB_CACHE, LB_CACHE_PACKAGES, LB_CACHE_STAGES and LB_DEBIAN_INSTALLER which will result in 'bootstrap' packages not being cached - these are required when integrating the Debian Installer."
+			exit 1
+		fi
+	fi
+
+	# Including local debs
+	if Find_files config/packages.binary/*_"${LB_ARCHITECTURES}".deb || Find_files config/packages/*_"${LB_ARCHITECTURES}".deb
+	then
+		for FILE in config/packages.binary/*_"${LB_ARCHITECTURES}".deb config/packages/*_"${LB_ARCHITECTURES}".deb
+		do
+			if [ -e "${FILE}" ]
+			then
+				Install_file "${FILE}" "binary/pool/main"
+			fi
+		done
+	fi
+
+	if Find_files config/packages.binary/*_all.deb || Find_files config/packages/*_all.deb
+	then
+		for FILE in config/packages.binary/*_all.deb config/packages/*_all.deb
+		do
+			if [ -e "${FILE}" ]
+			then
+				Install_file "${FILE}" "binary/pool/main"
+			fi
+		done
+	fi
+
+	# Generating deb indices
+	mkdir -p binary/dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/main/binary-${LB_ARCHITECTURES}
+
+	mv binary chroot/root
+	echo "cd /root/binary && apt-ftparchive packages pool/main > dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/main/binary-${LB_ARCHITECTURES}/Packages" > chroot/binary.sh
+	Chroot chroot "sh binary.sh"
+	rm -f chroot/binary.sh
+	mv chroot/root/binary ./
+
+	gzip -9 -c binary/dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/main/binary-${LB_ARCHITECTURES}/Packages > binary/dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/main/binary-${LB_ARCHITECTURES}/Packages.gz
+
+	# Fetching release
+	Download_file binary/dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/main/binary-${LB_ARCHITECTURES}/Release "${LB_PARENT_MIRROR_CHROOT}"/dists/"${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}"/main/binary-"${LB_ARCHITECTURES}"/Release
+
+	# Udeb handling
+	mkdir binary.udeb
+	cd binary.udeb
+
+	# Downloading udeb indices
+	Download_file Packages.gz "${LB_PARENT_MIRROR_CHROOT}"/dists/"${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}"/main/debian-installer/binary-"${LB_ARCHITECTURES}"/Packages.gz
+	gunzip -c Packages.gz > Packages
+
+	if [ "${LB_DERIVATIVE}" = "true" ]
+	then
+		Download_file Packages.derivative.gz "${LB_MIRROR_CHROOT}"/dists/"${LB_DEBIAN_INSTALLER_DISTRIBUTION}"/main/debian-installer/binary-"${LB_ARCHITECTURES}"/Packages.gz
+		gunzip -c Packages.derivative.gz > Packages.derivative
+	fi
+
+	# Sorting udebs
+	if [ "${LB_DERIVATIVE}" = true ]
+	then
+		UDEBS="$(awk '/Filename: / { print $2 }' Packages.derivative)"
+	fi
+
+	UDEBS="${UDEBS} $(awk '/Filename: / { print $2 }' Packages)"
+
+	# Downloading udebs
+	for UDEB in ${UDEBS}
+	do
+		if [ -f ../cache/packages_debian-installer.udeb/"$(basename ${UDEB})" ]
+		then
+			# Copying cached udebs
+			cp ../cache/packages_debian-installer.udeb/"$(basename ${UDEB})" ./
+		else
+			# Downloading udebs
+			if ! ls "$(basename ${UDEB} | awk -F_ '{ print $1 }')"_* > /dev/null 2>&1
+			then
+				wget ${WGET_OPTIONS} "${LB_MIRROR_CHROOT}"/${UDEB} || wget ${WGET_OPTIONS} "${LB_PARENT_MIRROR_CHROOT}"/${UDEB}
+			fi
+		fi
+	done
+
+	# Caching udebs
+	rm -rf ../cache/packages_debian-installer.udeb
+	mkdir -p ../cache/packages_debian-installer.udeb
+	cp *.udeb ../cache/packages_debian-installer.udeb
+
+	# Including local udebs
+	if Find_files ../config/packages.binary/*_"${LB_ARCHITECTURES}".udeb || Find_files ../config/packages/*_"${LB_ARCHITECTURES}".udeb
+	then
+		for FILE in ../config/packages.binary/*_"${LB_ARCHITECTURES}".udeb ../config/packages/*_"${LB_ARCHITECTURES}".udeb
+		do
+			if [ -e "${FILE}" ]
+			then
+				Install_file "${FILE}" "pool/main"
+
+				# Prefer local udebs over downloaded udebs
+				rm -f "$(basename ${FILE} | awk -F_ '{ print $1 }')"_*.udeb
+			fi
+		done
+	fi
+
+	if Find_files ../config/packages.binary/*_all.udeb || Find_files ../config/packages/*_all.udeb
+	then
+		for FILE in ../config/packages.binary/*_all.udeb ../config/packages/*_all.udeb
+		do
+			if [ -e "${FILE}" ]
+			then
+				Install_file "${FILE}" "pool/main"
+
+				# Prefer local udebs over downloaded udebs
+				rm -f "$(basename ${FILE} | awk -F_ '{ print $1 }')"_*.udeb
+			fi
+		done
+	fi
+
+	# Excluding udebs
+	grep -v "^#" "${LB_BASE}"/data/debian-cd/"${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}"/udeb_exclude > exclude || true
+	grep -v "^#" "${LB_BASE}"/data/debian-cd/"${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}"/exclude-udebs >> exclude || true
+	grep -v "^#" "${LB_BASE}"/data/debian-cd/"${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}"/exclude-udebs-${LB_ARCHITECTURES} >> exclude || true
+
+	# Local exclude file
+	if [ -e ../config/binary_debian-installer/udeb_exclude ]
+	then
+		cat ../config/binary_debian-installer/udeb_exclude >> exclude
+	fi
+
+	# Excluding udebs from excludes because we want them to be in the image on purpose
+	sed -i -e 's|di-utils-exit-installer||' exclude # used for live-installer-launcher
+
+	while read EXCLUDE
+	do
+		if [ "${LB_DEBIAN_INSTALLER}" = "live" ] && [ "${EXCLUDE}" = "live-installer" ]
+		then
+			continue
+		fi
+
+		rm -f ${EXCLUDE}_*.udeb
+	done < exclude
+
+	# Enable live-installer
+	if [ "${LB_DEBIAN_INSTALLER}" = "live" ]
+	then
+		# Remove local udebs
+		rm -f pool/main/b/base-installer/bootstrap-base_*.udeb
+
+		# Remove d-i udebs
+		rm -f bootstrap-base_*.udeb
+	fi
+
+	# Moving udebs
+	for UDEB in ${UDEBS}
+	do
+		if [ -f "$(basename ${UDEB})" ]
+		then
+			mkdir -p $(dirname ${UDEB})
+			mv "$(basename ${UDEB})" "$(dirname ${UDEB})"
+		fi
+	done
+
+	# Creating udeb indices
+	mkdir -p dists/"${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}"/main/debian-installer/binary-"${LB_ARCHITECTURES}"
+	cd "${OLDPWD}"
+
+	mv binary.udeb chroot/root
+	echo "cd /root/binary.udeb && apt-ftparchive packages pool/main > dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/main/debian-installer/binary-${LB_ARCHITECTURES}/Packages" > chroot/binary.sh
+	Chroot chroot "sh binary.sh"
+	rm -f chroot/binary.sh
+	mv chroot/root/binary.udeb ./
+
+	cd binary.udeb
+	gzip -9 -c dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/main/debian-installer/binary-${LB_ARCHITECTURES}/Packages > dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/main/debian-installer/binary-${LB_ARCHITECTURES}/Packages.gz
+
+	rm -f Packages* exclude
+	find . | cpio -dmpu "${OLDPWD}"/binary
+	cd "${OLDPWD}"
+
+	rm -rf binary.udeb
+	rm -rf binary.deb
+
+	# Generating release file
+	mv binary chroot/root
+
+	eval _VERSION="$`echo RELEASE_${LB_PARENT_DISTRIBUTION}`"
+
+	case "${LB_PARENT_DISTRIBUTION}" in
+		sid)
+			_SUITE="unstable"
+			;;
+
+		*)
+			_SUITE="${LB_PARENT_DISTRIBUTION}"
+			;;
+	esac
+
+cat > chroot/binary.sh << EOF
+cd /root/binary && apt-ftparchive \
+	-o APT::FTPArchive::Release::Origin="Debian" \
+	-o APT::FTPArchive::Release::Label="Debian" \
+	-o APT::FTPArchive::Release::Suite="${_SUITE}" \
+	-o APT::FTPArchive::Release::Version="${_VERSION}" \
+	-o APT::FTPArchive::Release::Codename="${LB_PARENT_DISTRIBUTION}" \
+	-o APT::FTPArchive::Release::Date="$(date -R)" \
+	-o APT::FTPArchive::Release::Architectures="${LB_ARCHITECTURES}" \
+	-o APT::FTPArchive::Release::Components="main" \
+	-o APT::FTPArchive::Release::Description="Last updated: $(date -R)" \
+	release dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION} > dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}/Release
+EOF
+
+	Chroot chroot "sh binary.sh"
+	rm -f chroot/binary.sh
+	mv chroot/root/binary ./
+
+	DISTRIBUTIONS="frozen stable testing unstable"
+
+	if [ "${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION}" != "${LB_PARENT_DISTRIBUTION}" ]
+	then
+		DISTRIBUTIONS="${DISTRIBUTIONS} ${LB_PARENT_DISTRIBUTION}"
+	fi
+
+	case "${LB_BINARY_IMAGES}" in
+		hdd)
+			case "${LB_BINARY_FILESYSTEM}" in
+				fat*)
+					# Creating dist directories
+					for DISTRIBUTION in ${DISTRIBUTIONS}
+					do
+						cp -a binary/dists/${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION} binary/dists/${DISTRIBUTION}
+					done
+					;;
+			esac
+			;;
+
+		*)
+			# Creating dist symlinks
+			for DISTRIBUTION in ${DISTRIBUTIONS}
+			do
+				ln -s ${LB_PARENT_DEBIAN_INSTALLER_DISTRIBUTION} binary/dists/${DISTRIBUTION}
+			done
+
+			ln -s . binary/debian
+			;;
+	esac
+
+	# Including preseeding files
+	if Find_files config/binary_debian-installer/*.cfg
+	then
+		cp config/binary_debian-installer/*.cfg binary/install
+	fi
+fi
+
+Repack_initrd()
+{
+	local TARGET_INITRD
+	local INCLUDE_PATH
+	TARGET_INITRD="${1}"
+	INCLUDE_PATH="${2}"
+	REPACK_TMPDIR="unpacked-initrd"
+
+	if [ -d "${INCLUDE_PATH}" ]
+	then
+		INCLUDE_PATH=$(readlink -f ${INCLUDE_PATH})
+	fi
+
+	# cpio does not have a "extract to directory", so we must change directory
+	mkdir -p ${REPACK_TMPDIR}
+	cd ${REPACK_TMPDIR}
+
+	gzip -d < ../${TARGET_INITRD} | cpio -i --make-directories --no-absolute-filenames
+	if [ ! -d "${INCLUDE_PATH}" ]
+	then
+		# Invoked the old way, just copy the preseeds
+		cp ../config/binary_debian-installer/*.cfg .
+	else
+		# New way, include target directory content in the initrd
+		REPACK_TMPDIR_ABS="${PWD}"
+		cd "${INCLUDE_PATH}"
+		find -print0 | cpio -pumd0 --no-preserve-owner "${REPACK_TMPDIR_ABS}/"
+		cd "${OLDPWD}"
+	fi
+	find -print0 | cpio -H newc -o0 | gzip -9 > ../${TARGET_INITRD}
+
+	cd ..
+	rm -rf ${REPACK_TMPDIR}
+}
+
+# Preseed d-i by repacking the initrd in certain situations
+if [ "${DI_IMAGE_TYPE}" = "netboot" ] && [ -e config/binary_debian-installer/preseed.cfg ]
+then
+	Repack_initrd "${DESTDIR}"/"${INITRD_DI}"
+
+	if [ -e "${DESTDIR}"/"${INITRD_GI}" ]
+	then
+		Repack_initrd "${DESTDIR}"/"${INITRD_GI}"
+	fi
+fi
+
+# Include content of config/binary_debian-installer-includes if exists and not empty
+if [ -d config/binary_debian-installer-includes ] && [ -n "$(ls -A config/binary_debian-installer-includes)" ]
+then
+	Repack_initrd "${DESTDIR}"/"${INITRD_DI}" config/binary_debian-installer-includes
+
+	if [ -e "${DESTDIR}"/"${INITRD_GI}" ]
+	then
+		Repack_initrd "${DESTDIR}"/"${INITRD_GI}" config/binary_debian-installer-includes
+	fi
+fi
+
+# Saving cache
+Save_cache cache/packages_binary
+
+# Removing depends
+Remove_package
+
+# Creating stage file
+Create_stagefile .stage/binary_debian-installer

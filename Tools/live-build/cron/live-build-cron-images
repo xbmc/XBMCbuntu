@@ -1,0 +1,343 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+#set -e
+
+Init ()
+{
+	if [ -e /etc/live/build-cron.conf ]
+	then
+		. /etc/live/build-cron.conf
+	fi
+
+	if ls /etc/live/build-cron.d/* > /dev/null 2>&1
+	then
+		for _FILE in /etc/live/build-cron.d/*
+		do
+			. ${_FILE}
+		done
+	fi
+
+	if [ "${LIVE_BUILD_CRON_IMAGES}" != "true" ]
+	then
+		exit 0
+	fi
+
+	mkdir -p "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}"
+
+	if [ ! -d "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}" ]
+	then
+		echo "E: live-build-cron-images directory not set."
+		exit 1
+	fi
+
+	# FIXME: don't hardcode
+	BUILDS="daily"
+	DATE="$(date +%Y%m%d)"
+
+	ARCHITECTURE="$(dpkg --print-architecture)"
+	eval DISTRIBUTIONS="$`echo LIVE_BUILD_CRON_IMAGES_$(echo ${BUILDS} | tr [a-z] [A-Z])_DISTRIBUTIONS`"
+	eval FLAVOURS="$`echo LIVE_BUILD_CRON_IMAGES_$(echo ${BUILDS} | tr [a-z] [A-Z])_FLAVOURS`"
+}
+
+Setup ()
+{
+	_TMPDIR="$(mktemp -d -t live-build-cron-images.XXXXXXXX)"
+
+	case "${LIVE_BUILD_CRON_IMAGES_BUILD}" in
+		git)
+			cd "${_TMPDIR}"
+			git clone git://live.debian.net/git/live-build.git
+			git checkout debian-old-2.0
+
+			LB_BASE="${_TMPDIR}/live-build"
+			export LB_BASE
+
+			PATH="${PATH}:${_TMPDIR}/live-build/scripts/build"
+			export PATH
+			;;
+
+		release)
+			# live-build
+			if [ -n "${LIVE_BUILD}" ]
+			then
+				if [ -x "$(which dget 2>/dev/null)" ]
+				then
+					dget "http://live.debian.net/archive/packages/live-build/${LIVE_BUILD}/live-build_${LIVE_BUILD}.dsc"
+					dpkg-source -x live-build_${LIVE_BUILD}.dsc
+
+					LB_BASE="${_TMPDIR}/live-build-$(echo ${LIVE_BUILD} | awk -F- '{ print $1 }')"
+					export LB_BASE
+
+					PATH="${PATH}:${_TMPDIR}/live-build-$(echo ${LIVE_BUILD} | awk -F- '{ print $1 }')/scripts/build"
+					export PATH
+				else
+					echo "E: dget - command not found"
+					echo "I: dget can be optained from: "
+					echo "I:   http://git.debian.org/?p=devscripts/devscripts.git"
+					echo "I: On Debian based systems, dget can be installed with:"
+					echo "I:   apt-get install devscripts"
+
+					exit 1
+				fi
+			fi
+			;;
+	esac
+
+	mkdir -p "${_TMPDIR}/build"
+	cd "${_TMPDIR}/build"
+
+	# live-boot
+	if [ -n "${LIVE_BOOT}" ]
+	then
+		mkdir -p config/chroot_local-packages
+		cd config/chroot_local-packages
+
+		wget -c "http://live.debian.net/archive/packages/live-boot/${LIVE_BOOT}/live-boot_${LIVE_BOOT}.dsc"
+		wget -c "http://live.debian.net/archive/packages/live-boot/${LIVE_BOOT}/live-boot_${LIVE_BOOT}.diff.gz"
+		wget -c "http://live.debian.net/archive/packages/live-boot/${LIVE_BOOT}/live-boot_$(echo ${LIVE_BOOT} | awk -F- '{ print $1 }').orig.tar.gz"
+		wget -c "http://live.debian.net/archive/packages/live-boot/${LIVE_BOOT}/live-boot_${LIVE_BOOT}_all.deb"
+		wget -c "http://live.debian.net/archive/packages/live-boot/${LIVE_BOOT}/live-boot-initramfs-tools_${LIVE_BOOT}_all.deb"
+		wget -c "http://live.debian.net/archive/packages/live-boot/${LIVE_BOOT}/live-initramfs_${LIVE_BOOT}_all.deb"
+
+		cd "${OLDPWD}"
+	fi
+
+	# live-config
+	if [ -n "${LIVE_CONFIG}" ]
+	then
+		mkdir -p config/chroot_local-packages
+		cd config/chroot_local-packages
+
+		wget -c "http://live.debian.net/archive/packages/live-config/${LIVE_CONFIG}/live-config_${LIVE_CONFIG}.dsc"
+		wget -c "http://live.debian.net/archive/packages/live-config/${LIVE_CONFIG}/live-config_${LIVE_CONFIG}.diff.gz"
+		wget -c "http://live.debian.net/archive/packages/live-config/${LIVE_CONFIG}/live-config_$(echo ${LIVE_CONFIG} | awk -F- '{ print $1 }').orig.tar.gz"
+		wget -c "http://live.debian.net/archive/packages/live-config/${LIVE_CONFIG}/live-config_${LIVE_CONFIG}_all.deb"
+		wget -c "http://live.debian.net/archive/packages/live-config/${LIVE_CONFIG}/live-config-sysvinit_${LIVE_CONFIG}_all.deb"
+
+		cd "${OLDPWD}"
+	fi
+
+	# live-installer
+	if [ -n "${LIVE_INSTALLER}" ]
+	then
+		mkdir -p config/binary_local-udebs
+		cd config/binary_local-udebs
+
+		wget -c "http://ftp.debian.org/debian/pool/main/l/live-installer/live-installer_${LIVE_INSTALLER}.dsc"
+		wget -c "http://ftp.debian.org/debian/pool/main/l/live-installer/live-installer_${LIVE_INSTALLER}.tar.gz"
+		wget -c "http://ftp.debian.org/debian/pool/main/l/live-installer/live-installer_${LIVE_INSTALLER}_${ARCHITECTURE}.udeb"
+
+		cd "${OLDPWD}"
+	fi
+
+	# debian-installer-launcher
+	if [ -n "${DI_LAUNCHER}" ]
+	then
+		mkdir -p config/chroot_local-packages
+		cd config/chroot_local-packages
+
+		wget -c "http://ftp.debian.org/debian/pool/main/d/debian-installer-launcher/debian-installer-launcher_${DI_LAUNCHER}.dsc"
+		wget -c "http://ftp.debian.org/debian/pool/main/d/debian-installer-launcher/debian-installer-launcher_${DI_LAUNCHER}.tar.gz"
+		wget -c "http://ftp.debian.org/debian/pool/main/d/debian-installer-launcher/debian-installer-launcher_${DI_LAUNCHER}_all.deb"
+
+		cd "${OLDPWD}"
+	fi
+}
+
+Build ()
+{
+	cd "${_TMPDIR}/build"
+
+	for DISTRIBUTION in ${DISTRIBUTIONS}
+	do
+		rm -rf cache/stages*
+
+		for FLAVOUR in ${FLAVOURS}
+		do
+			if [ -e .stage ]
+			then
+				lb clean
+			fi
+
+			rm -rf cache/stages_rootfs
+			rm -f config/* || true
+
+			LB_VERSION="$(lb --version | awk '/^live-build, version / { print $3 }')"
+
+			case "${LB_VERSION}" in
+				2.0*)
+					_PACKAGE_LISTS="--package-lists ${FLAVOUR}"
+					;;
+
+				3.0*)
+					_PACKAGE_LISTS="--package-lists ${FLAVOUR}"
+					;;
+			esac
+
+			# FIXME: cdebootstrap
+			lb config --clean \
+				--bootstrap cdebootstrap \
+				--cache-stages "bootstrap rootfs" \
+				--debian-installer ${DEBIAN_INSTALLER} \
+				--distribution ${DISTRIBUTION} \
+				--mirror-bootstrap ${MIRROR_BOOTSTRAP} \
+				--mirror-chroot ${MIRROR_CHROOT} \
+				--mirror-chroot-security ${MIRROR_CHROOT_SECURITY} \
+				${_PACKAGE_LISTS}
+
+			lb build 2>&1 | tee debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.iso.log
+
+			mv binary*.iso debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.iso
+			mv binary.list debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.iso.list
+			mv binary.packages debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.iso.packages
+
+			if [ "${ARCHITECTURE}" != "powerpc" ]
+			then
+				lb clean --binary
+				lb config --clean --binary-images usb-hdd
+				lb binary 2>&1 | tee debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.img.log
+
+				mv binary.img debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.img
+				mv binary.list debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.img.list
+				mv binary.packages debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.img.packages
+			fi
+
+			if [ "${ARCHITECTURE}" != "powerpc" ]
+			then
+				lb clean
+				rm -rf cache/stages_rootfs
+				lb config --clean --binary-images net
+
+				lb build 2>&1 | tee debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.tar.gz.log
+
+				mv binary-net.tar.gz debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.tar.gz
+				mv binary.list debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.tar.gz.list
+				mv binary.packages debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.tar.gz.packages
+
+				mv binary/*/filesystem.squashfs debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.squashfs
+				for memtest in tftpboot/debian-live/${ARCHITECTURE}/memtest*; do cp -f ${memtest} debian-live-${DISTRIBUTION}-${ARCHITECTURE}.$(basename ${memtest}); done || true
+				for kernel in tftpboot/debian-live/${ARCHITECTURE}/vmlinuz*; do cp -f ${kernel} debian-live-${DISTRIBUTION}-${ARCHITECTURE}.$(basename ${kernel}); done
+				for initrd in tftpboot/debian-live/${ARCHITECTURE}/initrd*; do cp ${initrd} debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.$(basename ${initrd}); done
+				cp debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.tar.gz.packages debian-live-${DISTRIBUTION}-${ARCHITECTURE}-${FLAVOUR}.packages
+			fi
+
+			if [ "${LIVE_BUILD_CRON_IMAGES_SOURCE}" = "true" ]
+			then
+				lb config --clean --source true
+
+				lb source 2>&1 | tee debian-live-${DISTRIBUTION}-source-${FLAVOUR}.log
+
+				mv source.debian.tar.gz debian-live-${DISTRIBUTION}-source-${FLAVOUR}.debian.tar.gz
+				mv source.debian.list debian-live-${DISTRIBUTION}-source-${FLAVOUR}.debian.tar.gz.list
+				mv source.debian-live.tar.gz debian-live-${DISTRIBUTION}-source-${FLAVOUR}.debian-live.tar.gz
+				mv source.debian-live.list debian-live-${DISTRIBUTION}-source-${FLAVOUR}.debian-live.tar.gz.list
+			fi
+		done
+	done
+}
+
+Install ()
+{
+	BUILD="1"
+
+	while [ -e "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}" ]
+	do
+		BUILD="$((${BUILD} + 1))"
+	done
+
+	cd "${_TMPDIR}/build"
+
+	# Move iso images
+	if ls debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.iso* > /dev/null 2>&1
+	then
+		mkdir -p "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/iso-hybrid"
+		mv debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.iso* "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/iso-hybrid"
+	fi
+
+	# Move hdd images
+	if ls debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.img > /dev/null 2>&1
+	then
+		mkdir -p "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/usb-hdd"
+		mv debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.img* "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/usb-hdd"
+	fi
+
+	# Move net images
+	if ls debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.tar.gz* > /dev/null 2>&1
+	then
+		mkdir -p "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/net"
+		mv debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.tar.gz* "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/net"
+	fi
+
+	# Move web images
+	if ls debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.squashfs > /dev/null 2>&1
+	then
+		mkdir -p "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/web"
+		mv debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.squashfs "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/web"
+		mv debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.packages* "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/web"
+		mv debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.vmlinuz* "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/web"
+		mv debian-live-${DISTRIBUTION}-${ARCHITECTURE}-*.initrd.img* "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}/web"
+	fi
+
+	# Move source images
+	if ls debian-live-${DISTRIBUTION}-source-* > /dev/null 2>&1 && \
+	   [ ! -d "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/source" ]
+	then
+		mkdir -p "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/source/tar"
+		mv debian-live-${DISTRIBUTION}-source-*  "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/source/tar"
+	fi
+
+	for DIR in "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/${ARCHITECTURE}"/*  "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/${DATE}-${BUILD}/source"/*
+	do
+		cd "${DIR}"
+
+		md5sum debian* > MD5SUMS
+		sha1sum debian* > SHA1SUMS
+		sha256sum debian* > SHA256SUMS
+	done
+
+	rm -f "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}/current"
+
+	cd "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${DISTRIBUTION}"
+	ln -s ${DATE}-${BUILD} current
+}
+
+Clean ()
+{
+	cd "${_TMPDIR}/build"
+	lb clean --purge
+
+	cd "${CURDIR}"
+	rm -rf "${_TMPDIR}"
+}
+
+Trace ()
+{
+
+cat > "${LIVE_BUILD_CRON_IMAGES_DIRECTORY}/${BUILDS}-builds/${BUILDS}-trace" << EOF
+${DATE}-${BUILD}
+$(LC_ALL=C date -R)
+EOF
+
+}
+
+Main ()
+{
+	Init
+	Setup
+
+	Build
+	Install
+	Clean
+
+	Trace
+}
+
+Main

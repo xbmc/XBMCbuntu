@@ -1,0 +1,270 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'installs silo into binary')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_BOOTLOADER}" != "silo" ]
+then
+	exit 0
+fi
+
+# Check image type
+case "${LB_BINARY_IMAGES}" in
+	iso*|hdd*|tar)
+		;;
+
+	net)
+		# silo not required for sparc netbooting
+		exit 0
+		;;
+esac
+
+Echo_message "Begin installing silo..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_silo
+
+# Checking silo templates
+Check_templates silo
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Check architecture
+Check_architectures sparc
+
+# Checking depends
+Check_package chroot/usr/sbin/silo silo
+
+# Restoring cache
+Restore_cache cache/packages_binary
+
+# Installing depends
+Install_package
+
+# Local functions
+Silo_live_entry ()
+{
+	LABEL="${1}"
+	KERNEL="${2}"
+	INITRD="${3}"
+	APPEND="${4}"
+
+	DIRECTORY="/$(basename ${DESTDIR_LIVE})"
+
+	LINUX_LIVE="${LINUX_LIVE}\nimage=${DIRECTORY}/${KERNEL}\n"
+	LINUX_LIVE="${LINUX_LIVE}\t  label=${LABEL}\n"
+	LINUX_LIVE="${LINUX_LIVE}\t  initrd=${DIRECTORY}/${INITRD}\n"
+	LINUX_LIVE="${LINUX_LIVE}\t  append=\"${INITFS:+boot=${INITFS} }config LB_BOOTAPPEND_LIVE ${APPEND}\"\n"
+}
+
+Silo_install_entry ()
+{
+	LABEL="${1}"
+	KERNEL="${2}"
+	INITRD="${3}"
+	APPEND="${4}"
+
+	DIRECTORY="/$(basename ${DESTDIR_INSTALL})"
+
+	if [ "${LABEL}" != "rescue" ] && [ "${LABEL}" != "rescuegui" ]
+	then
+		APPEND="${APPEND} quiet"
+	fi
+
+	LINUX_INSTALL="${LINUX_INSTALL}\nimage=${DIRECTORY}/${KERNEL}\n"
+	LINUX_INSTALL="${LINUX_INSTALL}\t  label=${LABEL}\n"
+	LINUX_INSTALL="${LINUX_INSTALL}\t  initrd=${DIRECTORY}/${INITRD}\n"
+	LINUX_INSTALL="${LINUX_INSTALL}\t  append=\"LB_BOOTAPPEND_LIVE ${APPEND} LB_BOOTAPPEND_INSTALL\"\n"
+}
+
+# Setting destination directories
+DESTDIR_INSTALL="binary/install"
+case "${LB_INITRAMFS}" in
+	casper)
+		INITFS="casper"
+		DESTDIR_LIVE="binary/casper"
+		;;
+
+	live-boot)
+		INITFS="live"
+		DESTDIR_LIVE="binary/live"
+		;;
+
+	*)
+		INITFS=""
+		DESTDIR_LIVE="binary/boot"
+		;;
+esac
+
+# Creating directory
+mkdir -p "${DESTDIR_LIVE}"
+
+# Setting boot parameters
+if [ -n "${LB_USERNAME}" ]
+then
+	case "${LB_INITRAMFS}" in
+		casper)
+			LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} username=${LB_USERNAME}"
+			;;
+
+		live-boot)
+			if [ "${LB_USERNAME}" != "user" ]
+			then
+				LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} username=${LB_USERNAME}"
+			fi
+			;;
+	esac
+fi
+
+if [ -n "${LB_HOSTNAME}" ]
+then
+	case "${LB_INITRAMFS}" in
+		casper)
+			LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} hostname=${LB_HOSTNAME}"
+			;;
+
+		live-boot)
+			if [ "${LB_HOSTNAME}" != "debian" ]
+			then
+				LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} hostname=${LB_HOSTNAME}"
+			fi
+			;;
+	esac
+fi
+
+if [ "${LB_UNION_FILESYSTEM}" != "aufs" ]
+then
+	LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} union=${LB_UNION_FILESYSTEM}"
+fi
+
+if [ -n "${LB_NET_COW_PATH}" ]
+then
+	Echo_error "Net cow not supported on silo"
+	exit 1
+fi
+
+if [ "${LB_EXPOSED_ROOT}" != "false" ]
+then
+	LB_BOOTAPPEND_LIVE="${LB_BOOTAPPEND_LIVE} exposedroot"
+fi
+
+LB_BOOTAPPEND_LIVE="$(echo ${LB_BOOTAPPEND_LIVE} | sed -e 's|  ||')"
+
+# Parameters are listed at: linux/Documentation/kernel-parameters.txt
+FAILSAFE="noapic noapm nodma nomce nolapic nomodeset nosmp vga=ofonly"
+
+# Assembling kernel configuration
+
+# Default entries
+DEFAULT_FLAVOUR="$(echo ${LB_LINUX_FLAVOURS} | awk '{ print $1 }')"
+DEFAULT_KERNEL="$(basename chroot/boot/vmlinuz-*${DEFAULT_FLAVOUR})"
+DEFAULT_INITRD="initrd.img-$(echo ${DEFAULT_KERNEL} | sed -e 's|vmlinuz-||')"
+
+Silo_live_entry "live" "${DEFAULT_KERNEL}" "${DEFAULT_INITRD}"
+Silo_live_entry "live-failsafe" "${DEFAULT_KERNEL}" "${DEFAULT_INITRD}" "${FAILSAFE}"
+
+if [ "$(echo ${LB_LINUX_FLAVOURS} | wc -w)" -gt "1" ]
+then
+	for KERNEL in chroot/boot/vmlinuz-*
+	do
+		KERNEL_IMAGE="$(basename ${KERNEL})"
+		KERNEL_VERSION="$(echo ${KERNEL_IMAGE} | sed -e 's|vmlinuz-||')"
+		INITRD="initrd.img-${KERNEL_VERSION}"
+
+		Silo_live_entry "live-${KERNEL_VERSION}" "${KERNEL_IMAGE}" "${INITRD}"
+		Silo_live_entry "live-${KERNEL_VERSION}-failsafe" "${KERNEL_IMAGE}" "${INITRD}" "${FAILSAFE}"
+	done
+fi
+
+LINUX_LIVE="$(/bin/echo ${LINUX_LIVE} | sed -e 's|binary||g' -e 's|//|/|g')"
+
+# Assembling debian-installer configuration
+if [ "${LB_DEBIAN_INSTALLER}" != "false" ]
+then
+	VMLINUZ_DI="vmlinuz"
+	INITRD_DI="initrd.gz"
+	APPEND_DI="vga=normal"
+
+	Silo_install_entry "linux" "${VMLINUZ_DI}" "${INITRD_DI}" "${APPEND_DI}"
+	Silo_install_entry "install" "${VMLINUZ_DI}" "${INITRD_DI}" "${APPEND_DI}"
+	Silo_install_entry "expert" "${VMLINUZ_DI}" "${INITRD_DI}" "priority=low ${APPEND_DI}"
+	Silo_install_entry "rescue" "${VMLINUZ_DI}" "${INITRD_DI}" "rescue/enable=true ${APPEND_DI}"
+	Silo_install_entry "auto" "${VMLINUZ_DI}" "${INITRD_DI}" "auto=true priority=critical ${APPEND_DI}"
+fi
+
+LINUX_INSTALL="$(/bin/echo ${LINUX_INSTALL} | sed -e 's|binary||g' -e 's|//|/|g')"
+
+case "${LB_BINARY_IMAGES}" in
+	iso*|hdd*)
+		# Copying silo
+		mkdir -p binary/boot
+
+		case "${LB_BUILD_WITH_CHROOT}" in
+			true)
+				cp chroot/boot/second.b binary/boot
+				;;
+
+			false)
+				cp /boot/second.b binary/boot
+				;;
+		esac
+
+		cp -r "${TEMPLATES}"/* binary/boot
+
+		if [ "${LB_DEBIAN_INSTALLER}" = "false" ]
+		then
+			rm -f binary/boot/debian.txt.install
+		else
+			mv binary/boot/debian.txt.install binary/boot/debian.txt
+		fi
+
+		# Configure silo templates
+		sed -i -e "s|LINUX_LIVE|${LINUX_LIVE}|" \
+		       -e "s|LINUX_INSTALL|${LINUX_INSTALL}|" \
+		       binary/boot/silo.conf
+		sed -i -e "s|LB_BOOTAPPEND_INSTALL|${LB_BOOTAPPEND_INSTALL}|" \
+		       -e "s|LB_BOOTAPPEND_LIVE|${LB_BOOTAPPEND_LIVE}|" \
+		       binary/boot/silo.conf
+		sed -i -e "s|LB_DATE|$(date +%Y%m%d)|" \
+		       -e "s|LB_VERSION|${VERSION}|" \
+		       -e "s|LB_DISTRIBUTION|${LB_DISTRIBUTION}|" \
+		       binary/boot/debian.txt
+		;;
+esac
+
+# Saving cache
+Save_cache cache/packages_binary
+
+# Removing depends
+Remove_package
+
+# Creating stage file
+Create_stagefile .stage/binary_silo

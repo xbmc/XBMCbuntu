@@ -1,0 +1,325 @@
+# /usr/share/live/build/package-lists/rescue - package list for live-build(7)
+
+#include <standard>
+
+# Debian Forensics
+#include <debian-forensics>
+
+# Other forensic packages
+scalpel
+
+# Bootloaders
+syslinux-common
+#if ARCHITECTURES amd64 i386
+grub lilo mbr syslinux extlinux
+#endif
+#if ARCHITECTURES hppa
+palo
+#endif
+
+# System
+gnupg dash discover gawk htop less lsof ltrace psmisc screen strace units
+#if ARCHITECTURES i386
+pstack
+#endif
+tcsh
+vlock
+mailutils
+moreutils
+
+# Editors
+aview mc nano-tiny mg vim wdiff hexedit nvi tweak
+
+# Harddisk
+dvd+rw-tools genisoimage sdparm hdparm blktool parted partimage secure-delete scsitools smartmontools testdisk wodim wipe hddtemp bonnie++
+par2 dvd+rw-tools
+fsarchiver
+
+# for /usr/bin/summer:
+chiark-utils-bin
+
+# System
+#if ARCHITECTURES amd64 i386
+dmidecode mcelog cpuburn
+#endif
+lshw pciutils procinfo usbutils
+sysstat stress
+
+#if ARCHITECTURES i386 powerpc
+read-edid
+#endif
+
+# Browser
+lynx links2 w3m
+
+# Compression
+arj bzip2 lzma p7zip-full unace unrar-free unzip zip lzop ncompress
+unace pax
+
+#if ARCHIVE_AREAS non-free
+rar unrar
+sl-modem-daemon
+atmel-firmware linux-wlan-ng-firmware firmware-ralink bluez-firmware
+libertas-firmware firmware-iwlwifi zd1211-firmware
+firmware-qlogic firmware-bnx2
+#endif
+
+# These two are from contrib but the idea is the same: non-free firmware.
+#if ARCHIVE_AREAS contrib
+b43-fwcutter
+#endif
+
+# Backup
+dar gddrescue dump ddrescue
+mt-st
+#if DISTRIBUTION sid
+afio tob
+#endif
+dar duplicity
+
+# File comparison
+rdiff rdiff-backup rsnapshot
+colordiff
+
+# General
+chrootuid
+cpio
+cryptcat
+directvnc
+etherwake
+ftp
+ifenslave-2.6
+ifrename
+ethtool
+ipcalc
+mii-diag
+minicom
+gkermit
+netcat
+netcat6
+netmask
+openssl
+openvpn
+vpnc
+strongswan
+sipcalc
+socat
+ssh
+telnet-ssl
+whois
+irssi
+debootstrap
+cdebootstrap
+rinse
+pv
+manpages
+
+acl
+symlinks
+
+# for hexdump if nothing else:
+bsdmainutils
+
+# Firewalling
+denyhosts
+fail2ban
+iptables
+knockd
+portsentry
+vlan
+
+# Essential networking
+netbase
+rdate
+ntpdate
+dhcp3-client
+ppp
+pppconfig
+pppoe
+pppoeconf
+atm-tools
+#ipppd
+
+# Bridging
+bridge-utils
+ebtables
+parprouted
+
+# Special hardware
+br2684ctl
+
+# Routing
+cutter
+iproute
+iproute-doc
+iputils-tracepath
+mtr-tiny
+tcptraceroute
+traceroute
+spinner
+
+# Monitoring
+arpalert
+arpwatch
+atsar
+bmon
+ethstatus
+#if DISTRIBUTION squeeze
+ettercap
+#endif
+#nif DISTRIBUTION squeeze
+ettercap-text-only
+#endif
+geoip-bin
+hp-search-mac
+icmpinfo
+ifstat
+iftop
+ipgrab
+iptstate
+iptraf
+lft
+nast
+nbtscan
+netdiscover
+nload
+nsca
+nstreams
+#if DISTRIBUTION sid
+ntop
+#endif
+saidar
+samhain
+scanssh
+sntop
+ssldump
+tcpdump
+tcpreen
+tcpreplay
+tshark
+
+# Testing
+crashme
+dbench
+doscan
+dsniff
+honeyd
+hping3
+icmpush
+macchanger
+medusa
+netdiag
+netpipe-tcp
+nmap
+ndisc6
+ngrep
+p0f
+packit
+python-scapy
+xprobe
+
+# Log Analysers
+fwanalog
+fwlogwatch
+lwatch
+multitail
+
+# Net Analysers
+httping
+arping
+dnstracer
+netselect
+dnsutils
+adns-tools
+fping
+
+# FS tools
+reiserfsprogs
+squashfs-tools
+sshfs
+sysfsutils
+udftools
+xfsdump
+xfsprogs
+btrfs-tools
+cryptsetup
+dmraid
+e2fsprogs
+fuse-utils
+hfsplus
+hfsutils
+jfsutils
+lde
+lsscsi
+lvm2
+mdadm
+mtools
+nilfs-tools
+ntfs-3g
+#if DISTRIBUTION squeeze
+ntfsprogs
+#endif
+reiser4progs
+dmsetup
+
+# Forensics
+foremost
+magicrescue
+sleuthkit
+
+# Tools for managing M$ and its ilk
+dosfstools mscompress chntpw pptpd pptp-linux
+
+# unsorted
+#if ARCHITECTURES amd64 i386
+cpuid x86info
+#endif
+hwinfo
+tofrodos
+#if DISTRIBUTION squeeze
+rpncalc
+#endif
+hal
+dc
+bc
+rlwrap
+chkrootkit
+
+rkhunter
+clamav
+clamav-data
+smbclient
+nfs-common
+wireless-tools
+wpasupplicant
+
+aide
+tripwire
+sleuthkit
+autopsy
+pwgen
+
+rsync
+ncftp
+rpm
+curl
+wget
+lftp
+net-tools
+
+expect
+gpm
+
+# Network servers:
+thttpd
+dhcp3-server
+hostap-utils
+hostapd
+
+# Flab
+emacs23-nox
+build-essential gdb gfortran gnat
+
+#if ARCHITECTURES i386
+bin86
+#endif

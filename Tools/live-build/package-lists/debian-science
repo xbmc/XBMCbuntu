@@ -1,0 +1,11 @@
+# /usr/share/live/build/package-lists/debian-science - package list for live-build(7)
+
+#include <standard>
+
+# http://qa.debian.org/developer.php?login=debian-science-maintainers@lists.alioth.debian.org
+
+science-astronomy science-biology science-chemistry
+science-electronics science-engineering science-geography
+science-linguistics science-mathematics science-mathematics-dev
+science-physics science-robotics science-statistics science-typesetting
+science-viewing

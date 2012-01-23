@@ -1,0 +1,11 @@
+# /etc/logrotate.d/live-build
+
+/var/log/live
+{
+	compress
+	copytruncate
+	missingok
+	monthly
+	notifempty
+	rotate 24
+}

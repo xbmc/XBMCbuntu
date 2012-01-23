@@ -1,0 +1,62 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'copy debian-live config into source')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_SOURCE}" != "true" ]
+then
+	exit 0
+fi
+
+Echo_message "Begin copying live-build configuration..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/source_debian-live
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Remove old sources
+if [ -d source/debian-live ]
+then
+	rm -rf source/debian-live
+fi
+
+# Copy system configuration
+mkdir -p source/debian-live
+cp -a config source/debian-live
+
+if Find_files auto/*
+then
+	cp -a auto source/debian-live
+fi
+
+# Creating stage file
+Create_stagefile .stage/source_debian-live

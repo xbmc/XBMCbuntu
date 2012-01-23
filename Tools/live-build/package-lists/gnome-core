@@ -1,0 +1,8 @@
+# /usr/share/live/build/package-lists/gnome-core - package list for live-build(7)
+
+#include <standard-x11>
+
+gnome-core
+gdm3
+desktop-base
+gnome-themes

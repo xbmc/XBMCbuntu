@@ -1,0 +1,3 @@
+# Debian Live Project
+deb http://live.debian.net/ @DISTRIBUTION@-snapshots @ARCHIVE_AREAS@
+deb-src http://live.debian.net/ @DISTRIBUTION@-snapshots @ARCHIVE_AREAS@

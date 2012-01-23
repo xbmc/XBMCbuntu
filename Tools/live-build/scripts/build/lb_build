@@ -1,0 +1,77 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Automatically populating config tree
+if [ -x auto/config ] && [ ! -e .stage/config ]
+then
+	Echo_message "Automatically populating config tree."
+	lb config
+fi
+
+# Read meta config
+if [ "${1}" != "noauto" ] && [ -x auto/build ]
+then
+	Echo_message "Executing auto/build script."
+	./auto/build "${@}"
+	exit ${?}
+fi
+
+if [ "${1}" = "noauto" ]
+then
+	shift
+fi
+
+# Setting static variables
+DESCRIPTION="$(Echo 'build a Debian Live system')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+if [ ! -d config ]
+then
+	Echo_warning "No config/ directory; using defaults for all options"
+fi
+
+if [ "$(pwd)" = "/" ]
+then
+	Echo_error "Cannot build live image from the root directory (/)"
+	exit 1
+fi
+
+if echo $(pwd) | grep -qs " "
+then
+	Echo_error "Cannot build live image from a directory containing spaces"
+	exit 1
+fi
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Checking defaults
+Check_defaults
+
+# Bootstrapping system
+lb bootstrap ${*}
+
+# Customizing chroot
+lb chroot ${*}
+
+# Building binary images
+lb binary ${*}
+
+# Building source images
+lb source ${*}

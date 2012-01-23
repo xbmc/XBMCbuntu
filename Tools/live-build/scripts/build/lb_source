@@ -1,0 +1,67 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Automatically populating config tree
+if [ -x auto/config ] && [ ! -e .stage/config ]
+then
+	Echo_message "Automatically populating config tree."
+	lb config
+fi
+
+# Setting static variables
+DESCRIPTION="$(Echo 'build source images')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_SOURCE}" != "true" ]
+then
+	exit 0
+fi
+
+#Require_stagefile
+
+# Setup cleanup function
+Setup_cleanup
+
+# Enabling network in chroot
+lb chroot_hosts install ${*}
+lb chroot_resolv install ${*}
+lb chroot_hostname install ${*}
+lb chroot_archives source install ${*}
+
+# Preparing images
+lb source_debian-live ${*}
+lb source_debian ${*}
+lb source_disk ${*}
+lb source_checksums ${*}
+
+# Building images
+lb source_iso ${*}
+lb source_net ${*}
+lb source_tar ${*}
+lb source_hdd ${*}
+lb source_virtual-hdd ${*}
+
+# Deconfiguring chroot
+lb chroot_archives chroot remove ${*}
+lb chroot_hostname remove ${*}
+lb chroot_resolv remove ${*}
+lb chroot_hosts remove ${*}

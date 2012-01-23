@@ -1,0 +1,13 @@
+# /usr/share/live/build/package-lists/gnome - package list for live-build(7)
+
+#include <gnome-core>
+
+gnome-desktop-environment gnome-screensaver gnome-themes-extras
+#nif MODE ubuntu kubuntu
+system-config-printer
+#endif
+#if MODE ubuntu kubuntu
+system-config-printer-gnome
+#endif
+
+rhythmbox synaptic

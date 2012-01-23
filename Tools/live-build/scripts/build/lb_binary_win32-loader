@@ -1,0 +1,103 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'copy win32-loader into binary')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_WIN32_LOADER}" != "true" ] || [ "${LB_BINARY_IMAGES}" = "virtual-hdd" ]
+then
+	exit 0
+fi
+
+Echo_message "Begin copying win32-loader..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_win32-loader
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+case "${LB_ARCHITECTURES}" in
+	amd64|i386)
+		if [ "${LB_BUILD_WITH_CHROOT}" = "true" ]
+		then
+			# Checking depends
+			Check_package chroot/usr/share/win32/win32-loader.exe win32-loader
+
+			# Restoring cache
+			Restore_cache cache/packages_binary
+
+			# Installing depends
+			Install_package
+
+			# Copying win32-loader
+			cp -r chroot/usr/share/win32/* binary
+		else
+			cp -r usr/share/win32/* binary
+		fi
+
+		mv binary/win32-loader.exe binary/setup.exe
+
+		if [ -e binary/win32-loader-standalone.exe ]
+		then
+			mv binary/win32-loader-standalone.exe binary/setup-standalone.exe
+		fi
+
+		if [ "${LB_DEBIAN_INSTALLER}" != "false" ]
+		then
+
+cat > binary/win32-loader.ini << EOF
+[installer]
+arch=${LB_ARCHITECTURES}
+i386/linux=install/vmlinuz
+i386/initrd=install/initrd.gz
+i386/gtk/linux=install/vmlinuz
+i386/gtk/initrd=install/gtk/initrd.gz
+
+[grub]
+g2ldr=g2ldr
+g2ldr.mbr=g2ldr.mbr
+EOF
+
+		fi
+
+		# Saving cache
+		Save_cache cache/packages_binary
+
+		# Removing depends
+		Remove_package
+		;;
+
+	*)
+		Echo_warning "win32-loader inclusion is set to true but not compatible with your architecture, ignoring."
+		;;
+esac
+
+# Creating stage file
+Create_stagefile .stage/binary_win32-loader

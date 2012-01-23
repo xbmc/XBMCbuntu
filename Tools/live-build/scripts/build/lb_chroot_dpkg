@@ -1,0 +1,122 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'manage /sbin/dpkg')"
+HELP=""
+USAGE="${PROGRAM} {install|remove} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+case "${1}" in
+	install)
+		Echo_message "Configuring file /sbin/start-stop-daemon"
+
+		# Checking stage file
+		Check_stagefile .stage/chroot_dpkg
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		# Save start-stop-daemon program
+		mv chroot/sbin/start-stop-daemon chroot/sbin/start-stop-daemon.orig
+
+		# Create start-stop-daemon program
+
+cat > chroot/sbin/start-stop-daemon << EOF
+#!/bin/sh
+
+exit 0
+EOF
+
+		chmod 755 chroot/sbin/start-stop-daemon
+
+		# Disable dpkg syncing
+
+cat > chroot/etc/dpkg/dpkg.cfg.d/live-build << EOF
+force-unsafe-io
+EOF
+
+		# Manual hacks for special packages
+
+		# samhain
+		if [ -e /var/state/samhain/samhain_file ]
+		then
+			mv /var/state/samhain/samhain_file /var/state/samhain/samhain_file.orig
+		else
+			mkdir -p /var/state/samhain
+			touch /var/state/samhain/samhain_file
+		fi
+
+		# flash-kernel
+		Chroot chroot dpkg-divert --rename --quiet --add /usr/sbin/flash-kernel
+		ln -s /bin/true chroot/usr/sbin/flash-kernel
+
+		# Creating stage file
+		Create_stagefile .stage/chroot_dpkg
+		;;
+
+	remove)
+		Echo_message "Deconfiguring file /sbin/start-stop-daemon"
+
+		# Checking lock file
+		Check_lockfile .lock
+
+		# Creating lock file
+		Create_lockfile .lock
+
+		# Manual hacks for special packages
+
+		# flash-kernel
+		rm -f chroot/usr/sbin/flash-kernel
+		Chroot chroot dpkg-divert --rename --quiet --remove /usr/sbin/flash-kernel
+
+		# samhain
+		if [ -e /var/state/samhain/samhain_file.orig ]
+		then
+			mv /var/state/samhain/samhain_file.orig /var/state/samhain/samhain_file
+		elif [ -d /var/state/samhain ]
+		then
+			rm -f /var/state/samhain/samhain_file
+			rmdir --ignore-fail-on-non-empty /var/state/samhain || true
+		fi
+
+		# Restore start-stop-daemon program
+		if [ -e chroot/sbin/start-stop-daemon.orig ]
+		then
+			mv chroot/sbin/start-stop-daemon.orig chroot/sbin/start-stop-daemon
+		fi
+
+		# Remove dpkg sync configuration
+		rm -f chroot/etc/dpkg/dpkg.cfg.d/live-build
+
+		# Removing stage file
+		rm -f .stage/chroot_dpkg
+		;;
+
+	*)
+		Usage
+		;;
+esac

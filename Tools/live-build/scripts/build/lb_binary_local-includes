@@ -1,0 +1,57 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'copy files into binary')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+Echo_message "Begin copying binary local includes..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/binary_local-includes
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+if Find_files config/includes.binary/
+then
+	# Copying includes
+	cd config/includes.binary
+	find . | cpio -dmpu --no-preserve-owner "${OLDPWD}"/binary
+	cd "${OLDPWD}"
+
+	# Removing symlinks
+	case "${LB_BINARY_IMAGES}" in
+		hdd*)
+			find binary -type l | xargs rm -f
+			;;
+	esac
+
+	# Creating stage file
+	Create_stagefile .stage/binary_local-includes
+fi

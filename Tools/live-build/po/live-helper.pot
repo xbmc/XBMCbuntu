@@ -1,0 +1,1092 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-02 18:10+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../helpers/lh_source_md5sum:16
+msgid "create source md5sums"
+msgstr ""
+
+#: ../helpers/lh_source_md5sum:36
+msgid "Begin creating source md5sum.txt..."
+msgstr ""
+
+#: ../helpers/lh_chroot_local-includes:16
+msgid "copy local files into chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_local-includes:26
+msgid "Begin copying chroot local includes..."
+msgstr ""
+
+#: ../helpers/lh:16
+msgid "utility to build Debian Live systems"
+msgstr ""
+
+#: ../helpers/lh:41
+msgid "no such helper"
+msgstr ""
+
+#: ../helpers/lh_chroot_packageslists:16
+msgid "queue install of packages lists into chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_packageslists:26
+msgid "Begin queueing installation of packages lists..."
+msgstr ""
+
+#: ../helpers/lh_binary_silo:16
+msgid "installs silo into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_silo:42
+msgid "Begin installing silo..."
+msgstr ""
+
+#: ../helpers/lh_binary_silo:172
+msgid "Net cow not supported on silo"
+msgstr ""
+
+#: ../helpers/lh_binary_tar:16
+msgid "build harddisk binary image"
+msgstr ""
+
+#: ../helpers/lh_binary_tar:31
+msgid "Begin building binary harddisk image..."
+msgstr ""
+
+#: ../helpers/lh_chroot_sysv-rc:16
+msgid "manage /usr/sbin/policy-rc.d"
+msgstr ""
+
+#: ../helpers/lh_chroot_sysv-rc:31
+msgid "Configuring file /usr/sbin/policy-rc.d"
+msgstr ""
+
+#: ../helpers/lh_chroot_sysv-rc:65
+msgid "Deconfiguring file /usr/sbin/policy-rc.d"
+msgstr ""
+
+#: ../helpers/lh_chroot_local-patches:16
+msgid "apply local patches against chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_local-patches:26
+msgid "Begin applying chroot local patches..."
+msgstr ""
+
+#: ../helpers/lh_chroot_local-patches:53
+msgid "Applying patch %s..."
+msgstr ""
+
+#: ../helpers/lh_chroot_resolv:16
+msgid "manage /etc/resolv.conf"
+msgstr ""
+
+#: ../helpers/lh_chroot_resolv:31
+msgid "Configuring file /etc/resolv.conf"
+msgstr ""
+
+#: ../helpers/lh_chroot_resolv:66
+msgid "Deconfiguring file /etc/resolv.conf"
+msgstr ""
+
+#: ../helpers/lh_source_net:16
+msgid "build source net image"
+msgstr ""
+
+#: ../helpers/lh_source_net:36
+msgid "Begin building source netboot image..."
+msgstr ""
+
+#: ../helpers/lh_source_debian:16
+msgid "debian sources"
+msgstr ""
+
+#: ../helpers/lh_source_debian:31
+msgid "Begin downloading sources..."
+msgstr ""
+
+#: ../helpers/lh_chroot:16
+msgid "customize the Debian system"
+msgstr ""
+
+#: ../helpers/lh_binary_syslinux:16
+msgid "installs syslinux into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_syslinux:31
+msgid "Begin installing syslinux..."
+msgstr ""
+
+#: ../helpers/lh_binary_syslinux:250
+msgid "%s doen't exist"
+msgstr ""
+
+#: ../helpers/lh_binary_syslinux:453 ../helpers/lh_binary_syslinux:477
+msgid "Unsupported net filesystem"
+msgstr ""
+
+#: ../helpers/lh_bootstrap:16
+msgid "bootstrap a Debian system"
+msgstr ""
+
+#: ../helpers/lh_binary_usb-hdd:16
+msgid "build binary image"
+msgstr ""
+
+#: ../helpers/lh_binary_usb-hdd:31
+msgid "Begin building binary usb-hdd image..."
+msgstr ""
+
+#: ../helpers/lh_binary_usb-hdd:58
+msgid "Sparc only supports booting from ext2, ext3 (or ufs)"
+msgstr ""
+
+#: ../helpers/lh_binary_usb-hdd:89
+msgid ""
+"FAT16 doesn't support files larger than 2GB, automatically enforcing FAT32."
+msgstr ""
+
+#: ../helpers/lh_binary_usb-hdd:98
+msgid ""
+"FAT16 doesn't support partitions larger than 2GB, automatically enforcing "
+"FAT32"
+msgstr ""
+
+#: ../helpers/lh_binary_usb-hdd:139 ../helpers/lh_source_usb-hdd:86
+msgid "Unsupported binary filesystem %s"
+msgstr ""
+
+#: ../helpers/lh_chroot_symlinks:16
+msgid "convert symlinks"
+msgstr ""
+
+#: ../helpers/lh_chroot_symlinks:31
+msgid "Begin converting symlinks..."
+msgstr ""
+
+#: ../helpers/lh_bootstrap_copy:16
+msgid "bootstrap by copying the host system"
+msgstr ""
+
+#: ../helpers/lh_bootstrap_copy:34 ../helpers/lh_bootstrap_cdebootstrap:34
+#: ../helpers/lh_bootstrap_debootstrap:34
+msgid "Begin bootstrapping system..."
+msgstr ""
+
+#: ../helpers/lh_binary_grub:16
+msgid "installs grub into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_grub:31
+msgid "Begin installing grub..."
+msgstr ""
+
+#: ../helpers/lh_binary_grub:118
+msgid "Bootloader in this image type not yet supported by live-helper."
+msgstr ""
+
+#: ../helpers/lh_binary_grub:119
+msgid "This would produce a not bootable image, aborting (FIXME)."
+msgstr ""
+
+#: ../helpers/lh_binary_grub:177
+msgid "Net cow not yet supported on grub"
+msgstr ""
+
+#: ../helpers/lh_chroot_local-hooks:16
+msgid "execute local hooks in chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_local-hooks:26 ../helpers/lh_binary_local-hooks:26
+msgid "Begin executing local hooks..."
+msgstr ""
+
+#: ../helpers/lh_chroot_preseed:16
+msgid "execute preseed in chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_preseed:26
+msgid "Begin executing preseed..."
+msgstr ""
+
+#: ../helpers/lh_chroot_hosts:16
+msgid "manage /etc/hosts"
+msgstr ""
+
+#: ../helpers/lh_chroot_hosts:31
+msgid "Configuring file /etc/hosts"
+msgstr ""
+
+#: ../helpers/lh_chroot_hosts:67
+msgid "Deconfiguring file /etc/hosts"
+msgstr ""
+
+#: ../helpers/lh_chroot_localization:16
+msgid "install localization packages into chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_localization:26
+msgid "Begin installing localization packages..."
+msgstr ""
+
+#: ../helpers/lh_bootstrap_cdebootstrap:16
+msgid "bootstrap a Debian system with cdebootstrap(1)"
+msgstr ""
+
+#: ../helpers/lh_source_debian-live:16
+msgid "copy debian-live config into source"
+msgstr ""
+
+#: ../helpers/lh_source_debian-live:31
+msgid "Begin copying live-helper configuration..."
+msgstr ""
+
+#: ../helpers/lh_binary_yaboot:16
+msgid "installs yaboot into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_yaboot:31
+msgid "Begin installing yaboot..."
+msgstr ""
+
+#: ../helpers/lh_binary_yaboot:126
+msgid "not yet supported, aborting (FIXME)."
+msgstr ""
+
+#: ../helpers/lh_binary_yaboot:184
+msgid "Net cow not yet supported on yaboot"
+msgstr ""
+
+#: ../helpers/lh_clean:27
+msgid "clean up system build directories"
+msgstr ""
+
+#: ../helpers/lh_clean:40
+msgid "%s is not a good Debian Live working directory to clean."
+msgstr ""
+
+#: ../helpers/lh_clean:73
+msgid "Cleaning chroot"
+msgstr ""
+
+#: ../helpers/lh_binary_chroot:16
+msgid "copy chroot into chroot"
+msgstr ""
+
+#: ../helpers/lh_binary_chroot:26
+msgid "Begin copying chroot..."
+msgstr ""
+
+#: ../helpers/lh_binary_chroot:80 ../helpers/lh_source_tar:37
+msgid "This may take a while."
+msgstr ""
+
+#: ../helpers/lh_binary_chroot:100
+msgid "Excluded path does not exist: %s"
+msgstr ""
+
+#: ../helpers/lh_binary_local-includes:16 ../helpers/lh_binary_includes:16
+msgid "copy files into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_local-includes:26
+msgid "Begin copying binary local includes..."
+msgstr ""
+
+#: ../helpers/lh_binary_debian-installer:16
+msgid "install debian-installer into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_debian-installer:46
+msgid "debian-installer flavour %s not supported."
+msgstr ""
+
+#: ../helpers/lh_binary_debian-installer:51
+msgid "Begin installing debian-installer..."
+msgstr ""
+
+#: ../helpers/lh_binary_debian-installer:214
+msgid "Could not download file: %s"
+msgstr ""
+
+#: ../helpers/lh_binary_debian-installer:306
+msgid "No daily-builds found for your architecture."
+msgstr ""
+
+#: ../helpers/lh_binary_debian-installer:466
+msgid "Could not find cache/packages_bootstrap."
+msgstr ""
+
+#: ../helpers/lh_binary_debian-installer:467
+msgid ""
+"You selected values of LB_CACHE, LB_CACHE_PACKAGES, LB_CACHE_STAGES and "
+"LB_DEBIAN_INSTALLER which will result in 'bootstrap' packages not being "
+"cached - these are required when integrating the Debian Installer."
+msgstr ""
+
+#: ../helpers/lh_chroot_interactive:16
+msgid "make build interactive"
+msgstr ""
+
+#: ../helpers/lh_chroot_interactive:31
+msgid "Begin interactive build..."
+msgstr ""
+
+#: ../helpers/lh_chroot_interactive:47
+msgid "Pausing build: starting interactive shell..."
+msgstr ""
+
+#: ../helpers/lh_chroot_interactive:51
+msgid "Pausing build: starting interactive X11..."
+msgstr ""
+
+#: ../helpers/lh_chroot_interactive:55
+msgid "Pausing build: starting interactive Xnest..."
+msgstr ""
+
+#: ../helpers/lh_chroot_cache:16
+msgid "cache chroot stage"
+msgstr ""
+
+#: ../helpers/lh_chroot_cache:26
+msgid "Begin caching chroot stage..."
+msgstr ""
+
+#: ../helpers/lh_chroot_hostname:16
+msgid "manage /bin/hostname"
+msgstr ""
+
+#: ../helpers/lh_chroot_hostname:31
+msgid "Configuring file /etc/hostname"
+msgstr ""
+
+#: ../helpers/lh_chroot_hostname:48
+msgid "Configuring file /bin/hostname"
+msgstr ""
+
+#: ../helpers/lh_chroot_hostname:65
+msgid "Deconfiguring file /etc/hostname"
+msgstr ""
+
+#: ../helpers/lh_chroot_hostname:73
+msgid "Deconfiguring file /bin/hostname"
+msgstr ""
+
+#: ../helpers/lh_binary_manifest:16
+msgid "create manifest"
+msgstr ""
+
+#: ../helpers/lh_binary_manifest:26
+msgid "Begin creating manifest..."
+msgstr ""
+
+#: ../helpers/lh_chroot_sources:16
+msgid "manage /etc/apt/sources.list"
+msgstr ""
+
+#: ../helpers/lh_chroot_sources:33
+msgid "Configuring file /etc/apt/sources.list"
+msgstr ""
+
+#: ../helpers/lh_chroot_sources:168
+msgid "GPG exited with error status %s"
+msgstr ""
+
+#: ../helpers/lh_chroot_sources:212
+#, sh-format
+msgid ""
+"Local packages must be named with suffix '_all.deb' or '_$architecture.deb'."
+msgstr ""
+
+#: ../helpers/lh_chroot_sources:329
+msgid "Deconfiguring file /etc/apt/sources.list"
+msgstr ""
+
+#: ../helpers/lh_chroot_hooks:16
+msgid "execute hooks in chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_hooks:26
+msgid "Begin executing hooks..."
+msgstr ""
+
+#: ../helpers/lh_binary_encryption:16
+msgid "encrypts rootfs"
+msgstr ""
+
+#: ../helpers/lh_binary_encryption:33
+msgid "Encryption type %s not supported."
+msgstr ""
+
+#: ../helpers/lh_binary_encryption:43
+msgid "Encryption not yet supported on %s filesystems."
+msgstr ""
+
+#: ../helpers/lh_binary_encryption:48
+msgid "Begin encrypting root filesystem image..."
+msgstr ""
+
+#: ../helpers/lh_binary_encryption:81
+msgid "Encrypting binary/%s/filesystem.%s with %s..."
+msgstr ""
+
+#: ../helpers/lh_binary_encryption:93
+msgid " ** Configuring encrypted filesystem **"
+msgstr ""
+
+#: ../helpers/lh_binary_encryption:95
+msgid " (Passwords must be at least 20 characters long)"
+msgstr ""
+
+#: ../helpers/lh_build:27
+msgid "build a Debian Live system"
+msgstr ""
+
+#: ../helpers/lh_build:35
+msgid "No config/ directory; using defaults for all options"
+msgstr ""
+
+#: ../helpers/lh_build:40
+msgid "Cannot build live image from the root directory (/)"
+msgstr ""
+
+#: ../helpers/lh_build:46
+msgid "Cannot build live image from a directory containing spaces"
+msgstr ""
+
+#: ../helpers/lh_binary_includes:31
+msgid "Begin copying binary includes..."
+msgstr ""
+
+#: ../helpers/lh_binary_includes:52
+msgid "user specified includes not accessible in %s"
+msgstr ""
+
+#: ../helpers/lh_binary_includes:171
+msgid "win32-loader inclusion is enabled but not found, ignoring."
+msgstr ""
+
+#: ../helpers/lh_source_usb-hdd:16
+msgid "build source image"
+msgstr ""
+
+#: ../helpers/lh_source_usb-hdd:36
+msgid "Begin building source usb-hdd image..."
+msgstr ""
+
+#: ../helpers/lh_source_usb-hdd:91
+msgid "!!! The following error/warning messages can be ignored !!!"
+msgstr ""
+
+#: ../helpers/lh_source_usb-hdd:125
+msgid "!!! The above error/warning messages can be ignored !!!"
+msgstr ""
+
+#: ../helpers/lh_binary_local-packageslists:16
+msgid "install local packages into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_local-packageslists:26
+msgid "Begin installing local packages lists..."
+msgstr ""
+
+#: ../helpers/lh_chroot_sysvinit:16
+msgid "configure sysvinit"
+msgstr ""
+
+#: ../helpers/lh_chroot_sysvinit:26
+msgid "Configuring package sysvinit"
+msgstr ""
+
+#: ../helpers/lh_chroot_selinuxfs:16
+msgid "mount /selinux"
+msgstr ""
+
+#: ../helpers/lh_chroot_selinuxfs:36
+msgid "Begin mounting /selinux..."
+msgstr ""
+
+#: ../helpers/lh_chroot_selinuxfs:65
+msgid "Begin unmounting /selinux..."
+msgstr ""
+
+#: ../helpers/lh_binary_md5sum:16
+msgid "create binary md5sums"
+msgstr ""
+
+#: ../helpers/lh_binary_md5sum:31
+msgid "Begin creating binary md5sum.txt..."
+msgstr ""
+
+#: ../helpers/lh_binary_iso:16
+msgid "build iso binary image"
+msgstr ""
+
+#: ../helpers/lh_binary_iso:31
+msgid "Begin building binary iso image..."
+msgstr ""
+
+#: ../helpers/lh_binary_iso:129
+msgid "Bootloader on your architecture not yet supported by live-helper."
+msgstr ""
+
+#: ../helpers/lh_binary_iso:130
+msgid ""
+"This will produce a most likely not bootable image (Continuing in 5 seconds)."
+msgstr ""
+
+#: ../helpers/lh_testroot:16
+msgid "ensure that a system is built as root"
+msgstr ""
+
+#: ../helpers/lh_testroot:29
+msgid "need root privileges"
+msgstr ""
+
+#: ../helpers/lh_binary_memtest:16
+msgid "installs a memtest into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_memtest:31
+msgid "Begin installing memtest..."
+msgstr ""
+
+#: ../helpers/lh_binary_memtest:47
+msgid "skipping binary_memtest, foreign architecture."
+msgstr ""
+
+#: ../helpers/lh_binary_net:16
+msgid "build netboot binary image"
+msgstr ""
+
+#: ../helpers/lh_binary_net:36
+msgid "Begin building binary netboot image..."
+msgstr ""
+
+#: ../helpers/lh_binary_net:93
+msgid "Invalid default kernel flavour for sparc \"%s\""
+msgstr ""
+
+#: ../helpers/lh_chroot_dpkg:16
+msgid "manage /sbin/dpkg"
+msgstr ""
+
+#: ../helpers/lh_chroot_dpkg:31
+msgid "Configuring file /sbin/start-stop-daemon"
+msgstr ""
+
+#: ../helpers/lh_chroot_dpkg:60
+msgid "Deconfiguring file /sbin/start-stop-daemon"
+msgstr ""
+
+#: ../helpers/lh_binary_disk:16
+msgid "install disk information into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_disk:34 ../helpers/lh_source_disk:31
+msgid "Begin installing disk information..."
+msgstr ""
+
+#: ../helpers/lh_binary:16
+msgid "build binary images"
+msgstr ""
+
+#: ../helpers/lh_binary_linux-image:16
+msgid "install linux-image into binary"
+msgstr ""
+
+#: ../helpers/lh_binary_linux-image:26
+msgid "Begin install linux-image..."
+msgstr ""
+
+#: ../helpers/lh_source_tar:16
+msgid "build source tarball"
+msgstr ""
+
+#: ../helpers/lh_source_tar:36
+msgid "Begin building source tarball..."
+msgstr ""
+
+#: ../helpers/lh_chroot_linux-image:16
+msgid "manage /etc/kernel-img.conf"
+msgstr ""
+
+#: ../helpers/lh_chroot_linux-image:31
+msgid "Configuring file /etc/kernel-img.conf"
+msgstr ""
+
+#: ../helpers/lh_chroot_linux-image:80
+msgid "Deconfiguring file /etc/kernel-img.conf"
+msgstr ""
+
+#: ../helpers/lh_chroot_tasks:16
+msgid "install tasks into chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_tasks:26
+msgid "Begin installing tasks..."
+msgstr ""
+
+#: ../helpers/lh_chroot_apt:16
+msgid "manage /etc/apt/apt.conf"
+msgstr ""
+
+#: ../helpers/lh_chroot_apt:31
+msgid "Configuring file /etc/apt/apt.conf"
+msgstr ""
+
+#: ../helpers/lh_chroot_apt:156
+msgid "Deconfiguring file /etc/apt/apt.conf"
+msgstr ""
+
+#: ../helpers/lh_source:16
+msgid "build source images"
+msgstr ""
+
+#: ../helpers/lh_bootstrap_cache:16
+msgid "cache bootstrap stage"
+msgstr ""
+
+#: ../helpers/lh_bootstrap_cache:29
+msgid "Begin caching bootstrap stage..."
+msgstr ""
+
+#: ../helpers/lh_chroot_debianchroot:16
+msgid "manage /etc/debian_chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_debianchroot:31
+msgid "Configuring file /etc/debian_chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_debianchroot:56
+msgid "Deconfiguring file /etc/debian_chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_packages:16
+msgid "queue install of packages into chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_packages:26
+msgid "Begin queueing installation of packages..."
+msgstr ""
+
+#: ../helpers/lh_config:28
+msgid "create configuration for live-helper(7)"
+msgstr ""
+
+#: ../helpers/lh_config:152 ../functions/arguments.sh:16
+msgid "terminating"
+msgstr ""
+
+#: ../helpers/lh_config:168
+msgid "%s: This is live-helper version %s"
+msgstr ""
+
+#: ../helpers/lh_config:707 ../functions/arguments.sh:76
+msgid "internal error %s"
+msgstr ""
+
+#: ../helpers/lh_config:717
+msgid "Considering defaults defined in %s"
+msgstr ""
+
+#: ../helpers/lh_config:1197
+msgid "Please install 'debconf-utils' in order to use this feature."
+msgstr ""
+
+#: ../helpers/lh_chroot_local-preseed:16
+msgid "execute local preseed in chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_local-preseed:26
+msgid "Begin executing local preseeds..."
+msgstr ""
+
+#: ../helpers/lh_chroot_hacks:16
+msgid "execute hacks in chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_hacks:26
+msgid "Begin executing hacks..."
+msgstr ""
+
+#: ../helpers/lh_binary_rootfs:16
+msgid "build rootfs image"
+msgstr ""
+
+#: ../helpers/lh_binary_rootfs:26
+msgid "Begin building root filesystem image..."
+msgstr ""
+
+#: ../helpers/lh_binary_rootfs:112
+msgid ""
+"rootfs excludes are not supported on non-chrooted builds unless squashfs as "
+"chroot filesystem is used, thus ignoring excludes now."
+msgstr ""
+
+#: ../helpers/lh_binary_rootfs:277
+msgid ""
+"etch squashfs does not support wildcard excludes in config/binary_rootfs/"
+"excludes and are ignored. Please build in chrooted mode or adjust your "
+"exclude file."
+msgstr ""
+
+#: ../helpers/lh_source_iso:16
+msgid "build iso source image"
+msgstr ""
+
+#: ../helpers/lh_source_iso:36
+msgid "Begin building source iso image..."
+msgstr ""
+
+#: ../helpers/lh_chroot_devpts:16
+msgid "mount /dev/pts"
+msgstr ""
+
+#: ../helpers/lh_chroot_devpts:34
+msgid "Begin mounting /dev/pts..."
+msgstr ""
+
+#: ../helpers/lh_chroot_devpts:59
+msgid "Begin unmounting /dev/pts..."
+msgstr ""
+
+#: ../helpers/lh_chroot_install-packages:16
+msgid "install queued packages into chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_install-packages:26
+msgid "Begin installing packages..."
+msgstr ""
+
+#: ../helpers/lh_chroot_proc:16
+msgid "mount /proc"
+msgstr ""
+
+#: ../helpers/lh_chroot_proc:34
+msgid "Begin mounting /proc..."
+msgstr ""
+
+#: ../helpers/lh_chroot_proc:62
+msgid "Begin unmounting /proc..."
+msgstr ""
+
+#: ../helpers/lh_source_disk:16
+msgid "install disk information into source"
+msgstr ""
+
+#: ../helpers/live-helper:32
+msgid "live-helper is a set of scripts to build Debian Live system images."
+msgstr ""
+
+#: ../helpers/live-helper:34
+msgid ""
+"The idea behind live-helper is a framework that uses a configuration "
+"directory to completely automate and customize all aspects of building a "
+"Live image."
+msgstr ""
+
+#: ../helpers/live-helper:36
+msgid ""
+"An introduction to live-helper can be found in the live-helper(7) manpage."
+msgstr ""
+
+#: ../helpers/lh_chroot_sysfs:16
+msgid "mount /sys"
+msgstr ""
+
+#: ../helpers/lh_chroot_sysfs:34
+msgid "Begin mounting /sys..."
+msgstr ""
+
+#: ../helpers/lh_chroot_sysfs:62
+msgid "Begin unmounting /sys..."
+msgstr ""
+
+#: ../helpers/lh_chroot_local-packages:16
+msgid "queue install of local packages into chroot"
+msgstr ""
+
+#: ../helpers/lh_chroot_local-packages:26
+msgid "Begin queueing installation of local packages..."
+msgstr ""
+
+#: ../helpers/lh_binary_local-hooks:16
+msgid "execute local hooks in binary"
+msgstr ""
+
+#: ../helpers/lh_bootstrap_debootstrap:16
+msgid "bootstrap a Debian system with debootstrap(8)"
+msgstr ""
+
+#: ../helpers/lh_bootstrap_debootstrap:117
+msgid "Running debootstrap (download-only)... "
+msgstr ""
+
+#: ../helpers/lh_bootstrap_debootstrap:137
+msgid "Running debootstrap... "
+msgstr ""
+
+#: ../helpers/lh_bootstrap_debootstrap:151
+msgid "Can't process file /usr/bin/debootstrap (FIXME)"
+msgstr ""
+
+#: ../functions/echo.sh:242
+msgid ""
+"If the following stage fails, the most likely cause of the problem is with "
+"your mirror configuration, a caching proxy or the sid distribution."
+msgstr ""
+
+#: ../functions/echo.sh:245
+msgid ""
+"If the following stage fails, the most likely cause of the problem is with "
+"your mirror configuration or a caching proxy."
+msgstr ""
+
+#: ../functions/version.sh:12
+msgid "%s, version %s"
+msgstr ""
+
+#: ../functions/version.sh:13
+msgid "This program is a part of %s"
+msgstr ""
+
+#: ../functions/version.sh:15
+msgid "Copyright (C) 2006-2009 Daniel Baumann <daniel@debian.org>"
+msgstr ""
+
+#: ../functions/version.sh:17
+msgid "This program is free software: you can redistribute it and/or modify"
+msgstr ""
+
+#: ../functions/version.sh:18
+msgid "it under the terms of the GNU General Public License as published by"
+msgstr ""
+
+#: ../functions/version.sh:19
+msgid "the Free Software Foundation, either version 3 of the License, or"
+msgstr ""
+
+#: ../functions/version.sh:20
+msgid "(at your option) any later version."
+msgstr ""
+
+#: ../functions/version.sh:22
+msgid "This program is distributed in the hope that it will be useful,"
+msgstr ""
+
+#: ../functions/version.sh:23
+msgid "but WITHOUT ANY WARRANTY; without even the implied warranty of"
+msgstr ""
+
+#: ../functions/version.sh:24
+msgid "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the"
+msgstr ""
+
+#: ../functions/version.sh:25
+msgid "GNU General Public License for more details."
+msgstr ""
+
+#: ../functions/version.sh:27
+msgid "You should have received a copy of the GNU General Public License"
+msgstr ""
+
+#: ../functions/version.sh:28
+msgid "along with this program. If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+
+#: ../functions/version.sh:30
+msgid "On Debian systems, the complete text of the GNU General Public License"
+msgstr ""
+
+#: ../functions/version.sh:31
+msgid "can be found in /usr/share/common-licenses/GPL-3 file."
+msgstr ""
+
+#: ../functions/version.sh:33
+msgid "Homepage: <http://debian-live.alioth.debian.org/>"
+msgstr ""
+
+#: ../functions/usage.sh:14 ../functions/help.sh:14
+msgid "Usage:"
+msgstr ""
+
+#: ../functions/usage.sh:27
+msgid "Try \" %s--help\" for more information."
+msgstr ""
+
+#: ../functions/conffile.sh:36
+msgid "Reading configuration file %s"
+msgstr ""
+
+#: ../functions/conffile.sh:39
+msgid "Failed to read configuration file %s"
+msgstr ""
+
+#: ../functions/help.sh:12
+msgid "%s - %s"
+msgstr ""
+
+#: ../functions/help.sh:22
+msgid "  %s [-h|--help]"
+msgstr ""
+
+#: ../functions/help.sh:23
+msgid "  %s [-u|--usage]"
+msgstr ""
+
+#: ../functions/help.sh:24
+msgid "  %s [-v|--version]"
+msgstr ""
+
+#: ../functions/help.sh:33
+msgid ""
+"Report bugs to Debian Live project <http://debian-live.alioth.debian.org/>."
+msgstr ""
+
+#: ../functions/chroot.sh:16
+msgid "Executing: %s"
+msgstr ""
+
+#: ../functions/packages.sh:23
+msgid "You need to install %s on your host system."
+msgstr ""
+
+#: ../functions/exit.sh:20
+msgid "Begin unmounting filesystems..."
+msgstr ""
+
+#: ../functions/exit.sh:29
+msgid "Setting up cleanup function"
+msgstr ""
+
+#: ../functions/stagefile.sh:21
+msgid "skipping %s"
+msgstr ""
+
+#: ../functions/stagefile.sh:25
+msgid "forcing %s"
+msgstr ""
+
+#: ../functions/stagefile.sh:63
+msgid "%s: %s missing"
+msgstr ""
+
+#: ../functions/stagefile.sh:65
+msgid "%s: one of %s is missing"
+msgstr ""
+
+#: ../functions/architecture.sh:26
+msgid "skipping %s, foreign architecture."
+msgstr ""
+
+#: ../functions/breakpoints.sh:16
+msgid "Waiting at %s"
+msgstr ""
+
+#: ../functions/losetup.sh:24
+msgid "Mounting %s with offset 0"
+msgstr ""
+
+#: ../functions/losetup.sh:31
+msgid "Mounting %s with offset %s"
+msgstr ""
+
+#: ../functions/defaults.sh:97
+msgid ""
+"Cannot find /usr/sbin/debootstrap or /usr/bin/cdebootstrap. Please install "
+"debootstrap or cdebootstrap, or specify an alternative bootstrapping utility."
+msgstr ""
+
+#: ../functions/defaults.sh:159
+msgid "Can't process file /sbin/fdisk"
+msgstr ""
+
+#: ../functions/defaults.sh:175
+msgid "Can't process file /sbin/losetup"
+msgstr ""
+
+#: ../functions/defaults.sh:246
+msgid "Can't determine architecture, assuming i386"
+msgstr ""
+
+#: ../functions/defaults.sh:453
+msgid "Architecture not yet supported (FIXME)"
+msgstr ""
+
+#: ../functions/defaults.sh:602
+msgid ""
+"You have placed some preseeding files into config/binary_debian-installer "
+"but you didn't specify the default preseeding file through "
+"LB_DEBIAN_INSTALLER_PRESEEDFILE. This means that debian-installer will not "
+"take up a preseeding file by default."
+msgstr ""
+
+#: ../functions/defaults.sh:769
+msgid ""
+"You selected LB_DISTRIBUTION='etch' and LB_INITRAMFS='live-initramfs' This "
+"is a possible unsafe configuration as live-initramfs is not part of the etch "
+"distribution. Either make sure that live-initramfs is installable (e.g. "
+"through setting up etch-backports repository as third-party source or "
+"putting a valid live-initramfs deb into config/chroot_local-packages) or "
+"switch change your config to etch default (casper)."
+msgstr ""
+
+#: ../functions/defaults.sh:775
+msgid ""
+"You selected LB_DISTRIBUTION='etch' and LB_UNION_FILESYSTEM='aufs' This is a "
+"possible unsafe configuration as aufs is not part of the etch distribution. "
+"Either make sure that aufs modules for your kernel are installable (e.g. "
+"through setting up etch-backports repository as third-party source or "
+"putting a valid aufs-modules deb into config/chroot_local-packages) or "
+"switch change your config to etch default (unionfs)."
+msgstr ""
+
+#: ../functions/defaults.sh:785
+msgid "You selected LB_PACKAGES_LISTS='%s' and LB_APT='aptitude'"
+msgstr ""
+
+#: ../functions/defaults.sh:794
+msgid ""
+"You have selected values of LB_CACHE, LB_CACHE_PACKAGES, LB_CACHE_STAGES an "
+"dLB_DEBIAN_INSTALLER which will result in 'bootstrap' packages not being "
+"cached. This is a possible unsafe configuration as the bootstrap packages "
+"are re-used when integrating the Debian Installer."
+msgstr ""
+
+#: ../functions/defaults.sh:805
+msgid ""
+"You have selected values of LB_BOOTLOADER and LB_BINARY_FILESYSTEM which are "
+"incompatible - syslinux only supports FAT filesystems."
+msgstr ""
+
+#: ../functions/defaults.sh:815
+msgid ""
+"You have selected a combination of bootloader and image type that is "
+"currently not supported by live-helper. Please use either another bootloader "
+"or a different image type."
+msgstr ""
+
+#: ../functions/templates.sh:21
+msgid "templates not accessible in %s nor config/templates"
+msgstr ""
+
+#: ../functions/templates.sh:30
+msgid "%s templates not accessible in %s"
+msgstr ""

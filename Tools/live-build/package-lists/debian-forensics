@@ -1,0 +1,50 @@
+# /usr/share/live/build/package-lists/debian-forensics - package list for live-build(7)
+
+#include <standard>
+
+# http://qa.debian.org/developer.php?login=forensics-devel@lists.alioth.debian.org
+
+## Packages available as of lenny
+
+#if ARCHITECTURES amd64 i386
+ext3grep
+galleta
+gpart
+#endif
+
+#if DISTRIBUTION squeeze
+tct
+#endif
+
+grokevt
+memdump
+missidentify
+myrescue
+pasco
+reglookup
+scrounge-ntfs
+sleuthkit
+ssdeep
+tableau-parm
+unhide
+wipe
+
+## Packages available as of squeeze
+
+aesfix
+aeskeyfind
+afflib-tools
+chaosreader
+ed2k-hash
+guymager
+ewf-tools
+libguytools1
+libphash0
+md5deep
+nasty
+pipebench
+recoverdm
+rifiuti
+rifiuti2
+safecopy
+shed

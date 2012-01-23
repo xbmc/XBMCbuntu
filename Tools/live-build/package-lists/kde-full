@@ -1,0 +1,6 @@
+# /usr/share/live/build/package-lists/kde-full - package list for live-build(7)
+
+#include <kde>
+
+koffice
+kde-full

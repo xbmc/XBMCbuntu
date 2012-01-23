@@ -1,0 +1,12 @@
+# /usr/share/live/build/package-lists/minimal - package list for live-build(7)
+
+# Warning: if you only use this list directly, not inherited through e.g.
+# standard, then live-build also triggers the minimal hook and some other
+# things to make the image smaller. This can lead to breakages at any time,
+# don't use it if you're not willing/capable of fixing any arising issues.
+
+eject file user-setup sudo
+
+#if MODE ubuntu kubuntu
+gnupg
+#endif

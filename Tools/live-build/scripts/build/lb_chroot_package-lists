@@ -1,0 +1,76 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'queue install of package lists into chroot')"
+HELP=""
+USAGE="${PROGRAM} {install|live} [--force]"
+
+_PASS="${1}"
+shift
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+Echo_message "Begin queueing installation of package lists (${_PASS} pass)..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap
+
+# Checking stage file
+Check_stagefile .stage/chroot_package-lists.${_PASS}
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Handling global package lists
+if [ -n "${LB_PACKAGE_LISTS}" ] && [ "${LB_PACKAGE_LISTS}" != "none" ]
+then
+	for LIST in ${LB_PACKAGE_LISTS}
+	do
+		# Generating package list
+		Expand_packagelist "${LIST}" >> chroot/root/packages.chroot
+	done
+
+	# Creating stage file
+	Create_stagefile .stage/chroot_package-lists.${_PASS}
+fi
+
+# Handling local package lists
+if ls config/package-lists/*.list > /dev/null 2>&1 || \
+   ls config/package-lists/*.list.chroot > /dev/null 2>&1 || \
+   ls config/package-lists/*.list.chroot_${_PASS} > /dev/null 2>&1
+then
+	for LIST in config/package-lists/*.list \
+		    config/package-lists/*.list.chroot \
+		    config/package-lists/*.list.chroot_${_PASS}
+	do
+		if [ -e "${LIST}" ]
+		then
+			# Generating package list
+			Expand_packagelist "$(basename ${LIST})" "config/package-lists" \
+				>> chroot/root/packages.chroot
+		fi
+	done
+
+	# Creating stage file
+	Create_stagefile .stage/chroot_package-lists.${_PASS}
+fi

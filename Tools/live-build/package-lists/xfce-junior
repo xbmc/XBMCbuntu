@@ -1,0 +1,6 @@
+# /usr/share/live/build/package-lists/xfce-junior - package list for live-build(7)
+
+#include <xfce>
+#include <debian-junior>
+
+junior-kde junior-gnome

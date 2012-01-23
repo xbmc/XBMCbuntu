@@ -1,0 +1,194 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Reading defaults
+if [ -r /etc/default/live-build-cgi ]
+then
+	. /etc/default/live-build-cgi
+else
+	echo "E: /etc/default/live-build-cgi missing"
+	exit 1
+fi
+
+# Exit if disabled
+if [ "${_WEBBUILD}" != "enabled" ]
+then
+	exit 0
+fi
+
+_HOSTNAME="$(hostname -f)"
+
+# Turn on debug if enabled
+if [ "${_DEBUG}" = "enabled" ]
+then
+	set -x
+fi
+
+# Checking lock file
+if [ -f /var/lock/live-build-cgi.lock ]
+then
+	echo "E: live-build-cgi already/still running."
+	exit 1
+fi
+
+# Creating lock trap
+trap "test -f /var/lock/live-build-cgi.lock && rm -f /var/lock/live-build-cgi.lock; exit 0" 0 1 2 3 9 15
+
+# Creating lock file
+touch /var/lock/live-build-cgi.lock
+
+# Cleanup old builds: cron should be run at least once per hour to take effect
+if ls "${_DESTDIR}"/`date -d yesterday +%Y%m%d.%H`* > /dev/null 2>&1
+then
+	rm -rf "${_DESTDIR}"/`date -d yesterday +%Y%m%d.%H`*
+
+	echo "`date +%b\ %d\ %H:%M:%S` ${_HOSTNAME} live-build-cgi: remove web build (`date -d yesterday +%Y%m%d.%H`*)." >> /var/log/live
+fi
+
+# Ok from here spin through the live-build-cgi files we have waiting to build
+#if ls "${_TEMPDIR}"/*.build > /dev/null 2>&1
+if Find_files ${_TEMPDIR}/*.build
+then
+	for _FILE in "${_TEMPDIR}"/*.build
+	do
+		# Pull in the variables we want from the config file.
+		# Pul in the build number
+		_BUILD=`awk -F\" '/^_BUILD=/{print $2}' ${_FILE}`
+		# Pull in the email address
+		_EMAIL=`awk -F\" '/^_EMAIL=/{print $2}' ${_FILE}`
+		# Pull in the remote address, atchitecture, and distribution
+		_REMOTE_ADDR=`awk -F\" '/^REMOTE_ADDR=/{print $2}' ${_FILE}`
+		_LB_ARCHITECTURES=`awk -F\" '/^LB_ARCHITECTURES=/{print $2}' ${_FILE}`
+		_LB_DISTRIBUTION=`awk -F\" '/^LB_DISTRIBUTION=/{print $2}' ${_FILE}`
+		_LB_PACKAGE_LISTS=`awk -F\" '/^LB_PACKAGE_LISTS=/{print $2}' ${_FILE}`
+		_LB_PACKAGES=`awk -F\" '/^LB_PACKAGES=/{print $2}' ${_FILE}`
+		# Pull in the custom bootstrap
+		_CUSTOM_BOOTSTRAP=`awk -F\" '/^_CUSTOM_BOOTSTRAP=/{print $2}' ${_FILE}`
+		# Pull in the custom binary
+		_CUSTOM_BINARY=`awk -F\" '/^_CUSTOM_BINARY=/{print $2}' ${_FILE}`
+
+		# Drop out some build data for information if something goes wrong.
+		echo "`date +%b\ %d\ %H:%M:%S` ${_HOSTNAME} live-build-cgi: begin web build (${_BUILD})." >> /var/log/live
+
+		# Creating build directory which also creates the config/chroot_sources folder
+		mkdir -p "${_TEMPDIR}"/"${_BUILD}"/config/chroot_sources
+
+		# The next two tests are for unofficial third party archives
+		if [ -n "${_CUSTOM_BOOTSTRAP}" ]
+		then
+			echo "${_CUSTOM_BOOTSTRAP}" > "${_TEMPDIR}"/"${_BUILD}"/config/chroot_sources/custom.bootstrap
+		fi
+
+		if [ -n "${_CUSTOM_BINARY}" ]
+		then
+			echo "${_CUSTOM_BINARY}" > "${_TEMPDIR}"/"${_BUILD}"/config/chroot_sources/custom.binary
+		fi
+
+		_DATE_START="`date -R`"
+		echo "Begin: ${_DATE_START}" > "${_TEMPDIR}"/"${_BUILD}"/log
+
+		# Generating image
+		cd "${_TEMPDIR}"/"${_BUILD}"
+		lb config -c ${_FILE} >> "${_TEMPDIR}"/"${_BUILD}"/log 2>&1
+		_ERRORCONFIG="${?}"
+		lb build >> "${_TEMPDIR}"/"${_BUILD}"/log 2>&1
+		_ERRORBUILD="${?}"
+
+		_DATE_END="`date -R`"
+		echo "End: ${_DATE_END}" >> "${_TEMPDIR}"/"${_BUILD}"/log
+
+		# Creating image directory
+		mkdir -p "${_DESTDIR}"/"${_BUILD}"
+
+		# Creating mail and logging.
+		if [ "${_ERRORCONFIG}" -eq "0" ] && [ "${_ERRORBUILD}" -eq "0" ]
+		then
+			_STATUS="maybe-successful"
+			echo "${_REMOTE_ADDR} - - `date +[%d/%b/%Y:%H:%m:%S\ %z]` \"${_BUILD} ${_LB_ARCHITECTURES}/${_LB_DISTRIBUTION}/${_LB_PACKAGE_LISTS}/${_LB_PACKAGES}\" 200 - \"-\" \"\"">>/var/log/live-cgi.builds 
+		else
+			_STATUS="maybe-failed"
+			echo "${_REMOTE_ADDR} - - `date +[%d/%b/%Y:%H:%m:%S\ %z]` \"${_BUILD} ${_LB_ARCHITECTURES}/${_LB_DISTRIBUTION}/${_LB_PACKAGE_LISTS}/${_LB_PACKAGES}\" 404 - \"-\" \"\"">>/var/log/live-cgi.builds 
+		fi
+
+		sed -e "s/BUILD/${_BUILD}/g" \
+		    -e "s/EMAIL/${_EMAIL}/" \
+		    -e "s/VERSION/${VERSION}/" \
+		    -e "s/DATE_START/${_DATE_START}/" \
+		    -e "s/DATE_END/${_DATE_END}/" \
+		    -e "s/STATUS/${_STATUS}/" \
+		    -e "s#SERVER#${_SERVER}#" \
+		"${_TEMPLATES}"/mail.txt > "${_DESTDIR}"/"${_BUILD}"/mail
+
+cat >> "${_DESTDIR}"/"${_BUILD}"/mail << EOF
+
+---
+
+Here's a list of all build-options that were used to build your image:
+
+EOF
+
+		cat "${_TEMPDIR}"/"${_BUILD}".build >> "${_DESTDIR}"/"${_BUILD}"/mail
+
+		# Moving binary image
+		#if ls "${_TEMPDIR}"/"${_BUILD}"/binary*.* > /dev/null 2>&1
+		if Find_files ${_TEMPDIR}/${_BUILD}/binary*.*
+		then
+			mv "${_TEMPDIR}"/"${_BUILD}"/binary*.* "${_DESTDIR}"/"${_BUILD}"
+		fi
+
+		# Moving source image
+		#if ls "${_TEMPDIR}"/"${_BUILD}"/source.* > /dev/null 2>&1
+		if Find_files ${_TEMPDIR}/${_BUILD}/source.*
+		then
+			mv "${_TEMPDIR}"/"${_BUILD}"/source.* "${_DESTDIR}"/"${_BUILD}"
+		fi
+
+		# Moving build
+		mv "${_TEMPDIR}"/"${_BUILD}".build "${_DESTDIR}"/"${_BUILD}"/build
+
+		# Moving log
+		mv "${_TEMPDIR}"/"${_BUILD}"/log "${_DESTDIR}"/"${_BUILD}"
+
+		# Generating md5sum
+		cd "${_DESTDIR}"/"${_BUILD}"
+		md5sum * > md5sum
+		cd "${OLDPWD}"
+
+		# Sending mail
+		cat "${_DESTDIR}"/"${_BUILD}"/mail | /usr/sbin/sendmail -t
+
+		# Unmounting devpts-live
+		#if ls "${_TEMPDIR}"/"${_BUILD}"/chroot/dev/pts/* > /dev/null 2>&1
+		if Find_files ${_TEMPDIR}/${_BUILD}/chroot/dev/pts/*
+		then
+			umount "${_TEMPDIR}"/${_BUILD}/chroot/dev/pts
+		fi
+
+		# Unmounting proc
+		if [ -f "${_TEMPDIR}"/"${_BUILD}"/chroot/proc/version ]
+		then
+			umount "${_TEMPDIR}"/"${_BUILD}"/chroot/proc
+		fi
+
+		# Unmounting sysfs
+		if [ -d "${_TEMPDIR}"/"${_BUILD}"/chroot/sys/kernel ]
+		then
+			umount "${_TEMPDIR}"/${_BUILD}/chroot/sys
+		fi
+
+		# Removing build directory
+		rm -rf "${_TEMPDIR}"/"${_BUILD}"
+
+		echo "`date +%b\ %d\ %H:%M:%S` ${_HOSTNAME} live-build-cgi: end web build (${_BUILD}: ${_STATUS})." >> /var/log/live
+	done
+fi

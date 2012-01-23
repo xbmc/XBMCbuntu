@@ -1,0 +1,7 @@
+# /usr/share/live/build/package-lists/kde - package list for live-build(7)
+
+#include <kde-core>
+
+kde-standard
+kdm
+desktop-base

@@ -1,0 +1,80 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'build source tarball')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+if [ "${LB_SOURCE}" != "true" ]
+then
+	exit 0
+fi
+
+if ! In_list tar "${LB_SOURCE_IMAGES}"
+then
+	exit 0
+fi
+
+Echo_message "Begin building source tarball..."
+Echo_message "This may take a while."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/source_debian
+
+# Checking stage file
+Check_stagefile .stage/source_tar
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+# Remove old source
+rm -f source.debian.tar.bz2 source.debian.tar.gz source.debian.tar.lz source.debian.tar
+rm -f source.debian-live.tar.bz2 source.debian-live.tar.gz source.debian-live.tar.lz source.debian-live.tar
+
+tar cf source.debian.tar source/debian
+tar cf source.debian-live.tar source/debian-live
+
+case "${LB_COMPRESSION}" in
+	bzip2)
+		bzip2 ${BZIP2_OPTIONS} source.debian.tar
+		bzip2 ${BZIP2_OPTIONS} source.debian-live.tar
+		;;
+
+	gzip)
+		gzip ${GZIP_OPTIONS} source.debian.tar
+		gzip ${GZIP_OPTIONS} source.debian-live.tar
+		;;
+
+	lzip)
+		lzip ${LZIP_OPTIONS} source.debian.tar
+		lzip ${LZIP_OPTIONS} source.debian-live.tar
+		;;
+
+	none)
+		;;
+esac
+
+# Creating stage file
+Create_stagefile .stage/source_tar

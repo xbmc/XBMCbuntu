@@ -1,0 +1,37 @@
+
+                       Welcome to Debian GNU/Linux!
+
+This is a Debian LB_DISTRIBUTION combined live and installation image.
+It was built on LB_DATE by live-build LB_VERSION.
+
+You must have at least 64 megabytes of RAM to run this Debian Live system.
+
+See the Live Manual or the FAQ for more information; both documents are
+available at the Debian Live web site, http://live.debian.net/
+
+You must have at least 32 megabytes of RAM to use the Debian installer.
+
+You should have space on your hard disk to create a new disk partition
+of at least 256 megabytes to install the base system. You'll need more
+disk space to install additional packages, depending on what you wish
+to do with your new Debian system.
+
+See the Installation Manual or the FAQ for more information; both
+documents are available at the Debian web site, http://www.debian.org/
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent permitted
+by applicable law.
+
+  [ Press ENTER to boot the live system ]
+
+Or:
+
+  "live-failsafe"
+     Start the live system in fail-safe mode.
+  "install"
+     Start the installation using the normal installer.
+  "expert"
+     Boot into expert install mode, for maximum control.
+  "rescue"
+     Boot into the installer rescue mode.
+

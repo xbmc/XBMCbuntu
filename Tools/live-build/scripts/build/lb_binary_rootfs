@@ -1,0 +1,503 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Setting static variables
+DESCRIPTION="$(Echo 'build rootfs image')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+Echo_message "Begin building root filesystem image..."
+
+# Requiring stage file
+Require_stagefile .stage/config .stage/bootstrap .stage/binary_chroot
+
+# Checking stage file
+Check_stagefile .stage/binary_rootfs
+
+# Checking lock file
+Check_lockfile .lock
+
+# Creating lock file
+Create_lockfile .lock
+
+case "${LB_ARCHITECTURES}" in
+	amd64|i386)
+		LINUX="vmlinuz"
+		;;
+
+	powerpc)
+		LINUX="vmlinux"
+		;;
+esac
+
+case "${LB_INITRAMFS}" in
+	casper)
+		INITFS="casper"
+		;;
+
+	live-boot)
+		INITFS="live"
+		;;
+
+	*)
+		INITFS="boot"
+		;;
+esac
+
+# Creating directory
+mkdir -p binary/${INITFS}
+
+for STAGE in ${LB_CACHE_STAGES}
+do
+	if [ "${STAGE}" = "rootfs" ] && [ -d cache/stages_rootfs ]
+	then
+		# Removing old chroot
+		rm -rf binary/"${INITFS}"/filesystem.*
+
+		# Restoring old cache
+		mkdir -p binary/"${INITFS}"
+		${LB_ROOT_COMMAND} cp -a cache/stages_rootfs/filesystem.* binary/"${INITFS}"
+
+		if [ -n "${LB_ROOT_COMMAND}" ]
+		then
+			${LB_ROOT_COMMAND} chown -R $(whoami):$(whoami) binary
+		fi
+
+		# Creating stage file
+		Create_stagefile .stage/binary_rootfs
+		exit 0
+	fi
+done
+
+case "${LB_CHROOT_FILESYSTEM}" in
+	ext2|ext3|ext4)
+		# Checking depends
+		Check_package chroot/sbin/mkfs.${LB_BINARY_FILESYSTEM} e2fsprogs
+
+		# Restoring cache
+		Restore_cache cache/packages_binary
+
+		# Installing depends
+		Install_package
+
+		# Remove old image
+		if [ -f binary/${INITFS}/filesystem.${LB_CHROOT_FILESYSTEM} ]
+		then
+			rm -f binary/${INITFS}/filesystem.${LB_CHROOT_FILESYSTEM}
+		fi
+
+		case "${LB_BUILD_WITH_CHROOT}" in
+			true)
+				DU_DIM="$(du -ms chroot/chroot | cut -f1)"
+				INODES="$(find chroot/chroot | wc -l)"
+				;;
+
+			false)
+				DU_DIM="$(du -ms chroot | cut -f1)"
+				INODES="$(find chroot | wc -l)"
+				;;
+		esac
+
+		REAL_DIM="$(Calculate_partition_size ${DU_DIM} ${LB_CHROOT_FILESYSTEM})"
+		REAL_INODES="$(Calculate_partition_size ${INODES} ${LB_CHROOT_FILESYSTEM})"
+
+		case "${LB_BUILD_WITH_CHROOT}" in
+			true)
+				dd if=/dev/zero of=chroot/filesystem.${LB_CHROOT_FILESYSTEM} bs=1024k count=0 seek=${REAL_DIM}
+
+				if ! Chroot chroot "test -s /etc/mtab"
+				then
+					Chroot chroot "ln -s /proc/mounts/mtab /etc/mtab"
+					FAKE_MTAB="true"
+				fi
+
+				Chroot chroot "mkfs.${LB_CHROOT_FILESYSTEM} -F -b 1024 -N ${REAL_INODES} -m 0 filesystem.${LB_CHROOT_FILESYSTEM}"
+
+				mkdir -p filesystem.tmp
+				${LB_ROOT_COMMAND} mount -o loop chroot/filesystem.${LB_CHROOT_FILESYSTEM} filesystem.tmp
+				cp -a chroot/chroot/* filesystem.tmp
+
+				if [ "${FAKE_MTAB}" = "true" ]
+				then
+					Chroot chroot "rm -f /etc/mtab"
+				fi
+
+				${LB_ROOT_COMMAND} umount filesystem.tmp
+				rmdir filesystem.tmp
+
+				# Move image
+				mv chroot/filesystem.${LB_CHROOT_FILESYSTEM} binary/${INITFS}
+
+				case "${LB_MODE}" in
+					ubuntu|kubuntu)
+						du -B 1 -s chroot/chroot | cut -f1 > binary/${INITFS}/filesystem.size
+						;;
+				esac
+
+				if [ -e chroot/chroot.cache ]
+				then
+					rm -f .lock
+					mv chroot/chroot chroot.tmp
+
+					lb chroot_archives binary remove ${*}
+					lb chroot_apt remove ${*}
+					lb chroot_hostname remove ${*}
+					lb chroot_resolv remove ${*}
+					lb chroot_hosts remove ${*}
+					lb chroot_sysv-rc remove ${*}
+					lb chroot_upstart remove ${*}
+					lb chroot_dpkg remove ${*}
+					lb chroot_debianchroot remove ${*}
+					lb chroot_sysfs remove ${*}
+					lb chroot_selinuxfs remove ${*}
+					lb chroot_proc remove ${*}
+					lb chroot_devpts remove ${*}
+
+					rm -rf chroot
+					mv chroot.tmp chroot
+
+					lb chroot_devpts install ${*}
+					lb chroot_proc install ${*}
+					lb chroot_selinuxfs install ${*}
+					lb chroot_sysfs install ${*}
+					lb chroot_debianchroot install ${*}
+					lb chroot_dpkg install ${*}
+					lb chroot_sysv-rc install ${*}
+					lb chroot_upstart install ${*}
+					lb chroot_hosts install ${*}
+					lb chroot_resolv install ${*}
+					lb chroot_hostname install ${*}
+					lb chroot_apt install ${*}
+					lb chroot_archives binary remove ${*}
+
+					touch .lock
+				else
+					rm -rf chroot/chroot
+
+					# Removing depends
+					Remove_package
+				fi
+				;;
+
+			false)
+				dd if=/dev/zero of=binary/${INITFS}/filesystem.${LB_CHROOT_FILESYSTEM} bs=1024k count=0 seek=${REAL_DIM}
+				mkfs.${LB_CHROOT_FILESYSTEM} -F -b 1024 -N ${REAL_INODES} -m 0 binary/${INITFS}/filesystem.${LB_CHROOT_FILESYSTEM}
+
+				mkdir -p filesystem.tmp
+				${LB_ROOT_COMMAND} mount -o loop binary/${INITFS}/filesystem.${LB_CHROOT_FILESYSTEM} filesystem.tmp
+				cp -a chroot/* filesystem.tmp
+
+				${LB_ROOT_COMMAND} umount filesystem.tmp
+				rmdir filesystem.tmp
+				;;
+		esac
+
+		# Saving cache
+		Save_cache cache/packages_binary
+		;;
+
+	jffs2)
+		# Checking depends
+		Check_package chroot/usr/sbin/mkfs.jffs2 mtd-tools
+
+		# Restoring cache
+		Restore_cache cache/packages_binary
+
+		# Installing depends
+		Install_package
+
+		# Remove old jffs2 image
+		if [ -f binary/${INITFS}/filesystem.jffs2 ]
+		then
+			rm -f binary/${INITFS}/filesystem.jffs2
+		fi
+
+		if [ -n "${LB_JFFS2_ERASEBLOCK}" ]
+		then
+			JFFS2_OPTIONS="--eraseblock=${LB_JFFS2_ERASEBLOCK}"
+		fi
+
+		case "${LB_BUILD_WITH_CHROOT}" in
+			true)
+				Chroot chroot "mkfs.jffs2 ${JFFS2_OPTIONS} --root=chroot --output filesystem.jffs2"
+
+				# Move image
+				mv chroot/filesystem.jffs2 binary/${INITFS}
+
+				if [ -e chroot/chroot.cache ]
+				then
+					rm -f .lock
+					mv chroot/chroot chroot.tmp
+
+					lb chroot_archives binary remove ${*}
+					lb chroot_apt remove ${*}
+					lb chroot_hostname remove ${*}
+					lb chroot_resolv remove ${*}
+					lb chroot_hosts remove ${*}
+					lb chroot_sysv-rc remove ${*}
+					lb chroot_upstart remove ${*}
+					lb chroot_dpkg remove ${*}
+					lb chroot_debianchroot remove ${*}
+					lb chroot_sysfs remove ${*}
+					lb chroot_selinuxfs remove ${*}
+					lb chroot_proc remove ${*}
+					lb chroot_devpts remove ${*}
+
+					rm -rf chroot
+					mv chroot.tmp chroot
+
+					lb chroot_devpts install ${*}
+					lb chroot_proc install ${*}
+					lb chroot_selinuxfs install ${*}
+					lb chroot_sysfs install ${*}
+					lb chroot_debianchroot install ${*}
+					lb chroot_dpkg install ${*}
+					lb chroot_sysv-rc install ${*}
+					lb chroot_upstart install ${*}
+					lb chroot_hosts install ${*}
+					lb chroot_resolv install ${*}
+					lb chroot_hostname install ${*}
+					lb chroot_apt install ${*}
+					lb chroot_archives binary remove ${*}
+
+					touch .lock
+				else
+					rm -rf chroot/chroot
+
+					# Removing depends
+					Remove_package
+				fi
+				;;
+
+			false)
+				mkfs.jffs2 ${JFFS2_OPTIONS} --root=chroot --output binary/${INITFS}/filesystem.jffs2
+				;;
+		esac
+
+		# Saving cache
+		Save_cache cache/packages_binary
+		;;
+
+	none)
+		if [ -d binary/${INITFS}/filesystem.dir ]
+		then
+			rm -rf binary/${INITFS}/filesystem.dir
+		fi
+
+		case "${LB_BUILD_WITH_CHROOT}" in
+			true)
+				mv chroot/chroot binary/${INITFS}/filesystem.dir
+				;;
+
+			false)
+				cp -a chroot binary/${INITFS}/filesystem.dir
+				;;
+		esac
+		;;
+
+	squashfs)
+		# Checking depends
+		Check_package chroot/usr/share/doc/squashfs-tools squashfs-tools
+
+		# Restoring cache
+		Restore_cache cache/packages_binary
+
+		# Installing depends
+		Install_package
+
+		Echo_message "Preparing squashfs image..."
+		Echo_message "This may take a while."
+
+		# Remove old squashfs image
+		if [ -f binary/${INITFS}/filesystem.squashfs ]
+		then
+			rm -f binary/${INITFS}/filesystem.squashfs
+		fi
+
+		# Remove stale squashfs image
+		rm -f chroot/filesystem.squashfs
+
+		MKSQUASHFS_OPTIONS="${MKSQUASHFS_OPTIONS} -no-progress"
+
+		if [ "${_VERBOSE}" = "true" ]
+		then
+			MKSQUASHFS_OPTIONS="${MKSQUASHFS_OPTIONS} -info"
+		fi
+
+		if [ -f config/binary_rootfs/squashfs.sort ]
+		then
+			MKSQUASHFS_OPTIONS="${MKSQUASHFS_OPTIONS} -sort squashfs.sort"
+
+			case "${LB_BUILD_WITH_CHROOT}" in
+				true)
+					cp config/binary_rootfs/squashfs.sort chroot
+					;;
+
+				false)
+					cp config/binary_rootfs/squashfs.sort .
+					;;
+			esac
+		fi
+
+		case "${LB_DISTRIBUTION}" in
+			artax-backports)
+				MKSQUASHFS_OPTIONS="${MKSQUASHFS_OPTIONS} -comp xz"
+				;;
+		esac
+
+		case "${LB_BUILD_WITH_CHROOT}" in
+			true)
+				if [ -e config/binary_rootfs/excludes ]
+				then
+					cp config/binary_rootfs/excludes chroot/excludes
+
+					MKSQUASHFS_OPTIONS="${MKSQUASHFS_OPTIONS} -wildcards -ef /excludes"
+				fi
+
+				# Create image
+				Chroot chroot "mksquashfs chroot filesystem.squashfs ${MKSQUASHFS_OPTIONS}"
+
+				rm -f chroot/chroot/excludes
+
+				case "${LB_MODE}" in
+					ubuntu|kubuntu)
+						du -B 1 -s chroot/chroot | cut -f1 > binary/${INITFS}/filesystem.size
+						;;
+				esac
+
+				# Move image
+				${LB_ROOT_COMMAND} mv chroot/filesystem.squashfs binary/${INITFS}
+				${LB_ROOT_COMMAND} rm -f chroot/squashfs.sort
+
+				if [ -e chroot/chroot.cache ]
+				then
+					rm -f .lock
+					mv chroot/chroot chroot.tmp
+
+					lb chroot_archives binary remove ${*}
+					lb chroot_apt remove ${*}
+					lb chroot_hostname remove ${*}
+					lb chroot_resolv remove ${*}
+					lb chroot_hosts remove ${*}
+					lb chroot_sysv-rc remove ${*}
+					lb chroot_upstart remove ${*}
+					lb chroot_dpkg remove ${*}
+					lb chroot_debianchroot remove ${*}
+					lb chroot_sysfs remove ${*}
+					lb chroot_selinuxfs remove ${*}
+					lb chroot_proc remove ${*}
+					lb chroot_devpts remove ${*}
+
+					rm -rf chroot
+					mv chroot.tmp chroot
+
+					lb chroot_devpts install ${*}
+					lb chroot_proc install ${*}
+					lb chroot_selinuxfs install ${*}
+					lb chroot_sysfs install ${*}
+					lb chroot_debianchroot install ${*}
+					lb chroot_dpkg install ${*}
+					lb chroot_sysv-rc install ${*}
+					lb chroot_upstart install ${*}
+					lb chroot_hosts install ${*}
+					lb chroot_resolv install ${*}
+					lb chroot_hostname install ${*}
+					lb chroot_apt install ${*}
+					lb chroot_archives binary remove ${*}
+
+					touch .lock
+				else
+					rm -rf chroot/chroot
+
+					# Removing depends
+					Remove_package
+				fi
+
+				${LB_ROOT_COMMAND} chmod 0644 binary/${INITFS}/filesystem.squashfs
+				;;
+
+			false)
+				if [ -e config/binary_rootfs/excludes ]
+				then
+					MKSQUASHFS_OPTIONS="${MKSQUASHFS_OPTIONS} -wildcards -ef config/binary_rootfs/excludes"
+				fi
+
+				mksquashfs chroot binary/${INITFS}/filesystem.squashfs ${MKSQUASHFS_OPTIONS}
+
+				case "${LB_MODE}" in
+					ubuntu|kubuntu)
+						du -B 1 -s chroot | cut -f1 > binary/${INITFS}/filesystem.size
+						;;
+				esac
+				;;
+		esac
+
+		if [ -n "${LB_ROOT_COMMAND}" ]
+		then
+			${LB_ROOT_COMMAND} chown -R $(whoami):$(whoami) binary/${INITFS}
+		fi
+
+		# Saving cache
+		Save_cache cache/packages_binary
+		;;
+
+	none)
+		if [ -d binary ]
+		then
+			rm -rf binary
+		fi
+
+		case "${LB_BUILD_WITH_CHROOT}" in
+			true)
+				mv chroot/chroot binary
+				;;
+
+			false)
+				Echo_message "This may take a while."
+				cp -a chroot binary
+				;;
+		esac
+		;;
+
+esac
+
+for STAGE in ${LB_CACHE_STAGES}
+do
+	if [ "${STAGE}" = "rootfs" ]
+	then
+		rm -rf cache/stages_rootfs
+
+		mkdir -p cache/stages_rootfs
+
+		if [ "${LB_CHROOT_FILESYSTEM}" != "none" ]
+		then
+			${LB_ROOT_COMMAND} cp -a binary/"${INITFS}"/filesystem.* cache/stages_rootfs
+		fi
+
+		if [ -n "${LB_ROOT_COMMAND}" ]
+		then
+			${LB_ROOT_COMMAND} chown -R $(whoami):$(whoami) cache/stages_rootfs
+		fi
+	fi
+done
+
+# Creating stage file
+Create_stagefile .stage/binary_rootfs

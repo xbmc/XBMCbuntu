@@ -1,0 +1,49 @@
+#!/bin/sh
+
+## live-build(7) - System Build Scripts
+## Copyright (C) 2006-2011 Daniel Baumann <daniel@debian.org>
+##
+## live-build comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+# Including common functions
+. "${LB_BASE:-/usr/share/live/build}"/scripts/build.sh
+
+# Automatically populating config tree
+if [ -x auto/config ] && [ ! -e .stage/config ]
+then
+	Echo_message "Automatically populating config tree."
+	lb config
+fi
+
+# Setting static variables
+DESCRIPTION="$(Echo 'bootstrap a Debian system')"
+HELP=""
+USAGE="${PROGRAM} [--force]"
+
+Arguments "${@}"
+
+# Reading configuration files
+Read_conffiles config/all config/common config/bootstrap config/chroot config/binary config/source
+Set_defaults
+
+# Setup cleanup function
+Setup_cleanup
+
+# Bootstrapping system
+lb bootstrap_cache restore ${*}
+lb bootstrap_copy ${*}
+lb bootstrap_cdebootstrap ${*}
+lb bootstrap_debootstrap ${*}
+lb bootstrap_cache save ${*}
+
+# Temporary hack until we have multistrap in place
+case "${LB_MODE}" in
+	progress)
+		echo '0.0.0' > chroot/etc/progress_version
+		;;
+esac

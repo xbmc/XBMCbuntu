@@ -1,0 +1,11 @@
+Creation of this disk image included extracting files from some Debian
+packages. In case you do not have those packages already, both the
+binary and source packages are archived at
+
+http://cdimage.debian.org/cdimage/cd-sources/
+
+The following binary/source packages were used:
+syslinux-common_4.02+dfsg-7_all.deb
+syslinux_4.02+dfsg-7.dsc
+syslinux_4.02+dfsg-7.diff.gz
+syslinux_4.02+dfsg.orig.tar.gz

@@ -1,0 +1,13 @@
+# /usr/share/live/build/package-lists/debian-live-pxe-server - package list for live-build(7)
+
+#include <standard>
+
+bind9
+
+isc-dhcp-server
+nfs-kernel-server
+syslinux-common
+tftpd-hpa
+
+debian-installer-netboot-amd64
+debian-installer-netboot-i386

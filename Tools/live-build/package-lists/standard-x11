@@ -1,0 +1,10 @@
+# /usr/share/live/build/package-lists/standard-x11 - package list for live-build(7)
+
+#include <standard>
+
+xorg
+#nif MODE progress
+menu
+#endif
+alsa-base alsa-utils
+keyboard-configuration
