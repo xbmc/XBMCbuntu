@@ -21,6 +21,13 @@
 xbmcUser=$1
 xbmcParams=$2
 
+# Debug
+
+echo "--drivers" >> /tmp/debugInfo.txt
+lspci -nn | grep '0403' >> /tmp/debugInfo.txt
+echo "--alsa output" >> /tmp/debugInfo.txt
+aplay -l >> /tmp/debugInfo.txt
+
 #
 # Nvidia ION detection
 #
@@ -84,6 +91,12 @@ if [ -n "$restartALSA" ] ; then
 	#
 
 	alsactl store &> /dev/null
+
+	# Debug
+
+	echo "--alsa output after restart" >> /tmp/debugInfo.txt
+	aplay -l >> /tmp/debugInfo.txt
+
 fi
 
 exit 0

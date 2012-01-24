@@ -237,4 +237,9 @@ done;
 
 alsactl store >/dev/null 2>&1 &
 
+# Debug
+
+echo "--alsa asoundrc script" >> /tmp/debugInfo.txt
+cat /home/$xbmcUser/.asoundrc >> /tmp/debugInfo.txt
+
 exit 0
