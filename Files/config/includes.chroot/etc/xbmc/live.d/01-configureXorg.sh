@@ -40,7 +40,7 @@ fi
 # Identify GPU, Intel by default
 GPUTYPE="INTEL"
 
-GPU=$(lspci -nn | grep 0300 | grep -v 8086)
+GPU=$(lspci -nn | grep 0300)
 # 10de == NVIDIA
 if [ "$(echo $GPU | grep 10de)" ]; then
         GPUTYPE="NVIDIA"
