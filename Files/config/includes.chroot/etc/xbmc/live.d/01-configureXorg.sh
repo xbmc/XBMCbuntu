@@ -40,14 +40,10 @@ fi
 # Identify GPU, Intel by default
 GPUTYPE="INTEL"
 
-loadedDrivers=$(ls -l /sys/bus/pci/drivers)
-if [ "$(echo $loadedDrivers | grep nvidia)" ]; then
-        GPUTYPE="NVIDIA"
-else
-        # 1002 == AMD
-        if [ "$(echo $loadedDrivers | grep fglrx)" ]; then
-                GPUTYPE="AMD"
-        fi
+if [ -d /sys/bus/pci/drivers/fglrx_pci/ ]; then
+	GPUTYPE="AMD"
+elif [ -d /sys/bus/pci/drivers/nvidia/ ]; then
+	GPUTYPE="NVIDIA"
 fi
 
 # Debug info
