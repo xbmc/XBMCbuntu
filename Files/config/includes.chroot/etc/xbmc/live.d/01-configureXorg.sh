@@ -40,16 +40,22 @@ fi
 # Identify GPU, Intel by default
 GPUTYPE="INTEL"
 
-GPU=$(lspci -nn | grep 0300)
-# 10de == NVIDIA
-if [ "$(echo $GPU | grep 10de)" ]; then
+loadedDrivers=$(ls -l /sys/bus/pci/drivers)
+if [ "$(echo $loadedDrivers | grep nvidia)" ]; then
         GPUTYPE="NVIDIA"
 else
         # 1002 == AMD
-        if [ "$(echo $GPU | grep 1002)" ]; then
+        if [ "$(echo $loadedDrivers | grep fglrx)" ]; then
                 GPUTYPE="AMD"
         fi
 fi
+
+# Debug info
+echo "--Debug info--" > /tmp/debugInfo.txt
+echo "--cmdline" >> /tmp/debugInfo.txt
+cat /proc/cmdline  >> /tmp/debugInfo.txt
+echo "--drivers" >> /tmp/debugInfo.txt
+ls -l /sys/bus/pci/drivers >> /tmp/debugInfo.txt
 
 if grep "ubiquity" /proc/cmdline ; then
 	if [ "$GPUTYPE" != "INTEL" ]; then
@@ -140,5 +146,11 @@ EOF
                 modprobe radeon # Required to permit KMS switching and support hardware GL
         fi
 fi
+
+# Debug
+echo "--ps aux" >> /tmp/debugInfo.txt
+ps aux >> /tmp/debugInfo.txt
+echo "--xorg.conf" >> /tmp/debugInfo.txt
+cat /etc/X11/xorg.conf >> /tmp/debugInfo.txt
 
 exit 0
