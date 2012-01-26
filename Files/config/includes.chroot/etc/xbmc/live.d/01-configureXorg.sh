@@ -65,6 +65,7 @@ if grep "only-ubiquity" /proc/cmdline ; then
 			echo "blacklist lbm-nouveau" >> /etc/modprobe.d/blacklist-nvidia.conf
 			echo "blacklist nvidia-96" >> /etc/modprobe.d/blacklist-nvidia.conf
 			echo "blacklist nvidia-173" >> /etc/modprobe.d/blacklist-nvidia.conf
+			echo "blacklist nvidia" >> /etc/modprobe.d/blacklist-nvidia.conf
 			echo "alias nvidia nvidia-current"  >> /etc/modprobe.d/blacklist-nvidia.conf
 			echo "--nvidia blacklisted" >> /tmp/debugInfo.txt
 
