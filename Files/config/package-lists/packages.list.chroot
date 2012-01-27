@@ -36,7 +36,6 @@ policykit-desktop-privileges
 ubiquity-slideshow-xbmcbuntu 
 
 network-manager
-wicd-curses
 
 # For NVIDIA
 nvidia-current libvdpau1
@@ -62,3 +61,6 @@ python-simplejson
 
 # Temporary add libs till correct dependencies has been set
 libmad0 libmpeg2-4 libbluray1 libshairport0
+
+# FAQ packages
+chromium-browser synaptic
