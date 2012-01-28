@@ -64,4 +64,4 @@ python-simplejson
 libmad0 libmpeg2-4 libbluray1 libshairport0
 
 # FAQ packages
-chromium-browser synaptic flashplugin-installer
+chromium-browser synaptic flashplugin-installer ethtool nfs-common autofs
