@@ -30,6 +30,8 @@ ubiquity ubiquity-frontend-gtk ubiquity-casper
 
 lightdm lightdm-gtk-greeter
 
+hts-tvheadend
+
 #
 xbmcbuntu-core 
 policykit-desktop-privileges
@@ -61,7 +63,7 @@ python-pysqlite2
 python-simplejson
 
 # Temporary add libs till correct dependencies has been set
-libmad0 libmpeg2-4 libbluray1 libshairport0
+libcrystalhd3 libmad0 libmpeg2-4 libbluray1 libshairport0
 
 # FAQ packages
 chromium-browser synaptic flashplugin-installer ethtool nfs-common autofs
