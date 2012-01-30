@@ -88,6 +88,10 @@ if grep "only-ubiquity" /proc/cmdline ; then
 		echo '    Identifier    "Configured Video Device"' >> /etc/X11/xorg.conf
 		echo '    Driver        "vesa"' >> /etc/X11/xorg.conf
 		echo 'EndSection' >> /etc/X11/xorg.conf
+		echo '' >> /etc/X11/xorg.conf
+		echo 'Section "Monitor"' >> /etc/X11/xorg.conf
+		echo '    "DPI" "120 x 120"' >> /etc/X11/xorg.conf
+		echo 'EndSection' >> /etc/X11/xorg.conf
 		echo "--using VESA module" >> /tmp/debugInfo.txt
 	fi
 else
