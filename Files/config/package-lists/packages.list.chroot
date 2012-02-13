@@ -15,6 +15,7 @@ avahi-daemon
 pkg-config
 lm-sensors
 afpfs-ng rtmpdump
+pmount
 
 lirc
 
@@ -29,6 +30,8 @@ plymouth-X11
 ubiquity ubiquity-frontend-gtk ubiquity-casper
 # explicitely needed until ubiquity bug #929617 will be fixed
 unifont
+
+lxrandr
 
 lightdm lightdm-gtk-greeter
 
