@@ -14,7 +14,8 @@ wpasupplicant wireless-tools
 avahi-daemon
 pkg-config
 lm-sensors
-afpfs-ng rtmpdump
+#afpfs-ng 
+rtmpdump
 pmount
 
 lirc
