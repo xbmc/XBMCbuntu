@@ -57,95 +57,82 @@ echo "--cmdline" >> /tmp/debugInfo.txt
 cat /proc/cmdline  >> /tmp/debugInfo.txt
 echo "--GPU type: $GPUTYPE" >> /tmp/debugInfo.txt
 
-if grep "only-ubiquity" /proc/cmdline ; then
-	if [ "$GPUTYPE" != "INTEL" ]; then
-		# Remove kernel modules in memory (to avoid "vesa: Ignoring device with a bound kernel driver")
-		if [ "$GPUTYPE" = "NVIDIA" ]; then
-			echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
-			echo "blacklist lbm-nouveau" >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "blacklist nvidia-96" >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "blacklist nvidia-173" >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "blacklist nvidia" >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "alias nvidia nvidia-current"  >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "--nvidia blacklisted" >> /tmp/debugInfo.txt
-
-			rmmod nvidia > /dev/null 2>&1 || true
-			echo "--lsmod" >> /tmp/debugInfo.txt
-			lsmod >> /tmp/debugInfo.txt
-		fi
-		if [ "$GPUTYPE" = "AMD" ]; then
-			echo "blacklist radeon" > /etc/modprobe.d/blacklist-amd.conf
-			echo "blacklist fglrx" >> /etc/modprobe.d/blacklist-amd.conf
-			echo "--fglrx blacklisted" >> /tmp/debugInfo.txt
-
-			rmmod fglrx > /dev/null 2>&1 || true
-			echo "--lsmod" >> /tmp/debugInfo.txt
-			lsmod >> /tmp/debugInfo.txt
-		fi
-
-		# Use the generic VESA driver - ubiquity does it by itself if ubiquity/force_failsafe_graphics is preseeded true
+if [ "$GPUTYPE" = "INTEL" ]; then
+	if grep "only-ubiquity" /proc/cmdline ; then
+		# TODO
+		echo TODO > /dev/null
 	fi
-else
-	if [ "$GPUTYPE" = "NVIDIA" ]; then
-		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/nvidia-current/ld.so.conf
-		ldconfig
+fi
 
-		# run nvidia-xconfig
-		/usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --force-generate
+if [ "$GPUTYPE" = "NVIDIA" ]; then
+	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/nvidia-current/ld.so.conf
+	ldconfig
 
-		# Disable scaling to make sure the gpu does not loose performance
-		sed -i -e 's%Section \"Screen\"%&\n    Option      \"FlatPanelProperties\" \"Scaling = Native\"\n    Option      \"HWCursor\" \"Off\"%' /etc/X11/xorg.conf
+	# run nvidia-xconfig
+	/usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --force-generate
+
+	if grep "only-ubiquity" /proc/cmdline ; then
+		/usr/bin/nvidia-xconfig --mode=800x600
+		/usr/bin/nvidia-xconfig --mode=1024x768
 	fi
 
-	if [ "$GPUTYPE" = "AMD" ]; then
-		# Try fglrx first
+	# Disable scaling to make sure the gpu does not loose performance
+	sed -i -e 's%Section \"Screen\"%&\n    Option      \"FlatPanelProperties\" \"Scaling = Native\"\n    Option      \"HWCursor\" \"Off\"%' /etc/X11/xorg.conf
+fi
 
-		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
+if [ "$GPUTYPE" = "AMD" ]; then
+	# Try fglrx first
 
-		echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
-		echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
+	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
 
-		apt-get purge libvdpau1 -y >/dev/null 2>&1 &
+	echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
+	echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
 
-		ldconfig
+	apt-get purge libvdpau1 -y >/dev/null 2>&1 &
 
-		if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
-			mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
-			cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
+	ldconfig
+
+	if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
+		mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
+		cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
 <settings>
-  <videoplayer>
-      <usevdpau>false</usevdpau>
-  </videoplayer>
+<videoplayer>
+<usevdpau>false</usevdpau>
+</videoplayer>
 </settings>
 EOF
+		chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
+	else
+		if grep -i -q usevdpau /home/$xbmcUser/.xbmc/userdata/guisettings.xml ; then
+			sed -i 's#<usevdpau>.*#<usevdpau>false</usevdpau>#' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
 			chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
-		else
-			if grep -i -q usevdpau /home/$xbmcUser/.xbmc/userdata/guisettings.xml ; then
-				sed -i 's#<usevdpau>.*#<usevdpau>false</usevdpau>#' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-				chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
-			fi
 		fi
+	fi
 
-		# run aticonfig
-		/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
-		ATICONFIG_RETURN_CODE=$?
+	# run aticonfig
+	/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
+	ATICONFIG_RETURN_CODE=$?
 
-		#disable underscan
-		aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
+	#disable underscan
+	aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
 
-		if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
-			# aticonfig returns 255 on old unsuported ATI cards
-			# Let the X default ati driver handle the card
+	if grep "only-ubiquity" /proc/cmdline ; then
+		# TODO
+		echo TODO > /dev/null
+	fi
 
-			# revert to mesa
-			update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld.so.conf
+	if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
+		# aticonfig returns 255 on old unsuported ATI cards
+		# Let the X default ati driver handle the card
 
-			# TODO cleanup environment and guisettings
+		# revert to mesa
+		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld.so.conf
 
-			ldconfig
+		# TODO cleanup environment and guisettings
 
-			modprobe radeon # Required to permit KMS switching and support hardware GL
-		fi
+		ldconfig
+
+		modprobe radeon # Required to permit KMS switching and support hardware GL
 	fi
 fi
 
