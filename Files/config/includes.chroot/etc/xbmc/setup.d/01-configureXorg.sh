@@ -66,7 +66,7 @@ fi
 
 if [ "$GPUTYPE" = "NVIDIA" ]; then
 
-	#blacklist nvidia drivers
+	# blacklist non-proprietary nvidia drivers
 	echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
 	echo "blacklist lbm-nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
 	echo "blacklist nvidia-173" > /etc/modprobe.d/blacklist-nvidia.conf
@@ -90,12 +90,11 @@ fi
 
 if [ "$GPUTYPE" = "AMD" ]; then
 
-
+	# failback on vesa when using ubiquity
         if grep "only-ubiquity" /proc/cmdline ; then
                 echo "blacklist radeon" > /etc/modprobe.d/blacklist-amd.conf
 		echo "blacklist fglrx" >> /etc/modprobe.d/blacklist-amd.conf
         else
-
 		# Try fglrx first
 		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
 
@@ -110,9 +109,9 @@ if [ "$GPUTYPE" = "AMD" ]; then
 			mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
 			cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
 <settings>
-<videoplayer>
-<usevdpau>false</usevdpau>
-</videoplayer>
+  <videoplayer>
+    <usevdpau>false</usevdpau>
+  </videoplayer>
 </settings>
 EOF
 			chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
@@ -138,7 +137,6 @@ EOF
 			update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld.so.conf
 
 			# TODO cleanup environment and guisettings
-
 			ldconfig
 
 			modprobe radeon # Required to permit KMS switching and support hardware GL
