@@ -22,7 +22,7 @@ echo "--------------------------"
 echo "Retrieving addons...      "
 echo "--------------------------"
 
-repoURL="http://mirrors.xbmc.org/addons/eden-pre/"
+repoURL="http://mirrors.xbmc.org/addons/eden/"
 ADDONSLIST=(script.rss.editor script.xbmc.audio.mixer)
 
 mkdir -p $WORKPATH/Files/config/includes.chroot/etc/skel/.xbmc/addons &> /dev/null

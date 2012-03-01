@@ -22,17 +22,25 @@ echo "--------------------------------"
 echo "Retrieving CrystalHD drivers... "
 echo "--------------------------------"
 
-mkdir -p $WORKPATH/Files/config/includes.chroot/root &> /dev/null
 
-if ! ls $WORKPATH/crystalhd.tar > /dev/null 2>&1; then
-	cd $WORKPATH
-	svn checkout http://crystalhd-for-osx.googlecode.com/svn/tags/crystalhd-for-osx-3.8.0/crystalhd
-	if [ "$?" -ne "0" ]; then
-		echo "Error retrieving CrystalHD drivers, exiting..."
-		exit 1
+repoURL="http://ftp.debian.org/debian/pool/main/c/crystalhd/"
+PACKAGELIST=(crystalhd-dkms libcrystalhd3 libcrystalhd-dev)
+
+mkdir -p $WORKPATH/Files/config/packages &> /dev/null
+
+cd $WORKPATH
+
+for k in "${PACKAGELIST[@]}" ; do
+	echo "   $k"
+
+	latestPackage=$(curl -x "" -s -f $repoURL | grep -o "$k[^\"]*_i386.deb" | sort -r -k2 -t_ -n | head -n 1)
+	if [ ! -f $latestPackage ]; then
+	    wget --no-proxy -q "$repoURL$latestPackage"
+	    if [ "$?" -ne "0" ] || [ ! -f $latestPackage ] ; then
+		    echo "Needed package ($k) not found, exiting..."
+		    exit 1
+	    fi
 	fi
+	cp $latestPackage $WORKPATH/Files/config/packages
+done
 
-	tar cf crystalhd.tar crystalhd/
-fi
-
-cp $WORKPATH/crystalhd.tar $WORKPATH/Files/config/includes.chroot/root

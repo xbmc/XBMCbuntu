@@ -1,4 +1,3 @@
-ubiquity ubiquity/force_failsafe_graphics boolean true
 ubiquity ubiquity/online note
 ubiquity ubiquity/summary note
 ubiquity ubiquity/custom_title_text string XBMCbuntu Installer
