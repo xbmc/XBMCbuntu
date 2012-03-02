@@ -82,6 +82,7 @@ if [ "$GPUTYPE" = "NVIDIA" ]; then
 	if grep "only-ubiquity" /proc/cmdline ; then
 		/usr/bin/nvidia-xconfig --mode=800x600
 		/usr/bin/nvidia-xconfig --mode=1024x768
+		/usr/bin/nvidia-xconfig --no-use-edid-dpi
 	fi
 
 	# Disable scaling to make sure the gpu does not loose performance
