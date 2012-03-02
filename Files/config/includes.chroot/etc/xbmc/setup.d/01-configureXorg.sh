@@ -90,57 +90,51 @@ fi
 
 if [ "$GPUTYPE" = "AMD" ]; then
 
-	# failback on vesa when using ubiquity
-        if grep "only-ubiquity" /proc/cmdline ; then
-                echo "blacklist radeon" > /etc/modprobe.d/blacklist-amd.conf
-		echo "blacklist fglrx" >> /etc/modprobe.d/blacklist-amd.conf
-        else
-		# Try fglrx first
-		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
+	# Try fglrx first
+	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
 
-		echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
-		echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
+	echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
+	echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
 
-		apt-get purge libvdpau1 -y >/dev/null 2>&1 &
+	apt-get purge libvdpau1 -y >/dev/null 2>&1 &
 
-		ldconfig
+	ldconfig
 
-		if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
-			mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
-			cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
+	if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
+		mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
+		cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
 <settings>
   <videoplayer>
     <usevdpau>false</usevdpau>
   </videoplayer>
 </settings>
 EOF
+		chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
+	else
+		if grep -i -q usevdpau /home/$xbmcUser/.xbmc/userdata/guisettings.xml ; then
+			sed -i 's#<usevdpau>.*#<usevdpau>false</usevdpau>#' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
 			chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
-		else
-			if grep -i -q usevdpau /home/$xbmcUser/.xbmc/userdata/guisettings.xml ; then
-				sed -i 's#<usevdpau>.*#<usevdpau>false</usevdpau>#' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-				chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
-			fi
 		fi
+	fi
 
-		# run aticonfig
-		/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
-		ATICONFIG_RETURN_CODE=$?
+	# run aticonfig
+	/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
+	ATICONFIG_RETURN_CODE=$?
 
-		#disable underscan
-		aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
+	#disable underscan
+	aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
 
-		if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
-			# aticonfig returns 255 on old unsuported ATI cards
-			# Let the X default ati driver handle the card
+	if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
+		# aticonfig returns 255 on old unsuported ATI cards
+		# Let the X default ati driver handle the card
 
-			# revert to mesa
-			update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld.so.conf
+		# revert to mesa
+		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld.so.conf
 
-			# TODO cleanup environment and guisettings
-			ldconfig
+		# TODO cleanup environment and guisettings
+		ldconfig
 
-			modprobe radeon # Required to permit KMS switching and support hardware GL
-		fi
+		modprobe radeon # Required to permit KMS switching and support hardware GL
 	fi
 fi
 
