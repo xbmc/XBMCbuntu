@@ -92,13 +92,17 @@ if [ "$GPUTYPE" = "AMD" ]; then
 
 	# Try fglrx first
 	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
+	ldconfig
+
+	# run aticonfig
+	/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
+	/usr/lib/fglrx/bin/aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
+	ATICONFIG_RETURN_CODE=$?
 
 	echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
 	echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
 
 	apt-get purge libvdpau1 -y >/dev/null 2>&1 &
-
-	ldconfig
 
 	if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
 		mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
@@ -116,13 +120,6 @@ EOF
 			chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
 		fi
 	fi
-
-	# run aticonfig
-	/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
-	ATICONFIG_RETURN_CODE=$?
-
-	#disable underscan
-	aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
 
 	if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
 		# aticonfig returns 255 on old unsuported ATI cards
