@@ -23,4 +23,6 @@ echo "Fix pink bars in Ubiquity..."
 echo ""
 
 mkdir -p /root/.config
+chmod -R 755 /root
+
 ln -s /usr/share/themes/XBMCbuntu-default/gtk-3.0/ /root/.config/gtk-3.0
