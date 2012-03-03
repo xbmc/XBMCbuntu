@@ -50,7 +50,7 @@ network-manager
 nvidia-current libvdpau1
 
 # For AMD
-fglrx fglrx-amdcccle libva1 libva-x11-1 xvba-va-driver
+fglrx-updates fglrx-amdcccle-updates libva1 libva-x11-1 xvba-va-driver
 
 # For Intel
 xserver-xorg-video-intel
