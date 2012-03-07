@@ -54,6 +54,10 @@ if [ -n "$SDK_CHROOTSHELL" ]; then
 	OPTS="${OPTS:+$OPTS } --interactive shell"
 fi
 
+if [ -n "$SDK_EXT2ROOTFS" ]; then
+	OPTS="${OPTS:+$OPTS } --chroot-filesystem ext2"
+fi
+
 lb config noauto \
 	--mode ubuntu \
 	--distribution oneiric \
