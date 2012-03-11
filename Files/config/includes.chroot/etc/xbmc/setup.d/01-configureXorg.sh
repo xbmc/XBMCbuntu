@@ -73,7 +73,6 @@ if [ "$GPUTYPE" = "NVIDIA" ]; then
 
 	if [ "$xbmcParams" != "${xbmcParams%setdpi*}" ] ; then
 		echo "--set DPI" >> /tmp/debugInfo.txt
-		/usr/bin/nvidia-xconfig --no-use-edid-dpi # --mode-list="1024x768 800x600"
 		sed -i -e 's%Section \"Monitor\"%&\n    Option     \"DPI\" \"120 x 120\"%' /etc/X11/xorg.conf
 	fi
 
@@ -117,6 +116,11 @@ then
 		fi
 	fi
 
+	if [ "$xbmcParams" != "${xbmcParams%setdpi*}" ] ; then
+		echo "--set DPI" >> /tmp/debugInfo.txt
+		sed -i -e 's%Section \"Monitor\"%&\n    Option     \"DPI\" \"120 x 120\"%' /etc/X11/xorg.conf
+	fi
+
 	if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
 		# aticonfig returns 255 on old unsuported ATI cards
 		# Let the X default ati driver handle the card
@@ -138,5 +142,8 @@ if [ -f /etc/X11/xorg.conf ] ; then
 else
 	echo "No xorg.conf" >> /tmp/debugInfo.txt
 fi
+
+echo "--ps" >> /tmp/debugInfo.txt
+ps aux >> /tmp/debugInfo.txt
 
 exit 0
