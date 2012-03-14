@@ -23,7 +23,7 @@ echo "Set plymouth theme..."
 echo ""
 
 if [ -f /etc/alternatives/default.plymouth ]; then
-	if [ -f /lib/plymouth/themes/xbmc-logo/xbmc-logo.plymouth ]; then
+	if [ -f /lib/plymouth/themes/xbmcbuntu-logo/xbmcbuntu-logo.plymouth ]; then
 		echo ""
 		echo "Set default plymouth theme..."
 		echo ""
