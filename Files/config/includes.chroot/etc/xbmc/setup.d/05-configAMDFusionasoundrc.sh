@@ -22,10 +22,12 @@ xbmcUser=$1
 xbmcParams=$2
 
 #
-# AMD Fusion (E-350) detection
+# AMD Fusion (E-350/E-450) detection
 #
 
-AMDFusion=$(lspci -nn | grep '0403' | grep '1002:4383') # ATI Technologies Inc SBx00 Azalia
+# 1002:4383 = ATI Technologies Inc SBx00 Azalia
+# 1002:1314 = ATI Wrestler HDMI Audio
+AMDFusion=$(lspci -nn | grep '0403' | egrep '1002:4383|1002:1314')
 
 if [ ! -n "$AMDFusion" ] ; then
         exit 0
