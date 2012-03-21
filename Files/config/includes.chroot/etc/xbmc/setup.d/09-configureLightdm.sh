@@ -22,5 +22,6 @@ xbmcUser=$1
 xbmcParams=$2
 
 sed -i "s/^autologin-user=.*/autologin-user=$xbmcUser/" /etc/lightdm/lightdm.conf
+sed -i "s/^default-user=.*/default-user=$xbmcUser/" /etc/lightdm/lightdm.conf
 
 exit 0
