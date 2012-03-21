@@ -1,6 +1,3 @@
-ubiquity ubiquity/only-show-installable-languages
-ubiquity localechooser/translation/none-yet note
-ubiquity localechooser/translation/no-select note
 ubiquity ubiquity/online note
 ubiquity ubiquity/summary note
- 
+ubiquity ubiquity/custom_title_text string XBMCbuntu Installer

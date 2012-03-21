@@ -57,104 +57,81 @@ echo "--cmdline" >> /tmp/debugInfo.txt
 cat /proc/cmdline  >> /tmp/debugInfo.txt
 echo "--GPU type: $GPUTYPE" >> /tmp/debugInfo.txt
 
-if grep "only-ubiquity" /proc/cmdline ; then
-	if [ "$GPUTYPE" != "INTEL" ]; then
-		# Remove kernel modules in memory (to avoid "vesa: Ignoring device with a bound kernel driver")
-		if [ "$GPUTYPE" = "NVIDIA" ]; then
-			echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
-			echo "blacklist lbm-nouveau" >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "blacklist nvidia-96" >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "blacklist nvidia-173" >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "blacklist nvidia" >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "alias nvidia nvidia-current"  >> /etc/modprobe.d/blacklist-nvidia.conf
-			echo "--nvidia blacklisted" >> /tmp/debugInfo.txt
+if [ "$GPUTYPE" = "NVIDIA" ]; then
+	# blacklist non-proprietary nvidia drivers
+	echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
+	echo "blacklist lbm-nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
+	echo "blacklist nvidia-173" > /etc/modprobe.d/blacklist-nvidia.conf
+	echo "blacklist nvidia-96" > /etc/modprobe.d/blacklist-nvidia.conf
+	echo "alias nvidia nvidia-current" > /etc/modprobe.d/blacklist-nvidia.conf
 
-			rmmod nvidia > /dev/null 2>&1 || true
-			echo "--lsmod" >> /tmp/debugInfo.txt
-			lsmod >> /tmp/debugInfo.txt
-		fi
-		if [ "$GPUTYPE" = "AMD" ]; then
-			echo "blacklist radeon" > /etc/modprobe.d/blacklist-amd.conf
-			echo "blacklist fglrx" >> /etc/modprobe.d/blacklist-amd.conf
-			echo "--fglrx blacklisted" >> /tmp/debugInfo.txt
+	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/nvidia-current/ld.so.conf
+	ldconfig
 
-			rmmod fglrx > /dev/null 2>&1 || true
-			echo "--lsmod" >> /tmp/debugInfo.txt
-			lsmod >> /tmp/debugInfo.txt
-		fi
+	# run nvidia-xconfig
+	/usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --flatpanel-properties="Scaling = Native" --force-generate
 
-		# Use the generic VESA driver
-		echo 'Section "Device"' > /etc/X11/xorg.conf
-		echo '    Identifier    "Configured Video Device"' >> /etc/X11/xorg.conf
-		echo '    Driver        "vesa"' >> /etc/X11/xorg.conf
-		echo 'EndSection' >> /etc/X11/xorg.conf
-		echo '' >> /etc/X11/xorg.conf
-		echo 'Section "Monitor"' >> /etc/X11/xorg.conf
-		echo '    "DPI" "120 x 120"' >> /etc/X11/xorg.conf
-		echo 'EndSection' >> /etc/X11/xorg.conf
-		echo "--using VESA module" >> /tmp/debugInfo.txt
-	fi
-else
-	if [ "$GPUTYPE" = "NVIDIA" ]; then
-		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/nvidia-current/ld.so.conf
-		ldconfig
-
-		# run nvidia-xconfig
-		/usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --force-generate
-
-		# Disable scaling to make sure the gpu does not loose performance
-		sed -i -e 's%Section \"Screen\"%&\n    Option      \"FlatPanelProperties\" \"Scaling = Native\"\n    Option      \"HWCursor\" \"Off\"%' /etc/X11/xorg.conf
+	if [ "$xbmcParams" != "${xbmcParams%setdpi*}" ] ; then
+		echo "--set DPI" >> /tmp/debugInfo.txt
+		sed -i -e 's%Section \"Monitor\"%&\n    Option     \"DPI\" \"120 x 120\"%' /etc/X11/xorg.conf
 	fi
 
-	if [ "$GPUTYPE" = "AMD" ]; then
-		# Try fglrx first
+	sed -i -e 's%Section \"Screen\"%&\n    Option      \"HWCursor\" \"Off\"%' /etc/X11/xorg.conf
+fi
 
-		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
+if [ "$GPUTYPE" = "AMD" ]; then
+	# Try fglrx first
+	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
+	ldconfig
 
-		echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
-		echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
+	# run aticonfig
+	/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
+	/usr/lib/fglrx/bin/aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
+	ATICONFIG_RETURN_CODE=$?
 
-		apt-get purge libvdpau1 -y >/dev/null 2>&1 &
+	echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
+	echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
 
-		ldconfig
+	apt-get purge libvdpau1 -y >/dev/null 2>&1 &
 
-		if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
-			mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
-			cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
+	if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
+		mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
+		cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
 <settings>
-  <videoplayer>
-      <usevdpau>false</usevdpau>
-  </videoplayer>
+<videoplayer>
+<usevdpau>false</usevdpau>
+</videoplayer>
 </settings>
 EOF
+		chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
+	else
+		if grep -i -q usevdpau /home/$xbmcUser/.xbmc/userdata/guisettings.xml ; 	if [ "$xbmcParams" != "${xbmcParams%setdpi*}" ] ; then
+		echo "--set DPI" >> /tmp/debugInfo.txt
+		/usr/bin/nvidia-xconfig --no-use-edid-dpi # --mode-list="1024x768 800x600"
+		sed -i -e 's%Section \"Monitor\"%&\n    Option     \"DPI\" \"120 x 120\"%' /etc/X11/xorg.conf
+	fi
+then
+			sed -i 's#<usevdpau>.*#<usevdpau>false</usevdpau>#' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
 			chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
-		else
-			if grep -i -q usevdpau /home/$xbmcUser/.xbmc/userdata/guisettings.xml ; then
-				sed -i 's#<usevdpau>.*#<usevdpau>false</usevdpau>#' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-				chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
-			fi
 		fi
+	fi
 
-		# run aticonfig
-		/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
-		ATICONFIG_RETURN_CODE=$?
+	if [ "$xbmcParams" != "${xbmcParams%setdpi*}" ] ; then
+		echo "--set DPI" >> /tmp/debugInfo.txt
+		sed -i -e 's%Section \"Monitor\"%&\n    Option     \"DPI\" \"120 x 120\"%' /etc/X11/xorg.conf
+	fi
 
-		#disable underscan
-		aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
+	if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
+		# aticonfig returns 255 on old unsuported ATI cards
+		# Let the X default ati driver handle the card
 
-		if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
-			# aticonfig returns 255 on old unsuported ATI cards
-			# Let the X default ati driver handle the card
+		# revert to mesa
+		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld.so.conf
 
-			# revert to mesa
-			update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld.so.conf
+		# TODO cleanup environment and guisettings
+		ldconfig
 
-			# TODO cleanup environment and guisettings
-
-			ldconfig
-
-			modprobe radeon # Required to permit KMS switching and support hardware GL
-		fi
+		modprobe radeon # Required to permit KMS switching and support hardware GL
 	fi
 fi
 
@@ -165,5 +142,8 @@ if [ -f /etc/X11/xorg.conf ] ; then
 else
 	echo "No xorg.conf" >> /tmp/debugInfo.txt
 fi
+
+echo "--ps" >> /tmp/debugInfo.txt
+ps aux >> /tmp/debugInfo.txt
 
 exit 0

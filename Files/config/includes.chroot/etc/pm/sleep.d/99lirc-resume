@@ -25,8 +25,14 @@
 case "$1" in
         hibernate|suspend)
                 /etc/init.d/lirc stop
+                echo "Unloading lirc kernel modules"
+                rmmod ir-lirc-codec
+                rmmod lirc_dev
                 ;;
         thaw|resume)
+                echo "Loading lirc kernel modules"
+                modprobe ir-lirc-codec
+                modprobe lirc_dev
                 /etc/init.d/lirc start
                 ;;
         *)

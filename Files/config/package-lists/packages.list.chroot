@@ -14,7 +14,9 @@ wpasupplicant wireless-tools
 avahi-daemon
 pkg-config
 lm-sensors
-afpfs-ng rtmpdump
+afpfs-ng 
+rtmpdump
+pmount
 
 lirc
 
@@ -29,6 +31,8 @@ plymouth-X11
 ubiquity ubiquity-frontend-gtk ubiquity-casper
 # explicitely needed until ubiquity bug #929617 will be fixed
 unifont
+
+lxrandr
 
 lightdm lightdm-gtk-greeter
 
@@ -46,14 +50,14 @@ network-manager
 nvidia-current libvdpau1
 
 # For AMD
-fglrx fglrx-amdcccle libva1 libva-x11-1 xvba-va-driver
+fglrx-updates fglrx-amdcccle-updates libva1 libva-x11-1 xvba-va-driver
 
 # For Intel
 xserver-xorg-video-intel
 
 # Generic: failsafe
 # xserver-xorg-video-vesa xserver-xorg-video-radeon xserver-xorg-video-ati xserver-xorg-video-nouveau
-xserver-xorg-video-vesa
+xserver-xorg-video-vesa xserver-xorg-video-fbdev
 
 xbmc
 xbmcbuntu-plymouth-theme
@@ -69,3 +73,4 @@ libnfs0 libcrystalhd3 libmad0 libmpeg2-4 libbluray1 libshairport0
 
 # FAQ packages
 chromium-browser synaptic flashplugin-installer ethtool nfs-common autofs
+

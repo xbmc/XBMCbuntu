@@ -35,11 +35,13 @@ fi
 if [ ! -f /home/$xbmcUser/.xbmc/userdata/keymaps/noBS.xml ] ; then
 	mkdir -p /home/$xbmcUser/.xbmc/userdata/keymaps &> /dev/null
 	cat > /home/$xbmcUser/.xbmc/userdata/keymaps/noBS.xml << 'EOF'
-<keyboard>
-<global>
-    <backslash/>
-</global>
-</keyboard>
+<keymap>
+  <global>
+    <keyboard>
+      <backslash>noop</backslash>
+     </keyboard>
+  </global>
+</keymap>
 EOF
 	chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
 fi

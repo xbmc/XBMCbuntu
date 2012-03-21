@@ -23,7 +23,7 @@ xbmcParams=$2
 
 # Debug
 
-echo "--drivers" >> /tmp/debugInfo.txt
+echo "--audio drivers" >> /tmp/debugInfo.txt
 lspci -nn | grep '0403' >> /tmp/debugInfo.txt
 echo "--alsa output" >> /tmp/debugInfo.txt
 aplay -l >> /tmp/debugInfo.txt

@@ -24,7 +24,7 @@ SDK_BUILDHOOKS=""
 
 # getopt-parse.bash
 
-TEMP=$(getopt -o snp:ulkgih:xPNi --long xbmc-svn,nvidia-only,proxy:,usb-image,live-only,keep-workarea,grub2,intel-only,hook:,x-swat,proposed,newestdebianlive,interactive -- "$@")
+TEMP=$(getopt -o snp:ulkgih:xPNie --long xbmc-svn,nvidia-only,proxy:,usb-image,live-only,keep-workarea,grub2,intel-only,hook:,x-swat,proposed,newestdebianlive,interactive,ext2fs -- "$@")
 eval set -- "$TEMP"
 
 while true
@@ -94,6 +94,11 @@ do
 		export SDK_CHROOTSHELL=1
 		shift
 		;;
+        -e|--ext2fs)
+                echo "Enable option: ext2 root filesystem (does not compress root filesystem)"
+                export SDK_EXT2ROOTFS=1
+                shift
+                ;;
 	-p|--proxy)
 		echo "Enable option: Use APT proxy"
 		case "$2" in
