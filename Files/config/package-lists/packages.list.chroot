@@ -69,7 +69,7 @@ python-pysqlite2
 python-simplejson
 
 # Temporary add libs till correct dependencies has been set
-libnfs0 libcrystalhd3 libmad0 libmpeg2-4 libbluray1 libshairport0
+libnfs0 libcrystalhd3 libmad0 libmpeg2-4 libbluray1 libshairport1
 
 # FAQ packages
 chromium-browser synaptic flashplugin-installer ethtool nfs-common autofs
