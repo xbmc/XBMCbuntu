@@ -31,7 +31,7 @@ service smbd stop
 #
 # setup smb config file
 #
-
+rm -f /etc/samba/smb.conf >/dev/null 2>&1
 cat > /etc/samba/smb.conf << EOF
 
 [global]
