@@ -17,6 +17,7 @@ lm-sensors
 afpfs-ng 
 rtmpdump
 pmount
+samba
 
 lirc
 
