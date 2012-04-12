@@ -46,6 +46,11 @@ if [ ! -d "/home/$xbmcUser/Movies" ]; then
 	chmod 755 /home/$xbmcUser/Movies >/dev/null 2>&1 &
 fi
 
+if [ ! -d "/home/$xbmcUser/Downloads" ]; then
+        mkdir /home/$xbmcUser/Downloads >/dev/null 2>&1 &
+        chmod 755 /home/$xbmcUser/Downloads >/dev/null 2>&1 &
+fi
+
 if [ ! -f /home/$xbmcUser/userdata/sources.xml ] ; then
 	mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
 	cat > /home/$xbmcUser/.xbmc/userdata/sources.xml << EOF
