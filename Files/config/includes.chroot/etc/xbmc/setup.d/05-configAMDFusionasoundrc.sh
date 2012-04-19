@@ -22,6 +22,14 @@ xbmcUser=$1
 xbmcParams=$2
 
 #
+# Exit if asoundrc already exists
+#
+
+if [ -f /home/$xbmcUser/.asoundrc ] then
+	exit 0
+fi
+
+#
 # AMD Fusion (E-350/E-450) detection
 #
 
