@@ -73,10 +73,29 @@ ANALOGCARD=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $1 }' | awk '{ prin
 ANALOGDEVICE=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
 
 #
-# Bails out if we don't have digital outputs
+# Bails out if we don't have HDMI outputs
 #
-if [ -z $HDMICARD ] || [ -z $HDMIDEVICE ] || [ -z $DIGITALCARD ] || [ -z $DIGITALDEVICE ]; then
+if [ -z $HDMICARD ] || [ -z $HDMIDEVICE ] ; then
 	exit 0
+fi
+
+#
+# Create basic asoundrc config when digital or analog isn't present
+#
+if [ -z $DIGITALCARD ] || [ -z $DIGITALDEVICE ] || [ -z $ANALOGCARD ] || [ -z $ANALOGDEVICE ] ; then
+
+	cat > /home/$xbmcUser/.asoundrc << 'EOF'
+pcm.!default {
+  type plug
+  slave {
+    pcm "hw:=HDMICARD=,=HDMIDEVICE="
+    rate 48000
+  }
+}
+EOF
+	sed -i "s/=HDMICARD=/card $HDMICARD/g" /home/$xbmcUser/.asoundrc
+	sed -i "s/=HDMIDEVICE=/device $HDMIDEVICE/g" /home/$xbmcUser/.asoundrc
+        exit 0
 fi
 
 #
