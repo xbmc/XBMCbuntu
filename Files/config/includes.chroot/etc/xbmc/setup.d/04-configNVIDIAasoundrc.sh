@@ -1,22 +1,22 @@
 #!/bin/bash
 
-#      Copyright (C) 2005-2008 Team XBMC
-#      http://www.xbmc.org
+# Copyright (C) 2005-2008 Team XBMC
+# http://www.xbmc.org
 #
-#  This Program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2, or (at your option)
-#  any later version.
+# This Program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
 #
-#  This Program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#  GNU General Public License for more details.
+# This Program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
 #
-#  You should have received a copy of the GNU General Public License
-#  along with XBMC; see the file COPYING.  If not, write to
-#  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
-#  http://www.gnu.org/copyleft/gpl.html
+# You should have received a copy of the GNU General Public License
+# along with XBMC; see the file COPYING. If not, write to
+# the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+# http://www.gnu.org/copyleft/gpl.html
 
 xbmcUser=$1
 xbmcParams=$2
@@ -25,7 +25,17 @@ xbmcParams=$2
 # Exit if asoundrc already exists
 #
 
-if [ -f /home/$xbmcUser/.asoundrc ] then
+if [ -f /home/$xbmcUser/.asoundrc ] ; then
+	exit 0
+fi
+
+#
+# Exit if system does not contain a Atom processor
+#
+
+IntelAtom=$(cat /proc/cpuinfo | grep 'model name' -m1 | grep 'Atom')
+
+if [ ! -n "$IntelAtom" ] ; then
 	exit 0
 fi
 
@@ -49,39 +59,14 @@ if [ "$xbmcParams" != "${xbmcParams%$activationToken*}" ] ; then
 fi
 
 #
-# Set Nvidia HDMI variables
+# Set Nvidia sound variables
 #
 
 HDMICARD=$(aplay -l | grep 'HDA NVidia' | grep 'HDMI' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
 HDMIDEVICE=$(aplay -l | grep 'HDA NVidia' | grep 'HDMI' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
 
-if [ -n "$NvidiaHDMIFirstGen" ] ; then
-	# "VT1708S Digital"
-	# "ALC662 rev1 Digital"
-	# "ALC1200 Digital"
-	# "ALC662 Digital"
-	# "ALC889A Digital"
-	# "ALC888 Digital"
-	# "ALC887 Digital"
-	# "ALC889A Digital"
-	DIGITALCONTROL="VT1708S Digital\|ALC662 rev1 Digital\|ALC1200 Digital\|ALC662 Digital\|ALC889A Digital\|ALC888 Digital\|ALC887 Digital\|ALC889A Digital"
-fi
-
-if [ -n "$NvidiaHDMISecondGen" ] ; then
-	# "ALC887 Digital"
-	# "ALC888 Digital"
-	# "ALC880 Digital"
-	# "ALC892 Digital"
-	# "ALC662 rev1 Digital"
-	DIGITALCONTROL="ALC888 Digital\|ALC887 Digital\|ALC880 Digital\|ALC892 Digital\|ALC662 rev1 Digital"
-fi
-
-#
-# Retrieve Digital Settings before .asoundrc creation
-#
-
-DIGITALCARD=$(aplay -l | grep "$DIGITALCONTROL" | awk -F: '{ print $1 }' | awk '{ print $2 }')
-DIGITALDEVICE=$(aplay -l | grep "$DIGITALCONTROL" | awk -F: '{ print $2 }' | awk '{ print $5 }')
+DIGITALCARD=$(aplay -l | grep 'Digital' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
+DIGITALDEVICE=$(aplay -l | grep 'Digital' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
 
 ANALOGCARD=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
 ANALOGDEVICE=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
@@ -233,7 +218,7 @@ do
 	oldifs="$IFS"
 	IFS="
 	"
-	for line in $(/usr/bin/amixer -c $i | grep 'Simple mixer control' | grep 'IEC958' | awk '{print $4,$6}');
+	for line in $(/usr/bin/amixer -c $i | grep 'Simple mixer control' | grep 'IEC958' | awk '{print $4,$5,$6}');
 		do
 			/usr/bin/amixer -q -c $i sset $line unmute;
 		done;
@@ -250,5 +235,7 @@ alsactl store >/dev/null 2>&1 &
 
 echo "--alsa asoundrc script" >> /tmp/debugInfo.txt
 cat /home/$xbmcUser/.asoundrc >> /tmp/debugInfo.txt
+echo "--alsa cpu info" >> /tmp/debugInfo.txt
+cat /proc/cpuinfo >> /tmp/debugInfo.txt
 
 exit 0
