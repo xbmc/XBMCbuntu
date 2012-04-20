@@ -25,7 +25,7 @@ xbmcParams=$2
 # Exit if asoundrc already exists
 #
 
-if [ -f /home/$xbmcUser/.asoundrc ] then
+if [ -f /home/$xbmcUser/.asoundrc ] ; then
 	exit 0
 fi
 
