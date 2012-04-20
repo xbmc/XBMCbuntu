@@ -32,10 +32,9 @@ aplay -l >> /tmp/debugInfo.txt
 # Nvidia ION detection
 #
 
-NvidiaHDMIFirstGen=$(lspci -nn | grep '0403' | grep '10de:0ac0') #MCP79 High Definition Audio
 NvidiaHDMISecondGen=$(lspci -nn | grep '0403' | grep '10de:0be3') #MCP79 High Definition Audio
 
-if [ ! -n "$NvidiaHDMISecondGen" ] && [ ! -n "$NvidiaHDMIFirstGen" ] ; then
+if [ ! -n "$NvidiaHDMISecondGen" ] ; then
 	exit 0
 fi
 
