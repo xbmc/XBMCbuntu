@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#      Copyright (C) 2005-2008 Team XBMC
+#      Copyright (C) 2005-2012 Team XBMC
 #      http://www.xbmc.org
 #
 #  This Program is free software; you can redistribute it and/or modify
@@ -18,9 +18,10 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
+# TODO select one flavour of kernel (pae, no-pae)
 
 # exit building when multiple kernel versions are found
-COUNT=`ls -1 /lib/modules | wc -l`
+COUNT=`ls -1 -d /lib/modules/*-pae | wc -l`
 if [ "$COUNT" -ne "1" ]; then
         echo "Different kernel versions detected, exiting!"
 	false
@@ -29,11 +30,17 @@ fi
 # Temporary fixup for bug #556653
 # see https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers/+bug/556653
 
-kernelVersion=$(ls /lib/modules)
+kernelVersions=$(ls /lib/modules)
 
 for k in $(ls /boot | grep initrd.img) ; do
-	echo $k
-	if [ ! "$k" = "initrd.img-$kernelVersion" ] ; then
-		rm /boot/$k
-	fi
+        echo $k
+        keepIt=0
+        for j in $kernelVersions ; do
+                if [ "$k" = "initrd.img-$j" ] ; then
+                        keepIt=1
+                fi
+        done
+        if [ ! "$keepIt" = "1" ] ; then
+                rm /boot/$k
+        fi
 done

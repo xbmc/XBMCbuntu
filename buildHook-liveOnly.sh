@@ -18,20 +18,4 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-cat $WORKPATH/auto/config | grep -v debian-installer | grep -v win32-loader > $WORKPATH/auto/config.live
-rm $WORKPATH/auto/config
-mv $WORKPATH/auto/config.live $WORKPATH/auto/config
-
-rm $WORKPATH/copyFiles-installer.sh
-
-rm $WORKPATH/buildDEBs/build-installer.sh
-
-# Modify menu.lst
-if [ -f $WORKPATH/Files/binary_grub/menu.lst ]; then
-	  sed -i '/## BEGIN INSTALLER ##/,/## END INSTALLER ##/d' $WORKPATH/Files/binary_grub/menu.lst
-fi
-
-# Modify grub.cfg
-if [ -f $WORKPATH/Files/binary_grub/grub.cfg ]; then
-	  sed -i '/## BEGIN INSTALLER ##/,/## END INSTALLER ##/d' $WORKPATH/Files/binary_grub/grub.cfg
-fi
+sed -i -e '/ubiquity/d' $WORKPATH/Files/config/package-lists/packages.list.chroot

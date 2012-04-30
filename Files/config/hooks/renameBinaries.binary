@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-#      Copyright (C) 2005-2008 Team XBMC
+#      Copyright (C) 2005-2012 Team XBMC
 #      http://www.xbmc.org
 #
 #  This Program is free software; you can redistribute it and/or modify
@@ -22,7 +22,12 @@ echo ""
 echo "Rename binaries..."
 echo ""
 
-mv binary/casper/initrd.img-* binary/casper/initrd.lz
-mv binary/casper/vmlinuz-* binary/casper/vmlinuz
+# TODO select one flavour of kernel (pae, no-pae)
+
+mv binary/casper/initrd.img-*-generic binary/casper/initrd.lz
+mv binary/casper/initrd.img-*-generic-pae binary/casper/initrd-pae.lz
+
+mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz
+mv binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz-pae
 
 exit 0

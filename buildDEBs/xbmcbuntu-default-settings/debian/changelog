@@ -1,5 +1,5 @@
-xbmcbuntu-default-settings (0.10) oneiric; urgency=low
+xbmcbuntu-default-settings (0.10) precise; urgency=low
 
   * Initial release.
 
- -- Luigi Capriotti <l.capriotti@xbmc.org>  Tue, 21 Dec 2011 18:00:26 +0100
+ -- Luigi Capriotti <l.capriotti@xbmc.org>  Tue, 30 Apr 2012 18:00:26 +0100

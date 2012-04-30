@@ -89,7 +89,7 @@ do
 		export SDK_USELATESTDEBIANLIVE=1
 		shift
 		;;
-	-i|--interactive)
+	-I|--interactive)
 		echo "Enable option: interactive mode (opens a shell in chroot after package configuring)"
 		export SDK_CHROOTSHELL=1
 		shift

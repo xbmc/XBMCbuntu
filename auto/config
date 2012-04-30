@@ -29,8 +29,7 @@ add_package ()
 OPTS=
 # BINARY_IMAGES=none
 BINARY_IMAGES=iso-hybrid
-SYSLINUX_THEME=xbmcbuntu-oneiric
-# SYSLINUX_THEME=ubuntu-oneiric
+SYSLINUX_THEME=xbmcbuntu-precise
 
 add_task install minimal standard
 
@@ -60,7 +59,7 @@ fi
 
 lb config noauto \
 	--mode ubuntu \
-	--distribution oneiric \
+	--distribution precise \
 	--architecture i386 \
 	--parent-archive-areas "main restricted universe multiverse" \
 	--bootstrap-keyring ubuntu-keyring \
@@ -79,10 +78,6 @@ lb config noauto \
 	--iso-application XBMCbuntu \
 	--iso-volume XBMCbuntu \
 	--iso-publisher http://xbmc.org \
-	--debian-installer false \
-	--debian-installer-preseedfile preseed.cfg \
-	--debian-installer-gui disabled \
-	--win32-loader disabled \
 	--checksums none \
 	$OPTS
 
@@ -92,8 +87,8 @@ lb config noauto \
 #workaround for Bug#622838 syslinux-live and hdd images
 if [ "$BINARY_IMAGES" = "hdd" ] ; then
         THISDIR=$(pwd)
-        mkdir -p Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-oneiric/isolinux-live
-        cd Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-oneiric/
+        mkdir -p Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-precise/isolinux-live
+        cd Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-precise/
         ln -s isolinux-live syslinux-live
         cd isolinux-live
         ln -s isolinux.cfg syslinux.cfg
