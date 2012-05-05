@@ -4,7 +4,7 @@ Description=Text mode theme based on xbmcbuntu-logo theme
 ModuleName=ubuntu-text
 
 [ubuntu-text]
-title=XBMCbuntu 11.10
+title=XBMCbuntu
 black=0x000000
 white=0xffffff
 white=0x000000
