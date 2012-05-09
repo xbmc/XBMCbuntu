@@ -9,4 +9,4 @@
 *.deb
 binary.log
 workarea/*
-# Tools/live-build/*
+Tools/live-build/*
