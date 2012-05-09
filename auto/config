@@ -3,44 +3,10 @@ set -e
 
 rm -rf config
 
-mkdir -p config/task-lists config/package-lists
-
-add_task ()
-{
-	local pass="$1"
-	shift
-	local task
-
-	for task; do
-		echo "$task" >> "config/task-lists/livecd-rootfs.chroot_$pass.list"
-	done
-}
-add_package ()
-{
-	local pass="$1"
-	shift
-	local pkg
-
-	for pkg; do
-		echo "$pkg" >> "config/package-lists/livecd-rootfs.chroot_$pass.list"
-	done
-}
-
 OPTS=
 # BINARY_IMAGES=none
 BINARY_IMAGES=iso-hybrid
 SYSLINUX_THEME=xbmcbuntu-precise
-
-add_task install minimal standard
-
-# add_package live # lupin-casper
-
-#	ubuntu-core)
-#		OPTS="${OPTS:+$OPTS }--bootstrap-flavour=minimal"
-#		OPTS="${OPTS:+$OPTS }--linux-packages=none"
-#		KERNEL_FLAVOURS=none
-#		BINARY_REMOVE_LINUX=false
-#		;;
 
 if [ -n "$APT_HTTP_PROXY" ]; then
 	OPTS="${OPTS:+$OPTS }--apt-http-proxy $APT_HTTP_PROXY"
@@ -74,15 +40,11 @@ lb config noauto \
 	--initramfs-compression lzma \
 	--security true \
 	--binary-filesystem fat32 \
-	--hostname XBMCbuntu \
 	--iso-application XBMCbuntu \
 	--iso-volume XBMCbuntu \
 	--iso-publisher http://xbmc.org \
 	--checksums none \
 	$OPTS
-
-# 	--build-with-chroot true \
-#	--archive-areas "main restricted universe multiverse" \
 
 #workaround for Bug#622838 syslinux-live and hdd images
 if [ "$BINARY_IMAGES" = "hdd" ] ; then

@@ -26,7 +26,7 @@ echo "--------------------------------"
 repoURL="http://ftp.debian.org/debian/pool/main/c/crystalhd/"
 PACKAGELIST=(crystalhd-dkms libcrystalhd3 libcrystalhd-dev)
 
-mkdir -p $WORKPATH/Files/config/packages &> /dev/null
+mkdir -p $WORKPATH/Files/config/packages.chroot &> /dev/null
 
 cd $WORKPATH
 
@@ -41,6 +41,6 @@ for k in "${PACKAGELIST[@]}" ; do
 		    exit 1
 	    fi
 	fi
-	cp $latestPackage $WORKPATH/Files/config/packages
+	cp $latestPackage $WORKPATH/Files/config/packages.chroot
 done
 
