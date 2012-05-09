@@ -93,7 +93,7 @@ if ! which lb > /dev/null ; then
 	if [ ! -d live-build ]; then
 		repoURL="http://live.debian.net/archive/packages/live-build/orig/"
 		if [ -z "$SDK_USELATESTLIVEBUILD" ]; then
-		    latestPackage="live-build_3.0~a38.orig.tar.gz"
+		    latestPackage="live-build_3.0~a47.orig.tar.gz"
 		else
 		    latestPackage=$(curl -x "" -s -f $repoURL | grep live-build | tail -1 | grep -o '"live-build_[^"]*.tar.gz"' | sed -e "s/\"//g")
 		fi
@@ -109,6 +109,11 @@ if ! which lb > /dev/null ; then
 			fi
 		fi
 		tar xf $latestPackage
+
+		# still waiting to be merged upstream
+		echo "Apply patch..."
+		patch -p0 < lb_chroot_hacks.diff
+
 		mv live-build-* live-build
 	fi
 
