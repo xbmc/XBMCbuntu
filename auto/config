@@ -34,6 +34,7 @@ lb config noauto \
 	--syslinux-theme "${SYSLINUX_THEME}" \
 	--memtest none \
 	--source false \
+	--firmware-chroot false \
 	--package-lists none \
 	--initsystem none \
 	--initramfs casper \
