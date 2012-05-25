@@ -33,7 +33,7 @@ fi
 # Exit if system does not contain a AMD Fusion processor
 #
 
-AMDCPU=$(cat /proc/cpuinfo | grep 'model name' -m1 | egrep 'AMD E-350 Processor|AMD E-450 Processor')
+AMDCPU=$(cat /proc/cpuinfo | grep 'model name' -m1 | egrep 'AMD E-350|AMD E-450')
 
 if [ ! -n "$AMDCPU" ] ; then
 	exit 0
@@ -67,10 +67,10 @@ HDMICARD=$(aplay -l | grep 'HDMI 0' -m1 | awk -F: '{ print $1 }' | awk '{ print 
 HDMIDEVICE=$(aplay -l | grep 'HDMI 0' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
 
 DIGITALCARD=$(aplay -l | grep 'Digital' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
-DIGITALDEVICE=$(aplay -l | grep 'Digital' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
+DIGITALDEVICE=$(aplay -l | grep 'Digital' -m1 | awk -F: '{ print $2 }' | awk '{ print $6 }')
 
 ANALOGCARD=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $1 }' | awk '{ print $2 }')
-ANALOGDEVICE=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $2 }' | awk '{ print $5 }')
+ANALOGDEVICE=$(aplay -l | grep 'Analog' -m1 | awk -F: '{ print $2 }' | awk '{ print $6 }')
 
 #
 # Bails out if we don't have HDMI outputs
