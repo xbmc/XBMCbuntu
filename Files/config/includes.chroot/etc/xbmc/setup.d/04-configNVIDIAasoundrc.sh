@@ -45,8 +45,9 @@ fi
 
 NvidiaHDMIFirstGen=$(lspci -nn | grep '0403' | grep '10de:0ac0') #MCP79 High Definition Audio
 NvidiaHDMISecondGen=$(lspci -nn | grep '0403' | grep '10de:0be3') #MCP79 High Definition Audio
+NvidiaHDMIThirdGen=$(lspci -nn | grep '0403' | grep '10de:0e08') #MCP79 High Definition Audio
 
-if [ ! -n "$NvidiaHDMISecondGen" ] && [ ! -n "$NvidiaHDMIFirstGen" ] ; then
+if [ ! -n "$NvidiaHDMIThirdGen" ] && [ ! -n "$NvidiaHDMISecondGen" ] && [ ! -n "$NvidiaHDMIFirstGen" ]; then
 	exit 0
 fi
 
