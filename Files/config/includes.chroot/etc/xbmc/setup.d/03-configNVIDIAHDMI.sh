@@ -33,8 +33,9 @@ aplay -l >> /tmp/debugInfo.txt
 #
 
 NvidiaHDMISecondGen=$(lspci -nn | grep '0403' | grep '10de:0be3') #MCP79 High Definition Audio
+NvidiaHDMIThirdGen=$(lspci -nn | grep '0403' | grep '10de:0e08') #MCP79 High Definition Audio
 
-if [ ! -n "$NvidiaHDMISecondGen" ] ; then
+if [ ! -n "$NvidiaHDMISecondGen" && ! -n "$NvidiaHDMIThirdGen" ] ; then
 	exit 0
 fi
 
