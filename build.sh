@@ -198,7 +198,7 @@ cd $THISDIR
 #
 # Move binary file from workarea
 #
-for BINARY in $WORKPATH/binary.iso $WORKPATH/binary-hybrid.iso; do
+for BINARY in $WORKPATH/binary.iso $WORKPATH/binary.hybrid.iso; do
 	[ -e "$BINARY" ] || continue
 	chmod 666 "$BINARY"
 	mv "$BINARY" .
