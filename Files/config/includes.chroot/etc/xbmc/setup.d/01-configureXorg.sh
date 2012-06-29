@@ -87,6 +87,7 @@ if [ "$GPUTYPE" = "AMD" ]; then
 	# run aticonfig
 	/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
 	/usr/lib/fglrx/bin/aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
+	/usr/lib/fglrx/bin/aticonfig --set-pcs-u32=MCIL,HWUVD_H264Level51Support,1
 	ATICONFIG_RETURN_CODE=$?
 
 	echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
