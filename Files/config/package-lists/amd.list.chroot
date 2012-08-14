@@ -1,0 +1,3 @@
+# For AMD
+fglrx-updates fglrx-amdcccle-updates libva1 libva-x11-1 xvba-va-driver
+

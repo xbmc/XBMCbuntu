@@ -1,0 +1,30 @@
+lirc
+
+plymouth
+plymouth-X11
+
+lightdm lightdm-gtk-greeter
+
+#
+xbmcbuntu-core 
+policykit-desktop-privileges
+
+network-manager
+
+# Generic: failsafe
+# xserver-xorg-video-vesa xserver-xorg-video-radeon xserver-xorg-video-ati xserver-xorg-video-nouveau
+xserver-xorg-video-vesa xserver-xorg-video-fbdev
+
+xbmc
+xbmcbuntu-plymouth-theme
+
+# Required by YouTube addon
+python-pysqlite2
+
+# Required by wunderground
+python-simplejson
+
+# Temporary add libs till correct dependencies has been set
+#libnfs1 libmad0 libshairport1 
+#afpfs-ng libmpeg2-4 libbluray1
+

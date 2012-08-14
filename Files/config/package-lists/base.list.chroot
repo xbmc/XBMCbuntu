@@ -1,0 +1,26 @@
+whois klibc-utils
+openssh-server
+less nano language-pack-en 
+hfsprogs
+bzip2 locales ntfs-3g dosfstools unzip curl wget
+alsa-utils 
+acpi acpi-support
+pm-utils psmisc
+fakeroot
+grub-pc
+parted
+python-apt
+wpasupplicant wireless-tools
+avahi-daemon
+pkg-config
+lm-sensors
+rtmpdump
+pmount
+
+genext2fs
+upower
+udisks
+python-software-properties
+
+policykit-desktop-privileges
+

@@ -18,11 +18,6 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-if [ -f $WORKPATH/copyFiles-crystalhd.sh ]; then
-  rm $WORKPATH/copyFiles-crystalhd.sh
-fi
-
-sed -i '/fglrx/d' $WORKPATH/Files/config/package-lists/packages.list.chroot
-sed -i '/nvidia-common/d' $WORKPATH/Files/config/package-lists/packages.list.chroot
-
-
+rm $WORKPATH/Files/config/package-lists/amd.list.chroot
+rm $WORKPATH/Files/config/package-lists/nvidia.list.chroot
+rm $WORKPATH/Files/config/package-lists/chd.list.chroot

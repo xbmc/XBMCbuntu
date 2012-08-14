@@ -18,4 +18,7 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-sed -i -e '/ubiquity/d' $WORKPATH/Files/config/package-lists/packages.list.chroot
+
+rm $WORKPATH/Files/config/package-lists/installer.list.chroot
+sed -i '/ubiquity/d' $WORKPATH/copyFiles-debs.sh
+sed -i '/ubiquity/d' $WORKPATH/buildDEBs/build.sh
