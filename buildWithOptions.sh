@@ -24,17 +24,12 @@ SDK_BUILDHOOKS=""
 
 # getopt-parse.bash
 
-TEMP=$(getopt -o snp:ulkgih:xPNie --long xbmc-svn,nvidia-only,proxy:,usb-image,live-only,keep-workarea,grub2,intel-only,hook:,x-swat,proposed,newestdebianlive,interactive,ext2fs -- "$@")
+TEMP=$(getopt -o np:ulkgih:xPNiem --long nvidia-only,proxy:,usb-image,live-only,keep-workarea,grub2,intel-only,hook:,x-swat,proposed,newestlivebuild,interactive,ext2fs,minimal -- "$@")
 eval set -- "$TEMP"
 
 while true
 do
 	case $1 in
-	-s|--xbmc-svn)
-		echo "Enable option: Use XBMC SVN PPA"
-		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-xbmcSvn.sh"
-		shift
-		;;
 	-n|--nvidia-only)
 		echo "Enable option: NVIDIA support only"
 		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-nvidiaOnly.sh"
@@ -74,19 +69,9 @@ do
 		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS $HOOKNAME"
 		shift 2
 		;;
-	-x|--x-swat)
-		echo "Enable option: Use x-swat repository (Ubuntu-X team Updates)"
-		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-xswat.sh"
-		shift
-		;;
-	-P|--proposed)
-                echo "Enable option: Use proposed repository"
-                export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-proposed.sh"
-                shift
-		;;
-	-N|--newestdebianlive)
-		echo "Enable option: use latest debian_live files"
-		export SDK_USELATESTDEBIANLIVE=1
+	-N|--newestlivebuild)
+		echo "Enable option: use latest debian live_build files"
+		export SDK_USELATESTLIVEBUILD=1
 		shift
 		;;
 	-I|--interactive)
@@ -99,6 +84,11 @@ do
                 export SDK_EXT2ROOTFS=1
                 shift
                 ;;
+	-m|--minimal)
+		echo "Enable option: minimal build (required packages only)"
+		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-minimal.sh"
+		shift
+		;;
 	-p|--proxy)
 		echo "Enable option: Use APT proxy"
 		case "$2" in
