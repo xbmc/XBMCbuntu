@@ -34,7 +34,7 @@ fi
 
 if ! ls $WORKPATH/buildDEBs/ubiquity-slideshow-xbmcbuntu_* > /dev/null 2>&1; then
         cd $WORKPATH/buildDEBs/ubiquity-slideshow-xbmcbuntu
-        dpkg-buildpackage -rfakeroot -b -uc -us
+        dpkg-buildpackage -rfakeroot -b -uc -us # ubiquity
 fi
 
 if ! ls $WORKPATH/buildDEBs/xbmcbuntu-default-settings_* > /dev/null 2>&1; then
