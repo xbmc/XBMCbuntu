@@ -10,3 +10,4 @@
 binary.log
 workarea/*
 Tools/live-build/*
+local/*

@@ -89,13 +89,16 @@ echo "Creating new workarea..."
 rsync -r -l --exclude=.git --exclude=$WORKDIR . $WORKDIR
 
 if ! which lb > /dev/null ; then
-	cd $WORKPATH/Tools
+	if [ ! -d $WORKPATH/local ]; then 
+		mkdir $WORKPATH/local
+	fi
+	cd $WORKPATH/local
 	if [ ! -d live-build ]; then
 		repoURL="http://live.debian.net/archive/packages/live-build/orig/"
 		if [ -z "$SDK_USELATESTLIVEBUILD" ]; then
-		    latestPackage="live-build_3.0~a47.orig.tar.gz"
+		    latestPackage="live-build_3.0~a58.orig.tar.xz"
 		else
-		    latestPackage=$(curl -x "" -s -f $repoURL | grep live-build | tail -1 | grep -o '"live-build_[^"]*.tar.gz"' | sed -e "s/\"//g")
+		    latestPackage=$(curl -x "" -s -f $repoURL | grep live-build | tail -1 | grep -o '"live-build_[^"]*.tar..z"' | sed -e "s/\"//g")
 		fi
 
 		if ! ls $latestPackage > /dev/null 2>&1 ; then
@@ -110,17 +113,13 @@ if ! which lb > /dev/null ; then
 		fi
 		tar xf $latestPackage
 
-		# still waiting to be merged upstream
-		echo "Apply patch..."
-		patch -p0 < lb_chroot_hacks.diff
-
 		mv live-build-* live-build
 	fi
 
-	LB_HOMEDIR=$WORKPATH/Tools/live-build
+	LB_HOMEDIR=$WORKPATH/local/live-build
 
-	export LB_BASE="${LB_HOMEDIR}"
-	export PATH="${PATH}:${LB_BASE}/scripts/build"
+	export LIVE_BUILD="${LB_HOMEDIR}"
+	export PATH="${PATH}:${LIVE_BUILD}/bin"
 
 	cd $THISDIR
 fi
@@ -198,7 +197,7 @@ cd $THISDIR
 #
 # Move binary file from workarea
 #
-for BINARY in $WORKPATH/binary.iso $WORKPATH/binary-hybrid.iso; do
+for BINARY in $WORKPATH/binary.iso $WORKPATH/binary.hybrid.iso; do
 	[ -e "$BINARY" ] || continue
 	chmod 666 "$BINARY"
 	mv "$BINARY" .

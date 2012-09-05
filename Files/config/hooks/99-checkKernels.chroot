@@ -21,7 +21,7 @@
 # TODO select one flavour of kernel (pae, no-pae)
 
 # exit building when multiple kernel versions are found
-COUNT=`ls -1 -d /lib/modules/*-pae | wc -l`
+COUNT=`ls -1 -d /lib/modules/* | wc -l`
 if [ "$COUNT" -ne "1" ]; then
         echo "Different kernel versions detected, exiting!"
 	false

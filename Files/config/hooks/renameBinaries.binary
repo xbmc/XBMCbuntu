@@ -22,12 +22,7 @@ echo ""
 echo "Rename binaries..."
 echo ""
 
-# TODO select one flavour of kernel (pae, no-pae)
-
 mv binary/casper/initrd.img-*-generic binary/casper/initrd-generic.lz
-mv binary/casper/initrd.img-*-generic-pae binary/casper/initrd.lz
-
 mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz-generic
-mv binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz
 
 exit 0

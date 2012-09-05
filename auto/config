@@ -23,19 +23,19 @@ if [ -n "$SDK_EXT2ROOTFS" ]; then
 	OPTS="${OPTS:+$OPTS } --chroot-filesystem ext2"
 fi
 
+#	--debootstrap-options "--keyring=ubuntu-keyring" \
+
 lb config noauto \
 	--mode ubuntu \
 	--distribution precise \
 	--architecture i386 \
 	--parent-archive-areas "main restricted universe multiverse" \
-	--bootstrap-keyring ubuntu-keyring \
 	--binary-images "$BINARY_IMAGES" \
 	--bootloader syslinux \
 	--syslinux-theme "${SYSLINUX_THEME}" \
 	--memtest none \
 	--source false \
 	--firmware-chroot false \
-	--package-lists none \
 	--initsystem none \
 	--initramfs casper \
 	--initramfs-compression lzma \
