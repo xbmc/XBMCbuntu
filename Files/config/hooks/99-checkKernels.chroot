@@ -21,7 +21,7 @@
 # TODO select one flavour of kernel (pae, no-pae)
 
 # exit building when multiple kernel versions are found
-COUNT=`ls -1 -d /lib/modules/* | wc -l`
+COUNT=`ls -1 -d /lib/modules/*-pae | wc -l`
 if [ "$COUNT" -ne "1" ]; then
         echo "Different kernel versions detected, exiting!"
 	false
@@ -37,10 +37,13 @@ for k in $(ls /boot | grep initrd.img) ; do
         keepIt=0
         for j in $kernelVersions ; do
                 if [ "$k" = "initrd.img-$j" ] ; then
+			echo "Found modules ($j), keeping..."
                         keepIt=1
                 fi
         done
         if [ ! "$keepIt" = "1" ] ; then
+		echo "Removing orphan ($j) ..."
                 rm /boot/$k
         fi
 done
+

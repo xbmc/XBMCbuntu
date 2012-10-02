@@ -18,14 +18,26 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
+exit 0
+
 echo ""
 echo "Rename binaries..."
 echo ""
 
-mv binary/casper/initrd.img-*-generic binary/casper/initrd-generic.lz
-mv binary/casper/initrd.img-*-generic-pae binary/casper/initrd.lz
+if [ -f binary/casper/initrd.img-*-generic ]; then
+	mv binary/casper/initrd.img-*-generic binary/casper/initrd-generic.lz
+fi
 
-mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz-generic
-mv binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz
+if [ -f binary/casper/initrd.img-*-generic-pae ]; then
+	mv binary/casper/initrd.img-*-generic-pae binary/casper/initrd.lz
+fi
+
+if [ -f binary/casper/vmlinuz-*-generic binary/casper/vmlinuz-generic ]; then
+	mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz-generic
+fi
+
+if [ -f binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz ]; then
+ 	mv binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz
+fi
 
 exit 0
