@@ -6,7 +6,7 @@ rm -rf config
 OPTS=
 # BINARY_IMAGES=none
 BINARY_IMAGES=iso-hybrid
-SYSLINUX_THEME=xbmcbuntu-quantal
+SYSLINUX_THEME=xbmcbuntu-precise
 
 if [ -n "$APT_HTTP_PROXY" ]; then
 	OPTS="${OPTS:+$OPTS }--apt-http-proxy $APT_HTTP_PROXY"
@@ -27,7 +27,7 @@ fi
 
 lb config noauto \
 	--mode ubuntu \
-	--distribution quantal \
+	--distribution precise \
 	--architecture i386 \
 	--parent-archive-areas "main restricted universe multiverse" \
 	--binary-images "$BINARY_IMAGES" \

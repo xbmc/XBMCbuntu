@@ -1,6 +1,6 @@
-xbmcbuntu-artwork (0.1) quantal; urgency=low
+xbmcbuntu-artwork (0.1) precise; urgency=low
 
   * Initial release
 
- -- Luigi Capriotti <lcapriotti@xbmc.org>  Mon,  04 Oct 2012 11:01:24 +0100
+ -- Luigi Capriotti <lcapriotti@xbmc.org>  Mon,  30 Apr 2012 11:01:24 +0100
 
