@@ -30,11 +30,11 @@ if [ -f binary/casper/initrd.img-*-generic-pae ]; then
 	mv binary/casper/initrd.img-*-generic-pae binary/casper/initrd.lz
 fi
 
-if [ -f binary/casper/vmlinuz-*-generic binary/casper/vmlinuz-generic ]; then
+if [ -f binary/casper/vmlinuz-*-generic ]; then
 	mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz-generic
 fi
 
-if [ -f binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz ]; then
+if [ -f binary/casper/vmlinuz-*-generic-pae ]; then
  	mv binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz
 fi
 
