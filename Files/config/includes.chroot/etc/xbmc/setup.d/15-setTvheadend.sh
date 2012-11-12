@@ -21,9 +21,7 @@
 xbmcUser=$1
 xbmcParams=$2
 
-cat > /etc/default/tvheadend << EOF
-DAEMON_ARGS="-f -u $xbmcUser -g video"
-EOF
+sed -i -e "/^TVH_USER/s/\"\(.*\)\"/\"$xbmcUser\"/" /etc/default/tvheadend
 
 mkdir -p /home/$xbmcUser/.hts/tvheadend/accesscontrol
 cat > /home/$xbmcUser/.hts/tvheadend/accesscontrol/1 << EOF
@@ -46,4 +44,4 @@ then
     chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.hts
 fi
 
-/etc/init.d/tvheadend restart
+service tvheadend restart
