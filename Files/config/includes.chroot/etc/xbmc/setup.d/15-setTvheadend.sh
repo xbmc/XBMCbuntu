@@ -25,11 +25,19 @@ cat > /etc/default/tvheadend << EOF
 DAEMON_ARGS="-f -u $xbmcUser -g video"
 EOF
 
-mkdir -p /home/$xbmcUser/.hts/tvheadend
-cat > /home/$xbmcUser/.hts/tvheadend/superuser << EOF
+mkdir -p /home/$xbmcUser/.hts/tvheadend/accesscontrol
+cat > /home/$xbmcUser/.hts/tvheadend/accesscontrol/1 << EOF
 {
-"username": "$xbmcUser",
-"password": "$xbmcUser"
+        "enabled": 1,
+        "username": "xbmc",
+        "password": "xbmc",
+        "comment": "Default access entry",
+        "streaming": 1,
+        "dvr": 1,
+        "dvrallcfg": 1,
+        "webui": 1,
+        "admin": 1,
+        "id": "1"
 }
 EOF
 
