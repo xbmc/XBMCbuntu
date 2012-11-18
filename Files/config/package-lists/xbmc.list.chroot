@@ -13,7 +13,7 @@ network-manager
 
 # Generic: failsafe
 # xserver-xorg-video-vesa xserver-xorg-video-radeon xserver-xorg-video-ati xserver-xorg-video-nouveau
-xserver-xorg-video-vesa xserver-xorg-video-fbdev
+xserver-xorg-video-vesa xserver-xorg-video-fbdev xserver-xorg-video-vmware
 
 xbmc
 xbmcbuntu-plymouth-theme
