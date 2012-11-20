@@ -5,8 +5,7 @@ set -o pipefail
 
 export LC_ALL=C
 
-# ( . "${LIVE_BUILD}/scripts/build.sh" || true ) || . /usr/lib/live/build.sh
-. "${LIVE_BUILD}/scripts/build.sh" 
+[ -x ${LIVE_BUILD}/scripts/build.sh ] && . ${LIVE_BUILD}/scripts/build.sh || . /usr/lib/live/build.sh
 
 Arguments "${@}"
 
