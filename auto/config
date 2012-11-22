@@ -8,6 +8,7 @@ OPTS=
 BINARY_IMAGES=iso-hybrid
 SYSLINUX_THEME=xbmcbuntu-precise
 
+
 if [ -n "$APT_HTTP_PROXY" ]; then
 	OPTS="${OPTS:+$OPTS }--apt-http-proxy $APT_HTTP_PROXY"
 fi
@@ -23,12 +24,15 @@ if [ -n "$SDK_EXT2ROOTFS" ]; then
 	OPTS="${OPTS:+$OPTS } --chroot-filesystem ext2"
 fi
 
+if [ -z "$ARCH" ]; then
+	ARCH="i386"
+fi
 #	--debootstrap-options "--keyring=ubuntu-keyring" \
 
 lb config noauto \
 	--mode ubuntu \
 	--distribution precise \
-	--architecture i386 \
+	--architecture $ARCH \
 	--parent-archive-areas "main restricted universe multiverse" \
 	--binary-images "$BINARY_IMAGES" \
 	--bootloader syslinux \
