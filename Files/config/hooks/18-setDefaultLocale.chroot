@@ -22,8 +22,8 @@ echo ""
 echo "Set locale with default language..."
 echo ""
 
-if [ ! -f /tmp/locale ]; then
-        echo "LANG=\"en_US.UTF-8\"" > /tmp/locale
+if [ ! -f /etc/default/locale ]; then
+        echo "LANG=\"en_US.UTF-8\"" > /etc/default/locale
 fi
 
 if ! grep LANG /etc/default/locale >/dev/null; then
