@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #      Copyright (C) 2005-2012 Team XBMC
 #      http://www.xbmc.org
@@ -18,32 +18,33 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-# TODO select one flavour of kernel (pae, no-pae)
+echo 
+echo "Check for multiple modules..."
+echo 
 
-# exit building when multiple kernel versions are found
-COUNT=`ls -1 -d /lib/modules/*-pae | wc -l`
-if [ "$COUNT" -ne "1" ]; then
-        echo "Different kernel versions detected, exiting!"
-	false
+PAE_ESISTS=0
+if ls -d /lib/modules/*-pae 2&>1 /dev/null; then
+	PAE_ESISTS=1
+
+	# exit building when multiple pae kernel versions are found
+	COUNT=`ls -1 -d /lib/modules/*-pae | wc -l`
+	if [ "$COUNT" -ne "1" ]; then
+       	echo "Different pae kernel versions detected, exiting!"
+		exit false
+	fi
 fi
 
-# Temporary fixup for bug #556653
-# see https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers/+bug/556653
+if ls -d /lib/modules/*-generic; then
+	# exit building when multiple kernel versions are found
+	if [ "$PAE_ESISTS" -eq "1" ]; then
+       	echo "Multiple kernel versions detected, exiting!"
+		exit false
+	fi
 
-kernelVersions=$(ls /lib/modules)
-
-for k in $(ls /boot | grep initrd.img) ; do
-        echo $k
-        keepIt=0
-        for j in $kernelVersions ; do
-                if [ "$k" = "initrd.img-$j" ] ; then
-			echo "Found modules ($j), keeping..."
-                        keepIt=1
-                fi
-        done
-        if [ ! "$keepIt" = "1" ] ; then
-		echo "Removing orphan ($j) ..."
-                rm /boot/$k
-        fi
-done
-
+	# exit building when multiple no-pae kernel versions are found
+	COUNT=`ls -1 -d /lib/modules/*-generic | wc -l`
+	if [ "$COUNT" -ne "1" ]; then
+        	echo "Different no-pae kernel versions detected, exiting!"
+		exit false
+	fi
+fi
