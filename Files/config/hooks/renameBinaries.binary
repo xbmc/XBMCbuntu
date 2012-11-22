@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 #      Copyright (C) 2005-2012 Team XBMC
 #      http://www.xbmc.org
@@ -22,20 +22,39 @@ echo ""
 echo "Rename binaries..."
 echo ""
 
-if [ -f binary/casper/initrd.img-*-generic ]; then
-	mv binary/casper/initrd.img-*-generic binary/casper/initrd-generic.lz
-fi
+# Temporary fixup for bug #556653
+# see https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers/+bug/556653
 
-if [ -f binary/casper/initrd.img-*-generic-pae ]; then
-	mv binary/casper/initrd.img-*-generic-pae binary/casper/initrd.lz
-fi
+for k in $(ls binary/casper | grep initrd.img) ; do
+    echo $k
 
-if [ -f binary/casper/vmlinuz-*-generic ]; then
-	mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz-generic
-fi
+    kernelVersion=${k//initrd.img-/}
 
-if [ -f binary/casper/vmlinuz-*-generic-pae ]; then
- 	mv binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz
+    if ls binary/casper/vmlinuz-$kernelVersion > /dev/null ; then
+        echo "Found kernel ($j), keeping..."
+    else
+        echo "Removing orphan ($k) ..."
+        rm binary/casper/$k
+    fi
+done
+
+
+#
+# if there is a pae kernel, let's give it priority
+#
+if ls binary/casper/initrd.img-*-generic-pae > /dev/null ; then
+        mv binary/casper/initrd.img-*-generic-pae binary/casper/initrd.lz
+        mv binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz
+
+        if  ls binary/casper/initrd.img-*-generic > /dev/null ; then
+                mv binary/casper/initrd.img-*-generic binary/casper/initrd-generic.lz
+                mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz-generic
+        fi
+else
+        if  ls binary/casper/initrd.img-*-generic > /dev/null ; then
+                mv binary/casper/initrd.img-*-generic binary/casper/initrd.lz
+                mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz
+        fi
 fi
 
 exit 0
