@@ -41,12 +41,13 @@ fi
 GPUTYPE="INTEL"
 
 GPU=$(lspci -nn | grep 0300)
+
 # 10de == NVIDIA
-if [ "$(echo $GPU | grep 10de)" ]; then
+if test "${GPU#*10de}" != "$GPU" ; then
         GPUTYPE="NVIDIA"
 else
         # 1002 == AMD
-        if [ "$(echo $GPU | grep 1002)" ]; then
+        if test "${GPU#*1002}" != "$GPU" ; then
                 GPUTYPE="AMD"
         fi
 fi
@@ -55,6 +56,7 @@ fi
 echo "--Debug info--" > /tmp/debugInfo.txt
 echo "--cmdline" >> /tmp/debugInfo.txt
 cat /proc/cmdline  >> /tmp/debugInfo.txt
+echo "--GPU (lspci): $GPU" >> /tmp/debugInfo.txt
 echo "--GPU type: $GPUTYPE" >> /tmp/debugInfo.txt
 
 if [ "$GPUTYPE" = "NVIDIA" ]; then
