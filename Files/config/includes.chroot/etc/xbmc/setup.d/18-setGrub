@@ -1,0 +1,6 @@
+!#/bin/sh
+
+echo "GRUB_GFXPAYLOAD_LINUX=keep" >> /etc/default/grub
+update_grub
+
+exit 0
