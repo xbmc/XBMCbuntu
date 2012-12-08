@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "Set grub defaults.."
+
+echo "GRUB_GFXPAYLOAD_LINUX=keep" >> /etc/default/grub
+
+exit 0
+
