@@ -21,6 +21,9 @@ xbmcbuntu-plymouth-theme
 # Required by YouTube addon
 python-pysqlite2
 
+# Required by network-manager addon
+python-dbus
+
 # Required by wunderground
 python-simplejson
 
