@@ -1,2 +1,2 @@
 deb http://ppa.launchpad.net/team-xbmc/unstable/ubuntu quantal main 
-
+deb-src http://ppa.launchpad.net/team-xbmc/unstable/ubuntu quantal main
