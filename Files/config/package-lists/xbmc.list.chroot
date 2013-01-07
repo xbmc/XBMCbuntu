@@ -36,3 +36,5 @@ libbluray1 libaacs0
 # Required for Intel
 libva1
 
+# CEC adaptor
+libcec2
