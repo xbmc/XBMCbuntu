@@ -38,3 +38,8 @@ libva1
 
 # CEC adaptor
 libcec2
+
+# 
+xbmc-pvr-demo 
+xbmc-pvr-tvheadend-hts 
+
