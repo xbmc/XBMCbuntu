@@ -33,3 +33,6 @@ libnfs1
 #afpfs-ng libmpeg2-4 
 libbluray1 libaacs0
 
+# Required for Intel
+libva1
+
