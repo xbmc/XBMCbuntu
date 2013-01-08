@@ -31,7 +31,7 @@ while true
 do
 	case $1 in
 	-n|--nvidia-only)
-		echo "Enable option: NVIDIA support only"
+		echo "Enable option: Intel-NVIDIA support only"
 		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-nvidiaOnly.sh"
 		shift
 		;;
