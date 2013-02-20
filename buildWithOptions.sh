@@ -24,14 +24,14 @@ SDK_BUILDHOOKS=""
 
 # getopt-parse.bash
 
-TEMP=$(getopt -o anp:ulkgih:xPNiemX --long amd-only,nvidia-only,proxy:,usb-image,live-only,keep-workarea,grub2,intel-only,hook:,x-swat,proposed,newestlivebuild,interactive,ext2fs,minimal,x86_64 -- "$@")
+TEMP=$(getopt -o anp:ulkgih:xPNiem --long amd-only,nvidia-only,proxy:,usb-image,live-only,keep-workarea,grub2,intel-only,hook:,x-swat,proposed,newestlivebuild,interactive,ext2fs,minimal -- "$@")
 eval set -- "$TEMP"
 
 while true
 do
 	case $1 in
 	-n|--nvidia-only)
-		echo "Enable option: NVIDIA support only"
+		echo "Enable option: Intel-NVIDIA support only"
 		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-nvidiaOnly.sh"
 		shift
 		;;

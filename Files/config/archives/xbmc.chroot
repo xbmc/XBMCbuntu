@@ -1,1 +1,2 @@
-deb http://ppa.launchpad.net/team-xbmc/unstable/ubuntu precise main 
+deb http://ppa.launchpad.net/team-xbmc/ppa/ubuntu quantal main 
+deb-src http://ppa.launchpad.net/team-xbmc/ppa/ubuntu quantal main

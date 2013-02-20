@@ -33,3 +33,13 @@ libnfs1
 #afpfs-ng libmpeg2-4 
 libbluray1 libaacs0
 
+# Required for Intel
+libva1
+
+# CEC adaptor
+libcec2
+
+# 
+xbmc-pvr-demo 
+xbmc-pvr-tvheadend-hts 
+
