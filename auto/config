@@ -6,7 +6,7 @@ rm -rf config
 OPTS=
 # BINARY_IMAGES=none
 BINARY_IMAGES=iso-hybrid
-SYSLINUX_THEME=xbmcbuntu-precise
+SYSLINUX_THEME=xbmcbuntu-quantal
 
 
 if [ -n "$APT_HTTP_PROXY" ]; then
@@ -31,7 +31,7 @@ fi
 
 lb config noauto \
 	--mode ubuntu \
-	--distribution precise \
+	--distribution quantal \
 	--architecture $ARCH \
 	--parent-archive-areas "main restricted universe multiverse" \
 	--binary-images "$BINARY_IMAGES" \
@@ -54,8 +54,8 @@ lb config noauto \
 #workaround for Bug#622838 syslinux-live and hdd images
 if [ "$BINARY_IMAGES" = "hdd" ] ; then
         THISDIR=$(pwd)
-        mkdir -p Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-precise/isolinux-live
-        cd Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-precise/
+        mkdir -p Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-quantal/isolinux-live
+        cd Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-quantal/
         ln -s isolinux-live syslinux-live
         cd isolinux-live
         ln -s isolinux.cfg syslinux.cfg
