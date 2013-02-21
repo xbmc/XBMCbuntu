@@ -71,7 +71,7 @@ if [ "$GPUTYPE" = "NVIDIA" ]; then
 	ldconfig
 
 	# run nvidia-xconfig
-	/usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --flatpanel-properties="Scaling = Native" --force-generate
+	/usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --force-generate
 
 	if [ "$xbmcParams" != "${xbmcParams%setdpi*}" ] ; then
 		echo "--set DPI" >> /tmp/debugInfo.txt
