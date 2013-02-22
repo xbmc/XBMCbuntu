@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 8)
 Standards-Version: 3.9.2
 
 Package: syslinux-themes-xbmcbuntu
-Architecture: amd64 i386
+Architecture: all
 Depends: ${misc:Depends}, syslinux-themes-xbmcbuntu-quantal
 Description: collection of boot loaders (theme metapackage)
  SYSLINUX is a collection of boot loaders which operates off Linux ext2/3/4 or
@@ -17,7 +17,7 @@ Description: collection of boot loaders (theme metapackage)
  for the matching XBMCbuntu release.
 
 Package: syslinux-themes-xbmcbuntu-quantal
-Architecture: amd64 i386
+Architecture: all
 Depends: ${misc:Depends}, memtest86+, syslinux-common
 Enhances: extlinux
 Provides: syslinux-theme
