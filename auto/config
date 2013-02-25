@@ -26,6 +26,7 @@ fi
 
 if [ -z "$ARCH" ]; then
 	ARCH="i386"
+	echo "building for architecture: $ARCH"
 fi
 #	--debootstrap-options "--keyring=ubuntu-keyring" \
 

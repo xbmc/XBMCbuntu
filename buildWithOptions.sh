@@ -24,7 +24,7 @@ SDK_BUILDHOOKS=""
 
 # getopt-parse.bash
 
-TEMP=$(getopt -o anp:ulkgih:xPNiem --long amd-only,nvidia-only,proxy:,usb-image,live-only,keep-workarea,grub2,intel-only,hook:,x-swat,proposed,newestlivebuild,interactive,ext2fs,minimal -- "$@")
+TEMP=$(getopt -o anp:ulkgih:xPNiemX --long amd-only,nvidia-only,proxy:,usb-image,live-only,keep-workarea,grub2,intel-only,hook:,x-swat,proposed,newestlivebuild,interactive,ext2fs,minimal,x86_64 -- "$@")
 eval set -- "$TEMP"
 
 while true
@@ -95,7 +95,7 @@ do
 		shift
 		;;
 	-X|--x86_64)
-                echo "Enable option: minimal build (required packages only)"
+                echo "Enable option: 64bit build"
                 export ARCH="amd64"
                 shift
                 ;;
