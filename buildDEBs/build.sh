@@ -22,43 +22,13 @@ echo "-------------------------------"
 echo "Building auxiliary packages ..."
 echo "-------------------------------"
 
-if ! ls $WORKPATH/buildDEBs/xbmcbuntu-artwork_* > /dev/null 2>&1; then
-	cd $WORKPATH/buildDEBs/xbmcbuntu-artwork
+if ! ls $WORKPATH/buildDEBs/xbmcbuntu-initscripts_* > /dev/null 2>&1; then
+	cd $WORKPATH/buildDEBs/xbmcbuntu-initscripts
 	dpkg-buildpackage -rfakeroot -b -uc -us
         if [ "$?" -ne "0" ]; then
                 exit 1
         fi
 fi
 
-if ! ls $WORKPATH/buildDEBs/syslinux-themes-xbmcbuntu_* > /dev/null 2>&1; then
-	cd $WORKPATH/buildDEBs/syslinux-themes-xbmcbuntu
-	dpkg-buildpackage -rfakeroot -b -uc -us
-        if [ "$?" -ne "0" ]; then
-                exit 1
-        fi
-fi
-
-if ! ls $WORKPATH/buildDEBs/ubiquity-slideshow-xbmcbuntu_* > /dev/null 2>&1; then
-        cd $WORKPATH/buildDEBs/ubiquity-slideshow-xbmcbuntu
-        dpkg-buildpackage -rfakeroot -b -uc -us # ubiquity
-        if [ "$?" -ne "0" ]; then
-                exit 1
-        fi
-fi
-
-if ! ls $WORKPATH/buildDEBs/xbmcbuntu-default-settings_* > /dev/null 2>&1; then
-        cd $WORKPATH/buildDEBs/xbmcbuntu-default-settings
-        dpkg-buildpackage -rfakeroot -b -uc -us
-        if [ "$?" -ne "0" ]; then
-                exit 1
-        fi
-fi
-
-if ! ls $WORKPATH/buildDEBs/xbmcbuntu-core_* > /dev/null 2>&1; then
-        cd $WORKPATH/buildDEBs/xbmcbuntu-meta
-        dpkg-buildpackage -rfakeroot -b -uc -us
-        if [ "$?" -ne "0" ]; then
-                exit 1
-        fi
-fi
+exit 0
 
