@@ -142,23 +142,22 @@ if [ -n "$SDK_BUILDHOOKS" ]; then
 fi
 
 #
-# Build needed packages
+# Build needed packages (if needed)
 #
-# disabled, because packages are on PPA
-#if [ -f $WORKPATH/buildDEBs/build.sh ]; then
-#	echo ""
-#	echo "------------------------"
-#	echo "Build needed packages..."
-#	echo "------------------------"
-#	echo ""
-#
-#	cd $WORKPATH/buildDEBs
-#	./build.sh
-#	if [ "$?" -ne "0" ]; then
-#		exit 1
-#	fi
-#	cd $THISDIR
-#fi
+if [ -f $WORKPATH/buildDEBs/build.sh ]; then
+	echo ""
+	echo "------------------------"
+	echo "Build needed packages..."
+	echo "------------------------"
+	echo ""
+
+	cd $WORKPATH/buildDEBs
+	./build.sh
+	if [ "$?" -ne "0" ]; then
+		exit 1
+	fi
+	cd $THISDIR
+fi
 
 cd $WORKPATH
 
