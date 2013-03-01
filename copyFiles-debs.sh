@@ -24,15 +24,4 @@ echo "------------------------------"
 
 mkdir -p $WORKPATH/Files/config/packages.chroot &> /dev/null
 
-cp $WORKPATH/buildDEBs/xbmcbuntu-artwork*.deb $WORKPATH/Files/config/packages.chroot
-cp $WORKPATH/buildDEBs/xbmcbuntu-icon-theme*.deb $WORKPATH/Files/config/packages.chroot
-cp $WORKPATH/buildDEBs/xbmcbuntu-plymouth-theme_* $WORKPATH/Files/config/packages.chroot
-cp $WORKPATH/buildDEBs/plymouth-theme-xbmcbuntu-* $WORKPATH/Files/config/packages.chroot
-
-cp $WORKPATH/buildDEBs/syslinux-themes-xbmcbuntu-quantal*.deb $WORKPATH/Files/config/packages.chroot
-
-cp $WORKPATH/buildDEBs/ubiquity-slideshow-xbmcbuntu*.deb $WORKPATH/Files/config/packages.chroot
-
-cp $WORKPATH/buildDEBs/xbmcbuntu-default-settings*.deb $WORKPATH/Files/config/packages.chroot
-
-cp $WORKPATH/buildDEBs/xbmcbuntu-core*.deb $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/xbmcbuntu-initscripts_*.deb $WORKPATH/Files/config/packages.chroot
