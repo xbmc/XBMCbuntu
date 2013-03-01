@@ -25,7 +25,7 @@ echo "--------------------------"
 repoURL="http://mirrors.xbmc.org/addons/frodo/"
 ADDONSLIST=(script.rss.editor script.xbmc.audio.mixer)
 
-mkdir -p $WORKPATH/Files/config/includes.chroot/etc/skel/.xbmc/addons &> /dev/null
+mkdir -p $WORKPATH/configFiles/includes.chroot/etc/skel/.xbmc/addons &> /dev/null
 
 cd $WORKPATH
 
@@ -42,5 +42,5 @@ for k in "${ADDONSLIST[@]}" ; do
 		    exit 1
 	    fi
 	fi
-	unzip -q $latestPackage -d $WORKPATH/Files/config/includes.chroot/etc/skel/.xbmc/addons
+	unzip -q $latestPackage -d $WORKPATH/configFiles/includes.chroot/etc/skel/.xbmc/addons
 done

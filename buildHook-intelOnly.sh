@@ -18,6 +18,6 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-rm $WORKPATH/Files/config/package-lists/amd.list.chroot
-rm $WORKPATH/Files/config/package-lists/nvidia.list.chroot
-rm $WORKPATH/Files/config/package-lists/chd.list.chroot
+rm $WORKPATH/configFiles/package-lists/amd.list.chroot
+rm $WORKPATH/configFiles/package-lists/nvidia.list.chroot
+rm $WORKPATH/configFiles/package-lists/chd.list.chroot

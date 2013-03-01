@@ -22,6 +22,6 @@ echo "------------------------------"
 echo "Copying auxiliary packages ..."
 echo "------------------------------"
 
-mkdir -p $WORKPATH/Files/config/packages.chroot &> /dev/null
+mkdir -p $WORKPATH/configFiles/packages.chroot &> /dev/null
 
-cp $WORKPATH/buildDEBs/xbmcbuntu-initscripts_*.deb $WORKPATH/Files/config/packages.chroot
+cp $WORKPATH/buildDEBs/xbmcbuntu-initscripts_*.deb $WORKPATH/configFiles/packages.chroot

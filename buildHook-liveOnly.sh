@@ -19,6 +19,6 @@
 #  http://www.gnu.org/copyleft/gpl.html
 
 
-rm $WORKPATH/Files/config/package-lists/installer.list.chroot
+rm $WORKPATH/configFiles/package-lists/installer.list.chroot
 sed -i '/ubiquity/d' $WORKPATH/copyFiles-debs.sh
 sed -i '/ubiquity/d' $WORKPATH/buildDEBs/build.sh

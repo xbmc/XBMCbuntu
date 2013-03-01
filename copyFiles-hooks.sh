@@ -29,17 +29,17 @@ HOOKS=(
 009-remove-apt-sources-lists.chroot
 )
 
-mkdir -p $WORKPATH/Files/config/hooks &> /dev/null
+mkdir -p $WORKPATH/configFiles/hooks &> /dev/null
 
 for HOOKFILE in ${HOOKS[*]}
 do
 	if [ -f $LIVE_BUILD/share/hooks/$HOOKFILE ]
 	then
-		echo "copying $LIVE_BUILD/share/hooks/$HOOKFILE to $WORKPATH/Files/config/hooks"
-		cp $LIVE_BUILD/share/hooks/$HOOKFILE $WORKPATH/Files/config/hooks
+		echo "copying $LIVE_BUILD/share/hooks/$HOOKFILE to $WORKPATH/configFiles/hooks"
+		cp $LIVE_BUILD/share/hooks/$HOOKFILE $WORKPATH/configFiles/hooks
 	else
-		echo "copying /usr/share/live/build/hooks/$HOOKFILE to $WORKPATH/Files/config/hooks"
-		cp /usr/share/live/build/hooks/$HOOKFILE $WORKPATH/Files/config/hooks
+		echo "copying /usr/share/live/build/hooks/$HOOKFILE to $WORKPATH/configFiles/hooks"
+		cp /usr/share/live/build/hooks/$HOOKFILE $WORKPATH/configFiles/hooks
 	fi
 done
 exit 0
