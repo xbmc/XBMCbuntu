@@ -24,4 +24,6 @@ echo "------------------------------"
 
 mkdir -p $WORKPATH/configFiles/packages.chroot &> /dev/null
 
-cp $WORKPATH/buildDEBs/xbmcbuntu-initscripts_*.deb $WORKPATH/configFiles/packages.chroot
+
+exit 0
+
