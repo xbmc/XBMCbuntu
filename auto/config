@@ -6,7 +6,7 @@ rm -rf config
 OPTS=
 # BINARY_IMAGES=none
 BINARY_IMAGES=iso-hybrid
-SYSLINUX_THEME=xbmcbuntu-quantal
+SYSLINUX_THEME=xbmcbuntu
 
 
 if [ -n "$APT_HTTP_PROXY" ]; then
