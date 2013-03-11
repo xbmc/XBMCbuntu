@@ -23,11 +23,20 @@ echo "Copying chroot build hooks ..."
 echo "------------------------------"
 
 HOOKS=(
-006-remove-openssh-server-host-keys.chroot
-007-remove-python-py.chroot
-008-remove-udev-persistent-rules.chroot
-009-remove-apt-sources-lists.chroot
+0100-remove-adjtime-configuration.chroot
+0110-remove-backup-files.chroot
+0120-remove-dbus-machine-id.chroot
+0140-remove-log-files.chroot
+0160-remove-openssh-server-host-keys.chroot
+0170-remove-python-py.chroot
+0190-remove-temporary-files.chroot
+0200-remove-udev-persistent-rules.chroot
+0300-update-apt-file-cache.chroot
+0330-update-mlocate-database.chroot
+0910-remove-apt-sources-lists.chroot
 )
+
+
 
 mkdir -p $WORKPATH/configFiles/hooks &> /dev/null
 
@@ -35,12 +44,13 @@ for HOOKFILE in ${HOOKS[*]}
 do
 	if [ -f $LIVE_BUILD/share/hooks/$HOOKFILE ]
 	then
-		echo "copying $LIVE_BUILD/share/hooks/$HOOKFILE to $WORKPATH/configFiles/hooks"
+		# echo "copying $LIVE_BUILD/share/hooks/$HOOKFILE to $WORKPATH/configFiles/hooks"
 		cp $LIVE_BUILD/share/hooks/$HOOKFILE $WORKPATH/configFiles/hooks
 	else
-		echo "copying /usr/share/live/build/hooks/$HOOKFILE to $WORKPATH/configFiles/hooks"
+		# echo "copying /usr/share/live/build/hooks/$HOOKFILE to $WORKPATH/configFiles/hooks"
 		cp /usr/share/live/build/hooks/$HOOKFILE $WORKPATH/configFiles/hooks
 	fi
 done
 exit 0
+
 

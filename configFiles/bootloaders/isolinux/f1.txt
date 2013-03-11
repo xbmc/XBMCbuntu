@@ -1,6 +1,6 @@
                   0fWelcome to XBMCbuntu!07                                       09F107
 
-This is an installation system for XBMCbuntu 11.10.
+This is an installation system for XBMCbuntu 12.10.
 
 
 0fHELP INDEX07

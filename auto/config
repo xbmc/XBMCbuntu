@@ -8,7 +8,6 @@ OPTS=
 BINARY_IMAGES=iso-hybrid
 SYSLINUX_THEME=xbmcbuntu
 
-
 if [ -n "$APT_HTTP_PROXY" ]; then
 	OPTS="${OPTS:+$OPTS }--apt-http-proxy $APT_HTTP_PROXY"
 fi
@@ -37,7 +36,6 @@ lb config noauto \
 	--parent-archive-areas "main restricted universe multiverse" \
 	--binary-images "$BINARY_IMAGES" \
 	--bootloader syslinux \
-	--syslinux-theme "${SYSLINUX_THEME}" \
 	--memtest none \
 	--source false \
 	--firmware-chroot false \
@@ -50,7 +48,9 @@ lb config noauto \
 	--iso-volume XBMCbuntu \
 	--iso-publisher http://xbmc.org \
 	--checksums none \
+	--build-with-chroot true \
 	$OPTS
+
 
 #workaround for Bug#622838 syslinux-live and hdd images
 if [ "$BINARY_IMAGES" = "hdd" ] ; then
@@ -64,4 +64,4 @@ if [ "$BINARY_IMAGES" = "hdd" ] ; then
 fi
 
 # Copy additional config files to config tree
-cp -R Files/config/* config
+cp -R configFiles/* config

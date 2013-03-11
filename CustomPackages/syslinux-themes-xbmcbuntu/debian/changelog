@@ -1,8 +1,0 @@
-syslinux-themes-xbmcbuntu (1.0.1) quantal; urgency=low
-
-  [ wsnipex ]
-  * make package arch independent
-
-  * Initial release, based in part on syslinux-themes-debian 9-1.
-
- -- wsnipex <wsnipex@a1.net>  Fri, 22 Feb 2013 20:50:19 +0100
