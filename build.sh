@@ -89,14 +89,14 @@ echo "Creating new workarea..."
 rsync -r -l --exclude=.git --exclude=$WORKDIR . $WORKDIR
 
 if ! which lb > /dev/null ; then
-	if [ ! -d $WORKPATH/local ]; then 
+	if [ ! -d $WORKPATH/local ]; then
 		mkdir $WORKPATH/local
 	fi
 	cd $WORKPATH/local
 	if [ ! -d live-build ]; then
-		repoURL="http://live.debian.net/archive/packages/live-build/orig/"
+		repoURL="https://live.debian.net/files/current/packages/live-build/orig/"
 		if [ -z "$SDK_USELATESTLIVEBUILD" ]; then
-		    latestPackage="live-build_3.0~a61.orig.tar.xz"
+		    latestPackage="live-build_3.0~a69.orig.tar.xz"
 		else
 		    latestPackage=$(curl -x "" -s -f $repoURL | grep live-build | tail -1 | grep -o '"live-build_[^"]*.tar..z"' | sed -e "s/\"//g")
 		fi
@@ -105,7 +105,7 @@ if ! which lb > /dev/null ; then
 			echo "Retrieving live-build tarball..."
 			echo " -  Latest package: $latestPackage"
 
-			wget -q "$repoURL$latestPackage"
+			wget -q "$repoURL$latestPackage" --no-check-certificate
 			if [ "$?" -ne "0" ] || [ ! -f $latestPackage ] ; then
 				echo "Needed package ($latestPackage) not found, exiting..."
 				exit 1
