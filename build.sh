@@ -94,7 +94,7 @@ if ! which lb > /dev/null ; then
 	fi
 	cd $WORKPATH/local
 	if [ ! -d live-build ]; then
-		repoURL="http://live.debian.net/files/3.x/packages/live-build/orig/"
+		repoURL="http://live.debian.net/files/current/packages/live-build/orig/"
 		if [ -z "$SDK_USELATESTLIVEBUILD" ]; then
 		    latestPackage="live-build_3.0.2.orig.tar.xz"
 		else
