@@ -24,11 +24,7 @@ echo "------------------------------"
 
 cd $WORKPATH/local
 
-echo before:
-cat live-build/scripts/build/binary_syslinux | grep "rm -rf chroot"
 sed -i -e "s/rm -rf chroot/rm -rf chroot\/root/" live-build/scripts/build/binary_syslinux
-echo after:
-cat live-build/scripts/build/binary_syslinux | grep "rm -rf chroot"
 
 exit 0
 
