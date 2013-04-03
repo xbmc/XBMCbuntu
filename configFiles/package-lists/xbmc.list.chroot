@@ -6,7 +6,7 @@ plymouth-X11
 lightdm lightdm-gtk-greeter
 
 #
-xbmcbuntu-core 
+xbmcbuntu-core xbmcbuntu-initscripts xbmcbuntu-default-settings xbmcbuntu-artwork ubiquity-slideshow-xbmcbuntu
 policykit-desktop-privileges
 
 network-manager
@@ -42,4 +42,3 @@ libcec2
 # 
 xbmc-pvr-demo 
 xbmc-pvr-tvheadend-hts 
-
