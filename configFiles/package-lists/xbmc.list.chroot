@@ -27,6 +27,9 @@ python-dbus
 # Required by wunderground
 python-simplejson
 
+# not strictly required, but highly recommended for service.xbmc.versioncheck
+python-aptdaemon
+
 # Temporary add libs till correct dependencies has been set
 libnfs1 
 #libmad0 libshairport1 
