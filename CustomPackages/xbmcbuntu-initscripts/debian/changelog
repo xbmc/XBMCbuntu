@@ -1,5 +1,9 @@
-xbmcbuntu-initscripts (0.1.0) quantal; urgency=low
+xbmcbuntu-initscripts (0.1.1) quantal; urgency=low
 
+  [ wsnipex ]
+  * fix init scripts
+
+  [ Luigi Capriotti ]
   * Initial release.
 
- -- Luigi Capriotti <l.capriotti@xbmc.org>  Tue, 28 Feb 2013 18:00:26 +0100
+ -- wsnipex <wsnipex@a1.net>  Thu, 04 Apr 2013 09:37:13 +0200
