@@ -6,7 +6,7 @@ function polkitfile {
 cat <<EOF
 [Actions for %xbmcuser% user]
 Identity=unix-user:%xbmcuser%
-Action=org.freedesktop.upower.*;org.freedesktop.consolekit.system.*;org.freedesktop.udisks.*
+Action=org.freedesktop.upower.*;org.freedesktop.consolekit.system.*;org.freedesktop.udisks.*;org.debian.apt.upgrade-packages;org.debian.apt.update-cache
 ResultAny=yes
 ResultInactive=yes
 ResultActive=yes
