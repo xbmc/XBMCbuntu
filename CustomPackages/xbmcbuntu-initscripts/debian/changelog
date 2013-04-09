@@ -1,4 +1,7 @@
-xbmcbuntu-initscripts (0.1.1) quantal; urgency=low
+xbmcbuntu-initscripts (0.1.2) quantal; urgency=low
+
+  [ Luigi Capriotti]
+  * add automatic updates support
 
   [ wsnipex ]
   * fix init scripts
@@ -6,4 +9,4 @@ xbmcbuntu-initscripts (0.1.1) quantal; urgency=low
   [ Luigi Capriotti ]
   * Initial release.
 
- -- wsnipex <wsnipex@a1.net>  Thu, 04 Apr 2013 09:37:13 +0200
+ -- Luigi Capriotti <l.capriotti@xbmc.org>  Tue, 09 Apr 2013 11:20:13 +0200
