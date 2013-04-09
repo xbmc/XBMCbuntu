@@ -23,7 +23,7 @@ echo "Retrieving addons...      "
 echo "--------------------------"
 
 repoURL="http://mirrors.xbmc.org/addons/frodo/"
-ADDONSLIST=(script.rss.editor script.xbmc.audio.mixer script.xbmc.debug.log)
+ADDONSLIST=(script.rss.editor script.xbmc.audio.mixer script.xbmc.debug.log service.xbmc.versioncheck)
 
 mkdir -p $WORKPATH/configFiles/includes.chroot/etc/skel/.xbmc/addons &> /dev/null
 
