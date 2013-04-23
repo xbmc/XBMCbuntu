@@ -1,2 +1,2 @@
-deb http://ppa.launchpad.net/adamsutton/tvheadend/ubuntu quantal main 
-deb-src http://ppa.launchpad.net/adamsutton/tvheadend/ubuntu quantal main
+deb http://apt.tvheadend.org/stable quantal main 
+deb-src http://apt.tvheadend.org/stable quantal main
