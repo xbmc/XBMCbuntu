@@ -94,11 +94,11 @@ if ! which lb > /dev/null ; then
 	fi
 	cd $WORKPATH/local
 	if [ ! -d live-build ]; then
-		repoURL="http://live.debian.net/files/current/packages/live-build/orig/"
+		repoURL="http://live.debian.net/files/stable/packages/live-build/orig/"
 		if [ -z "$SDK_USELATESTLIVEBUILD" ]; then
-		    latestPackage="live-build_3.0.1.orig.tar.xz"
+		    latestPackage="live-build_3.0.5.orig.tar.xz"
 		else
-		    latestPackage=$(curl -x "" -s -f $repoURL | grep live-build | tail -1 | grep -o '"live-build_[^"]*.tar..z"' | sed -e "s/\"//g")
+		    latestPackage=$(curl -x "" -s -f $repoURL | grep live-build | grep xz | grep -v "~" | tail -1 | grep -o '"live-build_[^"]*.tar..z"' | sed -e "s/\"//g")
 		fi
 
 		if ! ls $latestPackage > /dev/null 2>&1 ; then
