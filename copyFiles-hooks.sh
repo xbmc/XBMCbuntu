@@ -33,7 +33,6 @@ HOOKS=(
 0200-remove-udev-persistent-rules.chroot
 0300-update-apt-file-cache.chroot
 0330-update-mlocate-database.chroot
-0910-remove-apt-sources-lists.chroot
 )
 
 
