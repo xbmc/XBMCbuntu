@@ -67,7 +67,9 @@ if [ "$GPUTYPE" = "NVIDIA" ]; then
 	echo "blacklist nvidia-96" > /etc/modprobe.d/blacklist-nvidia.conf
 	echo "alias nvidia nvidia-current" > /etc/modprobe.d/blacklist-nvidia.conf
 
-	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/nvidia-current/ld.so.conf
+	nvidiaGLConf=$(update-alternatives --list i386-linux-gnu_gl_conf | grep nvidia)
+	update-alternatives --set i386-linux-gnu_gl_conf $nvidiaGLConf
+
 	ldconfig
 
 	# run nvidia-xconfig

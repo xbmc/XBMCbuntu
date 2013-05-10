@@ -24,6 +24,29 @@ echo "------------------------------"
 
 mkdir -p $WORKPATH/configFiles/packages.chroot &> /dev/null
 
+cd $WORKPATH/CustomPackages
+
+cd ubiquity-slideshow-xbmcbuntu
+dpkg-buildpackage -rfakeroot
+cd ..
+
+cd xbmcbuntu-artwork
+dpkg-buildpackage -rfakeroot
+cd ..
+
+cd xbmcbuntu-default-settings
+dpkg-buildpackage -rfakeroot
+cd ..
+
+cd xbmcbuntu-initscripts
+dpkg-buildpackage -rfakeroot
+cd ..
+
+cd xbmcbuntu-meta
+dpkg-buildpackage -rfakeroot
+cd ..
+
+cp *.deb $WORKPATH/configFiles/packages.chroot 
 
 exit 0
 
