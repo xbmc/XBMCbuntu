@@ -1,3 +1,9 @@
+xbmcbuntu-default-settings (0.1.1~raring) raring; urgency=low
+
+  * fixed lxterm keyboard shortcut
+
+ -- wsnipex <wsnipex@xbmc.org>  Sun, 16 Jun 2013 10:53:30 +0200
+
 xbmcbuntu-default-settings (0.1.0) quantal raring; urgency=low
 
   * Initial release.
