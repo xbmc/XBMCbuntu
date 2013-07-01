@@ -1,6 +1,7 @@
 #!/bin/sh
 
 echo "GRUB_GFXPAYLOAD_LINUX=keep" >> /etc/default/grub 
+echo "GRUB_RECORDFAIL_TIMEOUT=0" >> /etc/default/grub
 update-grub
 
 exit 0
