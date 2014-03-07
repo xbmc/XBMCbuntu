@@ -18,7 +18,8 @@
 #  http://www.gnu.org/copyleft/gpl.html
 
 # Typically ran via
-# sudo ./buildWithOptions.sh -p http://127.0.0.1:3142
+# sudo ./buildWithOptions.sh -p http://127.0.0.1:3142 (apt-cacher-ng) 
+# sudo ./buildWithOptions.sh -p http://127.0.0.1:8000 (squid-deb-proxy) 
 
 echo
 echo "Checking availability of required packages..."
@@ -88,12 +89,24 @@ echo "Creating new workarea..."
 # cp all (except git directories) into workarea
 rsync -r -l --exclude=.git --exclude=$WORKDIR . $WORKDIR
 
-if ! which lb > /dev/null ; then
+if [ -z "$SDK_USELOCALLIVEBUILD" ] ; then
+	if ! which lb > /dev/null ; then
+		echo "package live-build not installed, forcing use of local copy"
+		export SDK_USELOCALLIVEBUILD=1
+	fi
+fi
+
+if [ -n "$SDK_USELOCALLIVEBUILD" ] ; then
 	if [ ! -d $WORKPATH/local ]; then
 		mkdir $WORKPATH/local
 	fi
 	cd $WORKPATH/local
 	if [ ! -d live-build ]; then
+		# Using Ubuntu fork:
+		#repoURL="http://archive.ubuntu.com/ubuntu/pool/main/l/live-build/"
+		#if [ -z "$SDK_USELATESTLIVEBUILD" ]; then
+	    #	latestPackage="live-build_3.0~a57.orig.tar.xz"
+
 		repoURL="http://live.debian.net/files/stable/packages/live-build/orig/"
 		if [ -z "$SDK_USELATESTLIVEBUILD" ]; then
 		    latestPackage="live-build_3.0.5.orig.tar.xz"
@@ -119,7 +132,7 @@ if ! which lb > /dev/null ; then
 	LB_HOMEDIR=$WORKPATH/local/live-build
 
 	export LIVE_BUILD="${LB_HOMEDIR}"
-	export PATH="${PATH}:${LIVE_BUILD}/bin"
+	export PATH="${LIVE_BUILD}/bin:${PATH}"
 
 	cd $THISDIR
 fi

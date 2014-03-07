@@ -24,22 +24,12 @@ SDK_BUILDHOOKS=""
 
 # getopt-parse.bash
 
-TEMP=$(getopt -o anp:ulkgih:xPNiemX --long amd-only,nvidia-only,proxy:,usb-image,live-only,keep-workarea,grub2,intel-only,hook:,x-swat,proposed,newestlivebuild,interactive,ext2fs,minimal,x86_64 -- "$@")
+TEMP=$(getopt -o ulkih:LNImXp: --long usb-image,live-only,keep-workarea,intel-only,hook:,locallivebuild,newestlivebuild,interactive,minimal,x86_64,proxy: -- "$@")
 eval set -- "$TEMP"
 
 while true
 do
 	case $1 in
-	-n|--nvidia-only)
-		echo "Enable option: Intel-NVIDIA support only"
-		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-nvidiaOnly.sh"
-		shift
-		;;
-	-a|--amd-only)
-		echo "Enable option: AMD support only"
-		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-amdOnly.sh"
-		shift
-		;;
 	-u|--usb-image)
 		echo "Enable option: Generate USBHDD disk image"
 		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-usbhddImage.sh"
@@ -55,11 +45,6 @@ do
 		export KEEP_WORKAREA=1
 		shift
 		;;
-	-g|--grub2)
-		echo "Enable option: Use grub2"
-		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-grub2.sh"
-		shift
-		;;
 	-i|--intel-only)
 		echo "Enable option: Intel support only"
 		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS ./buildHook-intelOnly.sh"
@@ -73,6 +58,11 @@ do
 		echo "Enable option: Custom hook $HOOKNAME"
 		export SDK_BUILDHOOKS="$SDK_BUILDHOOKS $HOOKNAME"
 		shift 2
+		;;
+	-L|--locallivebuild)
+		echo "Enable option: use local debian live_build files"
+		export SDK_USELOCALLIVEBUILD=1
+		shift
 		;;
 	-N|--newestlivebuild)
 		echo "Enable option: use latest debian live_build files"

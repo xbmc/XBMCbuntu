@@ -23,15 +23,12 @@ echo "Copying chroot build hooks ..."
 echo "------------------------------"
 
 HOOKS=(
-*-remove-backup-files.chroot
-*-remove-dbus-machine-id.chroot
-*-remove-log-files.chroot
-*-remove-openssh-server-host-keys.chroot
-*-remove-python-py.chroot
-*-remove-temporary-files.chroot
-*-remove-udev-persistent-rules.chroot
 *-update-apt-file-cache.chroot
 *-update-mlocate-database.chroot
+*-remove-dbus-machine-id.chroot
+*-remove-openssh-server-host-keys.chroot
+*-remove-python-py.chroot
+*-remove-udev-persistent-rules.chroot
 )
 
 mkdir -p $WORKPATH/configFiles/hooks &> /dev/null

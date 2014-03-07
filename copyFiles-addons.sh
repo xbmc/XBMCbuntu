@@ -32,15 +32,21 @@ cd $WORKPATH
 for k in "${ADDONSLIST[@]}" ; do
 	echo "   $k"
 
-	addonURL="$repoURL$k/"
+	addonPackage=$(ls $k*.zip 2> /dev/null)
+	if [ -n "$addonPackage" ]; then
+		latestPackage=$addonPackage
+	else
+		addonURL="$repoURL$k/"
 
-	latestPackage=$(curl -x "" -s -f $addonURL | grep -o "$k[^\"]*.zip" | sort -r -k2 -t_ -n | head -n 1)
-	if [ ! -f $latestPackage ]; then
-	    wget --no-proxy -q "$addonURL$latestPackage"
-	    if [ "$?" -ne "0" ] || [ ! -f $latestPackage ] ; then
-		    echo "Needed package ($k) not found, exiting..."
-		    exit 1
-	    fi
+		latestPackage=$(curl -x "" -s -f $addonURL | grep -o "$k[^\"]*.zip" | sort -r -k2 -t_ -n | head -n 1)
+		if [ ! -f $latestPackage ]; then
+			wget --no-proxy -q "$addonURL$latestPackage"
+			if [ "$?" -ne "0" ] || [ ! -f $latestPackage ] ; then
+				echo "Needed package ($k) not found, exiting..."
+				exit 1
+			fi
+		fi
 	fi
+
 	unzip -q $latestPackage -d $WORKPATH/configFiles/includes.chroot/etc/skel/.xbmc/addons
 done
