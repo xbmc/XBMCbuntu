@@ -25,7 +25,7 @@ update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld
 ldconfig
 
 # let's make plymouth happy
-echo "blacklist radeon" > /etc/modprobe.d/blacklist-amd.conf
+# echo "blacklist radeon" > /etc/modprobe.d/blacklist-amd.conf
 
 echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
 echo "blacklist lbm-nouveau" >> /etc/modprobe.d/blacklist-nvidia.conf
