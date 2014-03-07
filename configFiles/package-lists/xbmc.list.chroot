@@ -7,13 +7,12 @@ lightdm lightdm-gtk-greeter
 
 #
 xbmcbuntu-core xbmcbuntu-initscripts xbmcbuntu-default-settings xbmcbuntu-artwork ubiquity-slideshow-xbmcbuntu
-policykit-desktop-privileges
+policykit-desktop-privileges consolekit pm-utils
 
 network-manager
 
 # Generic: failsafe
-# xserver-xorg-video-vesa xserver-xorg-video-radeon xserver-xorg-video-ati xserver-xorg-video-nouveau
-xserver-xorg-video-vesa xserver-xorg-video-fbdev xserver-xorg-video-vmware xserver-xorg-video-intel
+xserver-xorg-video-ati xserver-xorg-video-intel xserver-xorg-video-vmware xserver-xorg-video-vesa
 
 xbmc
 xbmcbuntu-plymouth-theme
@@ -34,7 +33,7 @@ python-aptdaemon
 libnfs1 
 #libmad0 libshairport1 
 #afpfs-ng libmpeg2-4 
-libbluray1 libaacs0
+libbluray1 libaacs0 librtmp0
 
 # Required for Intel
 libva1
