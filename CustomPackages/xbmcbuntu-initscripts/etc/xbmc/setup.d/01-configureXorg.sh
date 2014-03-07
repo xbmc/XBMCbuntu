@@ -70,8 +70,6 @@ if [ "$GPUTYPE" = "NVIDIA" ]; then
 	nvidiaGLConf=$(update-alternatives --list i386-linux-gnu_gl_conf | grep nvidia)
 	update-alternatives --set i386-linux-gnu_gl_conf $nvidiaGLConf
 
-	ldconfig
-
 	# run nvidia-xconfig
 	/usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --force-generate
 
@@ -83,62 +81,7 @@ if [ "$GPUTYPE" = "NVIDIA" ]; then
 	sed -i -e 's%Section \"Screen\"%&\n    Option      \"HWCursor\" \"Off\"%' /etc/X11/xorg.conf
 fi
 
-if [ "$GPUTYPE" = "AMD" ]; then
-	# Try fglrx first
-	update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/fglrx/ld.so.conf
-	ldconfig
-
-	# run aticonfig
-	/usr/lib/fglrx/bin/aticonfig --initial --sync-vsync=on -f
-	/usr/lib/fglrx/bin/aticonfig --set-pcs-val=MCIL,DigitalHDTVDefaultUnderscan,0
-	/usr/lib/fglrx/bin/aticonfig --set-pcs-u32=MCIL,HWUVD_H264Level51Support,1
-	ATICONFIG_RETURN_CODE=$?
-
-	echo "LIBVA_DRIVERS_PATH=\"/usr/lib/va/drivers\"" >> /etc/environment
-	echo "LIBVA_DRIVER_NAME=\"xvba\"" >> /etc/environment
-
-	apt-get purge libvdpau1 -y >/dev/null 2>&1 &
-
-	if [ ! -f /home/$xbmcUser/.xbmc/userdata/guisettings.xml ] ; then
-		mkdir -p /home/$xbmcUser/.xbmc/userdata &> /dev/null
-		cat > /home/$xbmcUser/.xbmc/userdata/guisettings.xml << 'EOF'
-<settings>
-<videoplayer>
-<usevdpau>false</usevdpau>
-</videoplayer>
-</settings>
-EOF
-		chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
-	else
-		if grep -i -q usevdpau /home/$xbmcUser/.xbmc/userdata/guisettings.xml ; 	if [ "$xbmcParams" != "${xbmcParams%setdpi*}" ] ; then
-		echo "--set DPI" >> /tmp/debugInfo.txt
-		/usr/bin/nvidia-xconfig --no-use-edid-dpi # --mode-list="1024x768 800x600"
-		sed -i -e 's%Section \"Monitor\"%&\n    Option     \"DPI\" \"120 x 120\"%' /etc/X11/xorg.conf
-	fi
-then
-			sed -i 's#<usevdpau>.*#<usevdpau>false</usevdpau>#' /home/$xbmcUser/.xbmc/userdata/guisettings.xml
-			chown -R $xbmcUser:$xbmcUser /home/$xbmcUser/.xbmc >/dev/null 2>&1 &
-		fi
-	fi
-
-	if [ "$xbmcParams" != "${xbmcParams%setdpi*}" ] ; then
-		echo "--set DPI" >> /tmp/debugInfo.txt
-		sed -i -e 's%Section \"Monitor\"%&\n    Option     \"DPI\" \"120 x 120\"%' /etc/X11/xorg.conf
-	fi
-
-	if [ $ATICONFIG_RETURN_CODE -eq 255 ]; then
-		# aticonfig returns 255 on old unsuported ATI cards
-		# Let the X default ati driver handle the card
-
-		# revert to mesa
-		update-alternatives --set i386-linux-gnu_gl_conf /usr/lib/i386-linux-gnu/mesa/ld.so.conf
-
-		# TODO cleanup environment and guisettings
-		ldconfig
-
-		modprobe radeon # Required to permit KMS switching and support hardware GL
-	fi
-fi
+ldconfig
 
 # Debug
 if [ -f /etc/X11/xorg.conf ] ; then
