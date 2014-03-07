@@ -1,2 +1,2 @@
-deb http://apt.tvheadend.org/stable @DISTRIBUTION@ main 
-deb-src http://apt.tvheadend.org/stable @DISTRIBUTION@ main
+# deb http://apt.tvheadend.org/stable @DISTRIBUTION@ main 
+# deb-src http://apt.tvheadend.org/stable @DISTRIBUTION@ main
