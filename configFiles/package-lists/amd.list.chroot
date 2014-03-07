@@ -1,2 +1,2 @@
 # For AMD
-linux-firmware mesa-utils libmpeg2-4 libg3dvl-mesa vdpauinfo libvdpau1
+linux-firmware mesa-utils libmpeg2-4 libvdpau1-drivers-mesa vdpauinfo libvdpau1
