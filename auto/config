@@ -31,23 +31,17 @@ fi
 
 lb config noauto \
 	--mode ubuntu \
-	--distribution raring \
+	--distribution trusty \
 	--architecture $ARCH \
 	--parent-archive-areas "main restricted universe multiverse" \
 	--binary-images "$BINARY_IMAGES" \
 	--bootloader syslinux \
 	--memtest none \
 	--source false \
-	--firmware-chroot false \
-	--initsystem none \
-	--initramfs casper \
-	--initramfs-compression lzma \
 	--security true \
-	--binary-filesystem fat32 \
 	--iso-application XBMCbuntu \
 	--iso-volume XBMCbuntu \
 	--iso-publisher http://xbmc.org \
-	--checksums none \
 	--build-with-chroot true \
 	$OPTS
 
@@ -55,8 +49,8 @@ lb config noauto \
 #workaround for Bug#622838 syslinux-live and hdd images
 if [ "$BINARY_IMAGES" = "hdd" ] ; then
         THISDIR=$(pwd)
-        mkdir -p Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-raring/isolinux-live
-        cd Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-raring/
+        mkdir -p Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-trusty/isolinux-live
+        cd Files/config/includes.chroot/usr/share/syslinux/themes/ubuntu-trusty/
         ln -s isolinux-live syslinux-live
         cd isolinux-live
         ln -s isolinux.cfg syslinux.cfg

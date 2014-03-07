@@ -1,4 +1,4 @@
-xbmcbuntu-meta (0.1.0) quantal raring; urgency=low
+xbmcbuntu-meta (0.1.0~trusty) trusty; urgency=low
 
   * Initial release.
 

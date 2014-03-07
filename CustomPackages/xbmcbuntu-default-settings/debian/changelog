@@ -1,4 +1,4 @@
-xbmcbuntu-default-settings (0.1.1~raring) raring; urgency=low
+xbmcbuntu-default-settings (0.1.1~trusty) trusty; urgency=low
 
   * fixed lxterm keyboard shortcut
 
