@@ -30,7 +30,7 @@ for k in $(ls binary/casper | grep initrd.img) ; do
 
     kernelVersion=${k//initrd.img-/}
 
-    if ls binary/casper/vmlinuz-$kernelVersion > /dev/null ; then
+    if ls binary/casper/vmlinuz-$kernelVersion > /dev/null 2>&1 ; then
         echo "Found kernel ($j), keeping..."
     else
         echo "Removing orphan ($k) ..."
@@ -42,16 +42,16 @@ done
 #
 # if there is a pae kernel, let's give it priority
 #
-if ls binary/casper/initrd.img-*-generic-pae > /dev/null ; then
+if ls binary/casper/initrd.img-*-generic-pae > /dev/null 2>&1 ; then
         mv binary/casper/initrd.img-*-generic-pae binary/casper/initrd.lz
         mv binary/casper/vmlinuz-*-generic-pae binary/casper/vmlinuz
 
-        if  ls binary/casper/initrd.img-*-generic > /dev/null ; then
+        if  ls binary/casper/initrd.img-*-generic > /dev/null 2>&1 ; then
                 mv binary/casper/initrd.img-*-generic binary/casper/initrd-generic.lz
                 mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz-generic
         fi
 else
-        if  ls binary/casper/initrd.img-*-generic > /dev/null ; then
+        if  ls binary/casper/initrd.img-*-generic > /dev/null 2>&1 ; then
                 mv binary/casper/initrd.img-*-generic binary/casper/initrd.lz
                 mv binary/casper/vmlinuz-*-generic binary/casper/vmlinuz
         fi
