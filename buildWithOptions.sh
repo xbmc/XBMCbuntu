@@ -18,7 +18,6 @@
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
-# Using apt-cacher(-ng) to speed up apt-get downloads
 
 SDK_BUILDHOOKS=""
 
@@ -86,7 +85,7 @@ do
 		;;
 	-X|--x86_64)
                 echo "Enable option: 64bit build"
-                export ARCH="amd64"
+				export SDK_BUILDx86_64=1
                 shift
                 ;;
 	-p|--proxy)

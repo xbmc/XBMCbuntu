@@ -118,7 +118,7 @@ if [ -n "$SDK_USELOCALLIVEBUILD" ] ; then
 			echo "Retrieving live-build tarball..."
 			echo " -  Latest package: $latestPackage"
 
-			wget -q "$repoURL$latestPackage" --no-check-certificate
+			wget -q --no-proxy "$repoURL$latestPackage" --no-check-certificate
 			if [ "$?" -ne "0" ] || [ ! -f $latestPackage ] ; then
 				echo "Needed package ($latestPackage) not found, exiting..."
 				exit 1

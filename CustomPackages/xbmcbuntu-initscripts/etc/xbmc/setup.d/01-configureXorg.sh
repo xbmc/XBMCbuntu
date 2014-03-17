@@ -62,13 +62,15 @@ echo "--GPU type: $GPUTYPE" >> /tmp/debugInfo.txt
 if [ "$GPUTYPE" = "NVIDIA" ]; then
 	# blacklist non-proprietary nvidia drivers
 	echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
-	echo "blacklist lbm-nouveau" > /etc/modprobe.d/blacklist-nvidia.conf
-	echo "blacklist nvidia-173" > /etc/modprobe.d/blacklist-nvidia.conf
-	echo "blacklist nvidia-96" > /etc/modprobe.d/blacklist-nvidia.conf
-	echo "alias nvidia nvidia-current" > /etc/modprobe.d/blacklist-nvidia.conf
+	echo "blacklist lbm-nouveau" >> /etc/modprobe.d/blacklist-nvidia.conf
+	echo "blacklist nvidia-173" >> /etc/modprobe.d/blacklist-nvidia.conf
+	echo "blacklist nvidia-96" >> /etc/modprobe.d/blacklist-nvidia.conf
+	echo "alias nvidia nvidia-current" >> /etc/modprobe.d/blacklist-nvidia.conf
 
-	nvidiaGLConf=$(update-alternatives --list i386-linux-gnu_gl_conf | grep nvidia)
-	update-alternatives --set i386-linux-gnu_gl_conf $nvidiaGLConf
+	
+	nvidiaGLConf=$(update-alternatives --list $(uname -i)-linux-gnu_gl_conf | grep nvidia)
+	update-alternatives --set $(uname -i)-linux-gnu_gl_conf $nvidiaGLConf
+	ldconfig
 
 	# run nvidia-xconfig
 	/usr/bin/nvidia-xconfig -s --no-logo --no-composite --no-dynamic-twinview --force-generate

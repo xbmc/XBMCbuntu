@@ -23,16 +23,17 @@ if [ -n "$SDK_EXT2ROOTFS" ]; then
 	OPTS="${OPTS:+$OPTS } --chroot-filesystem ext2"
 fi
 
-if [ -z "$ARCH" ]; then
-	ARCH="i386"
-	echo "building for architecture: $ARCH"
+SDK_ARCH="i386"
+if [ -n "$SDK_BUILDx86_64" ]; then
+       SDK_ARCH="amd64"
 fi
+
 #	--debootstrap-options "--keyring=ubuntu-keyring" \
 
 lb config noauto \
 	--mode ubuntu \
 	--distribution trusty \
-	--architecture $ARCH \
+	--architecture $SDK_ARCH \
 	--parent-archive-areas "main restricted universe multiverse" \
 	--binary-images "$BINARY_IMAGES" \
 	--bootloader syslinux \
