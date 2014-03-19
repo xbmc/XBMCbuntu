@@ -1,0 +1,3 @@
+Package: pulseaudio
+Pin: version *
+Pin-Priority: -1
