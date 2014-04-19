@@ -37,6 +37,7 @@ libbluray1 libaacs0 librtmp0
 
 # Required for Intel
 libva1
+vainfo
 
 # CEC adaptor
 libcec2

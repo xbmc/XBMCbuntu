@@ -21,6 +21,7 @@ genext2fs
 upower
 udisks
 python-software-properties
+software-properties-common
 
 policykit-desktop-privileges
 
