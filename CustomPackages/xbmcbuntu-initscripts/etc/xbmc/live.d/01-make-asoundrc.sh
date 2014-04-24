@@ -22,35 +22,62 @@ homedir=/home/$xbmcuser
 [ -z $xbmcuser ] && homedir=$HOME
 GUISETTINGS=$homedir/.xbmc/userdata/guisettings.xml
 
-function create_asoundrc {
-  [ -f $homedir/.asoundrc ] && echo "Error: $homedir/.asoundrc exists, please remove it manually" && exit 1
+function get_device {
+  if [ -f $GUISETTINGS ]
+  then
+    DEVICE=$(grep "<audiodevice.*>.*</audiodevice>" $GUISETTINGS | sed -e 's/\(<audiodevice.*>\)\(.*\)\(<\/audiodevice>\)/\2/g' -e 's/[\t ]//g')
+  else
+    echo "Error: $GUISETTINGS not found"
+    exit 1
+  fi
+}
 
-  TEMP='
+function check_device {
+  if [ "${DEVICE:0:4}" = "ALSA" ] && [ "${DEVICE:5}" != "default" ]
+  then
+    DEVICE=${DEVICE:5}
+    [ "${DEVICE:0:1}" = "@" ] && DEVICE="plughw:${DEVICE:2}"
+  else
+    [ "${DEVICE:0:5}" = "PULSE" ] && echo "Info: you are running pulseaudio, you don't need an .asoundrc" && exit 0
+    echo "Error: no (or default) alsa device detected. found device: $DEVICE"
+    echo "Please configure a real alsa device in Xbmc -> System -> Settings -> System -> Audio Output"
+    exit 1
+  fi
+}
+
+function check_asoundrc {
+  [ -f $homedir/.asoundrc ] || return
+
+  local auto_update=$(grep "AUTOUPDATE=" $homedir/.asoundrc | sed 's/#[ ]*\(.*AUTOUPDATE=True\).*/\1/g')
+  if [ "${auto_update}" = "AUTOUPDATE=True" ]
+  then
+    local cur_device=$(grep slave.pcm $homedir/.asoundrc | sed 's/[ ].*slave.pcm "\(.*\)";/\1/g')
+    [ "${cur_device}" = "${DEVICE}" ] && echo "Info: correct device is already configured" && exit 0
+    echo "Info: $homedir/.asoundrc exists, but is marked "AUTOUPDATE=True", overwriting it"
+    [ -f $homedir/.asoundrc.old ] && mv $homedir/.asoundrc.old $homedir/.asoundrc.old.1
+    mv $homedir/.asoundrc $homedir/.asoundrc.old
+  else
+    echo "Error: $homedir/.asoundrc exists and "AUTOUPDATE=True" not found, not modifying it"
+    exit 1
+  fi
+}
+
+function create_asoundrc {
+  cat > $homedir/.asoundrc << EOF
+# --auto-generated-- by /etc/xbmc/live.d/01-make-asoundrc.sh
+# AUTOUPDATE=True  # change this to disable updating of this file
 pcm.!default {
   type plug;
-  slave.pcm "#DEVICE#";
+  slave.pcm "$DEVICE";
 }
-'
+EOF
 
-  echo $TEMP | sed "s/#DEVICE#/$DEVICE/" > $homedir/.asoundrc
   echo "Alsa config created in $homedir/.asoundrc with following content:"
   cat $homedir/.asoundrc
   [ "$(id -u)" = "0" ] && chown $xbmcuser:$xbmcuser $homedir/.asoundrc
 }
 
-if [ -f $GUISETTINGS ]
-then
-  DEVICE=$(grep "<audiodevice>.*</audiodevice>" $GUISETTINGS | sed -e 's/\(<audiodevice>\)\(.*\)\(<\/audiodevice>\)/\2/g' -e 's/[\t ]//g')
-else
-  echo "Error: $GUISETTINGS not found"
-  exit 1
-fi
-
-if [ "${DEVICE:0:4}" = "ALSA" ]
-then
-  DEVICE=${DEVICE:5}
-  create_asoundrc
-else
-  echo "Error: no alsa device detected. found device: $DEVICE"
-  exit 1
-fi
+get_device
+check_device
+check_asoundrc
+create_asoundrc
