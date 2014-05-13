@@ -2,7 +2,7 @@ samba
 lxrandr
 
 #
-# tvheadend
+tvheadend
 
 # FAQ packages
 chromium-browser synaptic flashplugin-installer ethtool nfs-common autofs

@@ -43,6 +43,6 @@ vainfo
 libcec2
 
 # 
-#xbmc-pvr-demo 
-#xbmc-pvr-tvheadend-hts 
+xbmc-pvr-demo 
+xbmc-pvr-tvheadend-hts 
 
