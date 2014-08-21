@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=KODIbuntu Logo
+Description=A theme that features a blank background with a KODI logo.
+ModuleName=script
+
+[script]
+ImageDir=/lib/plymouth/themes/kodibuntu-logo
+ScriptFile=/lib/plymouth/themes/kodibuntu-logo/kodibuntu-logo.script

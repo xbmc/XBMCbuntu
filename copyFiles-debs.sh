@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#      Copyright (C) 2005-2013 Team XBMC
-#      http://www.xbmc.org
+#      Copyright (C) 2005-2013 Team KODI
+#      http://www.kodi.tv
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with XBMC; see the file COPYING.  If not, write to
+#  along with KODI; see the file COPYING.  If not, write to
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
@@ -28,23 +28,23 @@ cd $WORKPATH/CustomPackages
 
 debFiles=$(ls *.deb 2> /dev/null)
 if [ -z "$debFiles" ]; then
-	cd ubiquity-slideshow-xbmcbuntu
+	cd ubiquity-slideshow-kodibuntu
 	dpkg-buildpackage -rfakeroot
 	cd ..
 
-	cd xbmcbuntu-artwork
+	cd kodibuntu-artwork
 	dpkg-buildpackage -rfakeroot
 	cd ..
 
-	cd xbmcbuntu-default-settings
+	cd kodibuntu-default-settings
 	dpkg-buildpackage -rfakeroot
 	cd ..
 
-	cd xbmcbuntu-initscripts
+	cd kodibuntu-initscripts
 	dpkg-buildpackage -rfakeroot
 	cd ..
 
-	cd xbmcbuntu-meta
+	cd kodibuntu-meta
 	dpkg-buildpackage -rfakeroot
 	cd ..
 fi

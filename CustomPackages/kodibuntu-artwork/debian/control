@@ -1,0 +1,53 @@
+Source: kodibuntu-artwork
+Section: x11
+Priority: optional
+Build-Depends: debhelper (>= 7.0.50~)
+Maintainer: Luigi Capriotti <l.capriotti@kodi.org>
+Standards-Version: 3.9.1
+
+Package: kodibuntu-artwork
+Architecture: all
+Depends: ${misc:Depends}, gtk2-engines-murrine, gtk3-engines-unico, libnewt0.52 (>= 0.52.11-2ubuntu7)
+Description: artwork for KODIbuntu
+ Artwork for KODIbuntu, contained the wallpaper and others specific images and 
+ logos.
+
+Package: kodibuntu-icon-theme
+Architecture: all
+Depends: ${misc:Depends}, elementary-icon-theme (>= 2.6)
+Description: icon theme for KODIbuntu
+ This package contain a specific KODIbuntu icon theme. It provides specific icons
+ for main menu and distributor icons.
+
+
+Package: kodibuntu-plymouth-theme
+Architecture: all
+Depends: ${misc:Depends}, plymouth-theme-kodibuntu-logo, plymouth-theme-kodibuntu-text
+Description: Plymouth theme for KODIubuntu
+ Transitional package for plymouth-theme-kodibuntu-logo and
+ plymouth-theme-kodibuntu-text.
+ .
+ This package can be safely removed.
+
+Package: plymouth-theme-kodibuntu-logo
+Architecture: all
+Depends: plymouth, plymouth-label
+Description: graphical boot animation and logger - kodibuntu-logo theme
+ Plymouth is an application that runs very early in the boot process
+ (even before the root filesystem is mounted!) that provides a graphical
+ boot animation while the boot process happens in the background.
+ .
+ This package contains the kodibuntu-logo theme.
+
+Package: plymouth-theme-kodibuntu-text
+Architecture: all
+Depends: ${misc:Depends}, plymouth, plymouth-theme-ubuntu-text
+Provides: plymouth-theme
+Description: graphical boot animation and logger - kodibuntu-text theme
+ Plymouth is an application that runs very early in the boot process
+ (even before the root filesystem is mounted!) that provides a graphical
+ boot animation while the boot process happens in the background.
+ .
+ This package contains the default kodibuntu-text theme used when no support for
+ a graphical theme is found on your system.
+

@@ -1,7 +1,0 @@
-[General]
-terminal=lxterminal
-
-[Desktop]
-show_wallpaper=1
-wallpaper=/usr/share/xbmcbuntu/wallpapers/xbmcbuntu-default-wallpaper.jpg
-show_wm_menu=1

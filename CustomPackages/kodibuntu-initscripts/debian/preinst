@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+set -e
+
+if [ "$1" = install ] && [ -e  /etc/default/kodibuntu ] && [ ! -s  /etc/default/kodibuntu ]; then
+	sed -i -e "s/firstTimeInit//" /etc/default/kodibuntu 
+fi
+
+#DEBHELPER#
+exit 0

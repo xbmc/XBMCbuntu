@@ -1,9 +1,9 @@
 0fCOPYRIGHTS AND WARRANTIES07                                                    09F1007
 
-XBMCbuntu is Copyright (C) 2010-2011 XBMC Foundation, see http://xbmc.org for more 
+KODIbuntu is Copyright (C) 2010-2011 KODI Foundation, see http://kodi.tv for more 
 details, and incorporates the work of many other original authors and contributors.
 
-XBMCbuntu is based on Ubuntu.
+KODIbuntu is based on Ubuntu.
 
 Ubuntu is Copyright (C) 2004-2010 Canonical Ltd., and incorporates the work
 of many other original authors and contributors.

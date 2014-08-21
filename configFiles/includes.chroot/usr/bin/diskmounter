@@ -3,7 +3,7 @@
 # This utility searches for available HFS+, NTFS and FAT32 partitions, creates
 # mount points for them and mounts the partitions
 #
-# (c)2008 Luigi Capriotti <l.capriotti@xbmc.org> for use in XBMCLive
+# (c)2008 Luigi Capriotti <l.capriotti@kodi.org> for use in KODILive
 # Base on "diskmount" by Dennis Kaarsemaker <dennis@ubuntu-nl.org>
 #
 # This program is free software; you can redistribute it and/or

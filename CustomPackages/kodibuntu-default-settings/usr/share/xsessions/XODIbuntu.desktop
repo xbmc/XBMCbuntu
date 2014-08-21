@@ -1,0 +1,10 @@
+[Desktop Entry]
+# The names/descriptions should really be better
+Name=KODIbuntu
+Comment=KODIbuntu - Lightweight media center based on KODI
+Comment[zh_TW]=KODIbuntu - Lightweight media center based on KODI
+Comment[fi]=KODIbuntu - Lightweight media center based on KODI
+Comment[ja]=KODIbuntu - Lightweight media center based on KODI
+Exec=/usr/bin/startkodibuntu
+# Icon=
+Type=Application

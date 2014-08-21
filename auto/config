@@ -6,7 +6,7 @@ rm -rf config
 OPTS=
 # BINARY_IMAGES=none
 BINARY_IMAGES=iso-hybrid
-SYSLINUX_THEME=xbmcbuntu
+SYSLINUX_THEME=kodibuntu
 
 if [ -n "$APT_HTTP_PROXY" ]; then
 	OPTS="${OPTS:+$OPTS }--apt-http-proxy $APT_HTTP_PROXY"
@@ -40,9 +40,9 @@ lb config noauto \
 	--memtest none \
 	--source false \
 	--security true \
-	--iso-application XBMCbuntu \
-	--iso-volume XBMCbuntu \
-	--iso-publisher http://xbmc.org \
+	--iso-application KODIbuntu \
+	--iso-volume KODIbuntu \
+	--iso-publisher http://kodi.tv \
 	--build-with-chroot true \
 	$OPTS
 

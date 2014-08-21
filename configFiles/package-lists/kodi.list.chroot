@@ -1,0 +1,48 @@
+lirc
+
+plymouth
+plymouth-X11
+
+lightdm lightdm-gtk-greeter
+
+#
+kodibuntu-core kodibuntu-initscripts kodibuntu-default-settings kodibuntu-artwork ubiquity-slideshow-kodibuntu
+policykit-desktop-privileges consolekit pm-utils
+
+network-manager
+
+# Generic: failsafe
+xserver-xorg-video-ati xserver-xorg-video-intel xserver-xorg-video-vmware xserver-xorg-video-vesa
+
+xbmc
+kodibuntu-plymouth-theme
+
+# Required by YouTube addon
+python-pysqlite2
+
+# Required by network-manager addon
+python-dbus
+
+# Required by wunderground
+python-simplejson
+
+# not strictly required, but highly recommended for service.kodi.versioncheck
+python-aptdaemon
+
+# Temporary add libs till correct dependencies has been set
+libnfs1 
+#libmad0 libshairport1 
+#afpfs-ng libmpeg2-4 
+libbluray1 libaacs0 librtmp0
+
+# Required for Intel
+libva1
+vainfo
+
+# CEC adaptor
+libcec2
+
+# 
+xbmc-pvr-demo 
+xbmc-pvr-tvheadend-hts 
+

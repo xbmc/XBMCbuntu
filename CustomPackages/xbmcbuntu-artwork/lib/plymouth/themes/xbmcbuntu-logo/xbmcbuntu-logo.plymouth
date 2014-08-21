@@ -1,8 +1,0 @@
-[Plymouth Theme]
-Name=XBMCbuntu Logo
-Description=A theme that features a blank background with a XBMC logo.
-ModuleName=script
-
-[script]
-ImageDir=/lib/plymouth/themes/xbmcbuntu-logo
-ScriptFile=/lib/plymouth/themes/xbmcbuntu-logo/xbmcbuntu-logo.script

@@ -1,0 +1,17 @@
+Source: ubiquity-slideshow-kodibuntu
+Section: x11
+Priority: optional
+Maintainer: Luigi Capriotti l.capriotti@kodi.org>
+Build-Depends: cdbs, debhelper (>= 5)
+Build-Depends-Indep: po4a, python-utidylib
+Standards-Version: 3.9.1
+
+Package: ubiquity-slideshow-kodibuntu
+Architecture: all
+Provides: ubiquity-slideshow
+Conflicts: ubiquity-slideshow
+Replaces: ubiquity-slideshow
+Depends: ${misc:Depends}
+Description: Ubiquity slideshow for KODIbuntu
+ A slideshow intended for the Ubiquity installer, designed as a quick 
+ introduction to KODIbuntu.

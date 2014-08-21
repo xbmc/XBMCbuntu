@@ -1,0 +1,16 @@
+Source: kodibuntu-meta
+Section: metapackages
+Priority: optional
+Maintainer: Luigi Capriotti <l.capriotti@kodi.org>
+Standards-Version: 3.8.3
+Build-Depends: debhelper (>= 7.0.50), germinate (>= 1.18)
+
+Package: kodibuntu-core
+Architecture: all
+Depends: ${germinate:Depends}, ${misc:Depends}
+Recommends: ${germinate:Recommends}
+Description: KODIbuntu Desktop environment - minimal installation
+ This package is the LXDE desktop as a KODIbuntu environment.
+ .
+ This package provides the minimal installation of KODIbuntu.
+ 

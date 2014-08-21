@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#      Copyright (C) 2010-2012 Team XBMC
-#      http://www.xbmc.org
+#      Copyright (C) 2010-2012 Team KODI
+#      http://www.kodi.tv
 #
 #  This Program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with XBMC; see the file COPYING.  If not, write to
+#  along with KODI; see the file COPYING.  If not, write to
 #  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
 #  http://www.gnu.org/copyleft/gpl.html
 
@@ -25,7 +25,7 @@ echo "--------------------------"
 repoURL="http://mirrors.xbmc.org/addons/frodo/"
 ADDONSLIST=(script.rss.editor script.xbmc.audio.mixer script.xbmc.debug.log service.xbmc.versioncheck)
 
-mkdir -p $WORKPATH/configFiles/includes.chroot/etc/skel/.xbmc/addons &> /dev/null
+mkdir -p $WORKPATH/configFiles/includes.chroot/etc/skel/.kodi/addons &> /dev/null
 
 cd $WORKPATH
 
@@ -48,5 +48,7 @@ for k in "${ADDONSLIST[@]}" ; do
 		fi
 	fi
 
-	unzip -q $latestPackage -d $WORKPATH/configFiles/includes.chroot/etc/skel/.xbmc/addons
+	unzip -q $latestPackage -d $WORKPATH/configFiles/includes.chroot/etc/skel/.kodi/addons
 done
+
+exit 0

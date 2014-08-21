@@ -1,0 +1,18 @@
+Source: kodibuntu-initscripts
+Section: x11
+Priority: optional
+Maintainer: Luigi Capriotti <l.capriotti@kodi.org>
+Build-Depends: debhelper (>= 7), 
+               intltool
+Standards-Version: 3.8.3
+Homepage: http://kodi.org
+
+Package: kodibuntu-initscripts
+Architecture: all
+Depends: ${misc:Depends}, 
+         lxsession (>= 0.4.1), 
+         kodibuntu-core, 
+         pcmanfm (>= 0.9.5),
+         ttf-ubuntu-font-family,
+Description: default init scripts for KODIbuntu
+ Various system init scripts tailored for KODIbuntu.

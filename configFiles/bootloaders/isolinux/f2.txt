@@ -1,20 +1,20 @@
-0fPREREQUISITES FOR INSTALLING XBMCBUNTU07                                           09F207
+0fPREREQUISITES FOR INSTALLING KODIBUNTU07                                           09F207
 
-You must have at least 44 megabytes of RAM to use this Ubuntu installer.
+You must have at least 512 megabytes of RAM to use this Ubuntu installer.
 
 You should have space on your hard disk to create a new disk partition
 of at least 500 megabytes for a minimal server installation. You'll need
 more disk space to install additional packages, depending on what you
-wish to do with your new XBMCbuntu system.
+wish to do with your new KODIbuntu system.
 
-You should have a video adaptor capable of accellerated OpenGL to enjoy
-the full power of XBMC. 
+You should have a video adaptor capable of accelerated OpenGL to enjoy
+the full power of KODI. 
 Any recent NVIDIA/AMD/Intel cards should be powerful enough.
 
 See the Installation Guide or the FAQ for more information; both
-documents are available at the XBMC web site, 0fhttp://www.xbmc.org/07
+documents are available at the KODI web site, 0fhttp://www.kodi.tv/07
 
-Thank you for choosing XBMCbuntu!
+Thank you for choosing KODIbuntu!
 
 
 
