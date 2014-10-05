@@ -1,5 +1,5 @@
 #### About
-Kodibuntu is a Linux operating system based on the Lubuntu a variant of the popular Ubuntu Linux distribution.  
+Kodibuntu is a Linux operating system based on the Lubuntu variant of the popular Ubuntu Linux distribution.  
 It has been tailored specifically for running Kodi and comes preconfigured out of the box.
 
 Kodibuntu has two modes of operation - *Standalone-mode* and *Desktop-mode*.  
