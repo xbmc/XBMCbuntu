@@ -1,12 +1,6 @@
 lirc
 
-plymouth
-plymouth-X11
-
-lightdm lightdm-gtk-greeter
-
 #
-kodibuntu-core kodibuntu-initscripts kodibuntu-default-settings kodibuntu-artwork ubiquity-slideshow-kodibuntu
 policykit-desktop-privileges consolekit pm-utils
 
 network-manager
@@ -14,8 +8,8 @@ network-manager
 # Generic: failsafe
 xserver-xorg-video-ati xserver-xorg-video-intel xserver-xorg-video-vmware xserver-xorg-video-vesa
 
-xbmc
-kodibuntu-plymouth-theme
+kodi
+kodibuntu-core ubiquity-slideshow-kodibuntu
 
 # Required by YouTube addon
 python-pysqlite2
@@ -43,6 +37,6 @@ vainfo
 libcec2
 
 # 
-xbmc-pvr-demo 
-xbmc-pvr-tvheadend-hts 
+#kodi-pvr-demo 
+#kodi-pvr-tvheadend-hts 
 
