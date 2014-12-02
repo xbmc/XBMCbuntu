@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Lxsession
-TryExec=/usr/bin/lxsession -s KODIbuntu
-Exec=/usr/bin/lxsession -s KODIbuntu
-OnlyShowIn=GNOME;LXDE;
-X-GNOME-Autostart-Phase=Initialization
-X-GNOME-Autostart-Notify=true
-X-GNOME-AutoRestart=true
