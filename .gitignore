@@ -7,7 +7,9 @@
 *.tar
 *.tar.gz
 *.deb
+*.zip
 binary.log
+buildLog.txt
 workarea/*
 Tools/live-build/*
 local/*
