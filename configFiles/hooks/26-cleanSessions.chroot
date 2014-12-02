@@ -25,7 +25,12 @@ echo ""
 set -e
 
 cd /usr/share/xsessions || exit 1
-for FILE in *.desktop
-do
-    [[ $FILE =~ "KODI" ]] || mv $FILE ${FILE}.dis
-done
+
+mkdir /usr/share/xsessions/hidden
+
+sudo dpkg-divert --rename --divert /usr/share/xsessions/hidden/openbox.desktop --add /usr/share/xsessions/openbox.desktop
+sudo dpkg-divert --rename --divert /usr/share/xsessions/hidden/xbmc.desktop --add /usr/share/xsessions/xbmc.desktop
+
+exit
+
+
