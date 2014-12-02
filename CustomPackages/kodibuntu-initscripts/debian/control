@@ -10,8 +10,8 @@ Homepage: http://kodi.org
 Package: kodibuntu-initscripts
 Architecture: all
 Depends: ${misc:Depends}, 
-         lxsession (>= 0.4.1), 
-         kodibuntu-core, 
+         lxsession (>= 0.4.1),
+         lightdm, 
          pcmanfm (>= 0.9.5),
          ttf-ubuntu-font-family,
 Description: default init scripts for KODIbuntu
