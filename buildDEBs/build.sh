@@ -22,5 +22,19 @@ echo "-------------------------------"
 echo "Building auxiliary packages ..."
 echo "-------------------------------"
 
+for aDirectory in *; do
+	if [ -d "${aDirectory}" ]; then
+		debFiles=$(ls ${aDirectory}_*.deb 2> /dev/null)
+		if [ -z "$debFiles" ]; then
+			cd ${aDirectory}
+			dpkg-buildpackage -rfakeroot
+			if [ "$?" -ne "0" ]; then
+				exit 1
+			fi
+			cd ..
+		fi
+	fi
+done
+
 exit 0
 
