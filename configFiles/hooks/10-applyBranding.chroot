@@ -19,7 +19,7 @@
 #  http://www.gnu.org/copyleft/gpl.html
 
 echo ""
-echo "Set plymouth theme..."
+echo "Apply branding ..."
 echo ""
 
 if [ -f /etc/alternatives/default.plymouth ]; then
@@ -30,7 +30,35 @@ if [ -f /etc/alternatives/default.plymouth ]; then
 
 		update-alternatives --set default.plymouth /lib/plymouth/themes/kodibuntu-logo/kodibuntu-logo.plymouth
 		update-alternatives --set text.plymouth /lib/plymouth/themes/kodibuntu-text/kodibuntu-text.plymouth
-
-		# update-initramfs -u
 	fi
 fi
+
+if [ -f /usr/share/kodibuntu/images/logo.xml ]; then
+	echo ""
+	echo "Set default desktop background(1)..."
+	echo ""
+
+	update-alternatives --set desktop-background.xml /usr/share/kodibuntu/images/logo.xml
+fi
+
+
+if [ -f /usr/share/kodibuntu/wallpapers/kodibuntu-default-wallpaper.png ]; then
+	echo ""
+	echo "Set default desktop background(2)..."
+	echo ""
+
+	update-alternatives --set desktop-background /usr/share/kodibuntu/wallpapers/kodibuntu-default-wallpaper.png
+
+
+	mkdir -p .config/pcmanfm/lubuntu
+	cat > /etc/skel/.config/pcmanfm/lubuntu/desktop-items-0.conf << End-of-message 
+[*]
+wallpaper_mode=stretch
+wallpaper_common=1
+wallpapers_configured=1
+wallpaper=/usr/share/kodibuntu/wallpapers/kodibuntu-default-wallpaper.png
+End-of-message
+
+fi
+
+exit 0
