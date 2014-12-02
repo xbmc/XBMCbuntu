@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+set -e
+
+# Remove alternative file if it's not a symlink, workaround for broken upgrade
+# See bug #625485
+if [ -f /etc/alternatives/lxdm.conf ] ; then
+  if [ ! -h "/etc/alternatives/lxdm.conf" ] ; then
+    rm -f "/etc/alternatives/lxdm.conf"
+  fi
+fi
+
+if [ "$1" = "configure" ] ; then
+  update-alternatives --install /etc/lxdm/default.conf lxdm.conf /etc/xdg/kodibuntu/lxdm/lxdm.conf 60 
+  update-alternatives --install /etc/lightdm/lightdm-gtk-greeter.conf lightdm-gtk-greeter-config-derivative /etc/xdg/kodibuntu/lightdm/lightdm-gtk-greeter.conf 30
+  update-alternatives --install /usr/share/images/desktop-base/kodibuntu-default-wallpaper.png desktop-background /usr/share/kodibuntu/wallpapers/kodibuntu-default-wallpaper.png 30
+  update-alternatives --install /usr/share/images/desktop-base/kodibuntu-default-wallpaper.xml desktop-background.xml /usr/share/kodibuntu/images/logo.xml 30
+fi
+
+
+#DEBHELPER#
+exit 0

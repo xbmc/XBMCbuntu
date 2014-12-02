@@ -2,7 +2,7 @@ Source: kodibuntu-default-settings
 Section: x11
 Priority: optional
 Maintainer: Luigi Capriotti <l.capriotti@kodi.org>
-Build-Depends: debhelper (>= 7), 
+Build-Depends: debhelper (>= 8.1.0~),
                intltool
 Standards-Version: 3.8.3
 Homepage: http://kodi.org
@@ -11,9 +11,33 @@ Package: kodibuntu-default-settings
 Architecture: all
 Depends: ${misc:Depends}, 
          lxsession (>= 0.4.1), 
-         kodibuntu-artwork, 
-         kodibuntu-icon-theme,
-         pcmanfm (>= 0.9.5),
+         kodibuntu-artwork (>= 0.4), 
+         pcmanfm (>= 0.9.5) | pcmanfm-qt,
          ttf-ubuntu-font-family,
+         lightdm (>= 1.9.4),
+         lxsession-logout,
+         policykit-desktop-privileges
+Suggests: amixer,
+          scrot,
+          galculator,
+          xscreensaver,
+          dmz-cursor-theme
 Description: default settings for KODIbuntu
  Various system settings tailored for KODIbuntu.
+
+Package: kodibuntu-default-session
+Architecture: all
+Depends: ${misc:Depends},
+         kodibuntu-default-settings,
+         lightdm-gtk-greeter (>= 1.3.0)
+Provides: lightdm-gtk-greeter-config
+Description: Set default session to Kodibuntu
+ This package sets the default session to Kodibuntu by default.
+
+Package: kodibuntu-live-settings
+Architecture: all
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         kodibuntu-default-settings
+Description: default settings for KODIbuntu live ISO
+ Various system settings tailored for KODIbuntu ISO.

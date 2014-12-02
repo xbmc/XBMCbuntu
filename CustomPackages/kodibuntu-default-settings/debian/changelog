@@ -1,3 +1,9 @@
+kodibuntu-default-settings (0.39) trusty; urgency=low
+
+  * rephase with upstream
+
+ -- Luigi Capriotti <l.capriotti@kodi.org>  Wed, 19 Nov 2014 18:00:26 +0100
+
 kodibuntu-default-settings (0.1.1~trusty) trusty; urgency=low
 
   * fixed lxterm keyboard shortcut
