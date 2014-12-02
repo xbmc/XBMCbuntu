@@ -1,27 +1,29 @@
-#  ubuntu-logo.script - boot splash plugin
-#
+#  lubuntu-logo.script - boot splash plugin
+# 
 #  Copyright (C) 2009 Canonical Ltd.
-#
+# 
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2, or (at your option)
 #  any later version.
-#
+# 
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-#
+# 
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 #  02111-1307, USA.
-#
-#  Written by: Alberto Milone <alberto.milone@canonical.com>
+# 
+# Patched by Luigi Capriotti <l.capriotti@kodi.tv>
+# Re-written by Rafael Laguna <rafaellaguna@gmail.com> based from
+#  original by Alberto Milone <alberto.milone@canonical.com>
 #
 #  Based on the example provided with the "script plugin" written by:
 #              Charlie Brej   <cbrej@cs.man.ac.uk>
-#
+# 
 
 # Set the text colour in (rgb / 256)
 text_colour.red = 1.0;
@@ -86,7 +88,7 @@ fun TextYOffset() {
     local.text_height;
     local.min_height;
 
-    # Put the 1st line below the logo + some spacing
+    # Put the 1st line below the logo + some spacing 
     y = logo.y + logo.height + (progress_indicator.bullet_height * 7 ); # + logo_spacing;
 
     text_height = first_line_height * 7.5;
@@ -113,7 +115,7 @@ fun StringString(string, substring) {
         }
         start++;
     }
-
+    
     return NULL;
 }
 
@@ -128,7 +130,7 @@ fun StringCopy (source, beginning, end) {
     for (index = beginning; ( ( (end == NULL) || (index <= end) ) && (String(source).CharAt(index)) ); index++) {
         local.destination += String(source).CharAt(index);
     }
-
+    
     return local.destination;
 }
 
@@ -163,23 +165,12 @@ fun StringToInteger (str) {
 # New background colour
 # #2c001e --> 0.16, 0.00, 0.12
 #
-Window.SetBackgroundTopColor (0.00, 0.00, 0.00);     # Nice colour on top of the screen fading to
-Window.SetBackgroundBottomColor (0.00, 0.00, 0.00);  # an equally nice colour on the bottom
+# New Lubuntu background 
+# 0.00, 0.09, 0.17
+Window.SetBackgroundTopColor (0.00, 0.09, 0.17);     # Nice colour on top of the screen fading to
+Window.SetBackgroundBottomColor (0.00, 0.09, 0.17);  # an equally nice colour on the bottom
 
-bits_per_pixel = Window.GetBitsPerPixel ();
-if (bits_per_pixel == 4) {
-    logo_filename = "kodi_logo16.png";
-    progress_dot_off_filename = "progress_dot_off16.png";
-    progress_dot_on_filename = "progress_dot_on16.png";
-    password_field_filename = "password_field16.png";
-} else {
-    logo_filename = "kodi_logo.png";
-    progress_dot_off_filename = "progress_dot_off.png";
-    progress_dot_on_filename = "progress_dot_on.png";
-    password_field_filename = "password_field.png";
-}
-
-logo.image = Image (logo_filename);
+logo.image = Image ("kodibuntu_logo.png"); # "special://logo" is a special keyword which finds the logo image
 logo.sprite = Sprite ();
 logo.sprite.SetImage (logo.image);
 logo.width = logo.image.GetWidth ();
@@ -201,8 +192,8 @@ fsck_notification.image = ImageToActionText ("");
 
 status = "normal";
 
-progress_indicator.bullet_off = Image (progress_dot_off_filename);
-progress_indicator.bullet_on = Image (progress_dot_on_filename);
+progress_indicator.bullet_off = Image ("progress_dot_off.png");
+progress_indicator.bullet_on = Image ("progress_dot_on.png");
 progress_indicator.bullet_width = progress_indicator.bullet_off.GetWidth ();
 progress_indicator.bullet_height = progress_indicator.bullet_off.GetHeight ();
 progress_indicator.bullet_hspacing = progress_indicator.bullet_width * 1.1;
@@ -234,12 +225,12 @@ fun draw_logo () {
 
 #-----------------------------------------Progress Indicator--------------------------
 fun set_progress_indicator () {
-
-
+    
+    
     # Here we assume that we can store half bullets on each half of the screen
     # together with some spacing
     local.x = progress_indicator.x;
-
+    
     for (index = 0; index <= 4; index++) {
         # Set the "off" bullets
         progress_indicator.bullets_off[index].sprite = Sprite (progress_indicator.bullet_off);
@@ -247,11 +238,11 @@ fun set_progress_indicator () {
         progress_indicator.bullets_off[index].x = local.x;
         progress_indicator.bullets_off[index].y = progress_indicator.y;
         progress_indicator.bullets_off[index].sprite.SetOpacity (1);
-
+        
         #local.debug_medium_string = "Progress indicator " + index + ": x = " + progress_indicator.bullets_off[index].x +
         #                  ", y = " + progress_indicator.bullets_off[index].y  + ", logo width = " + logo.width +
         #                  ", logo height = " + logo.height + " " + screen_width + " " + screen_height;
-        #
+        #   
         #(index % 2) && DebugMedium (local.debug_medium_string) || DebugBottom (local.debug_medium_string);
 
         # Set the "on" bullets on top of the "off" bullets and make them transparent
@@ -261,7 +252,7 @@ fun set_progress_indicator () {
         progress_indicator.bullets_on[index].sprite.SetPosition (progress_indicator.bullets_on[index].x, progress_indicator.bullets_on[index].y, 10000);
 
         progress_indicator.bullets_on[index].sprite.SetOpacity (0);
-
+        
         local.x += progress_indicator.bullet_hspacing;
     }
     #local.debug_string = "Progress indicator: x1 = " + progress_indicator.x + ", x2 = " + local.x + ", y = " + progress_indicator.y +
@@ -277,21 +268,21 @@ fun switch_on_bullet (bullets_off, bullets_on, bullet_number, opacity) {
     local.x = bullets_on[bullet_number].x;
     local.y = bullets_on[bullet_number].y;
     local.z = bullets_on[bullet_number].z;
-
+    
     # Hide the bullets which are off
     bullets_off[bullet_number].sprite.SetOpacity (0);
-
+    
     # Show the bullets which are on
     bullets_on[bullet_number].sprite.SetPosition (local.x, local.y, local.z);
     bullets_on[bullet_number].sprite.SetOpacity (opacity);
-
+    
     # Bump the number of times we have switched on bullets
     global.times_bullets_switched++;
 }
 
 fun switch_off_bullets () {
     # Debug("Switching off progress indicator");
-
+    
     set_progress_indicator ();
     global.times_bullets_switched = 0;
     global.on_off = 1;
@@ -326,14 +317,14 @@ fun animate_progress_indicator (progress, time) {
 
     if ((progress - global.progress_time) >= 1.0) {
         global.progress_time = progress;
-
+        
         if (global.times_bullets_switched == 5) {
             # Change which bullets are switched on
             # and which ones are switched off
             global.on_off = !global.on_off;
             global.times_bullets_switched = 0;
         }
-
+        
         if (global.on_off) {
             switch_on_bullet (progress_indicator.bullets_off, progress_indicator.bullets_on,
                               global.times_bullets_switched, 1.0);
@@ -343,8 +334,8 @@ fun animate_progress_indicator (progress, time) {
                               global.times_bullets_switched, 1.0);
         }
     }
-
-
+    
+    
     # Start setting bullets to "on" with translucency
 #    for (index = 0; index <= 5; index++) {
 #        opacity = 0.0;
@@ -366,14 +357,14 @@ fun animate_progress_indicator (progress, time) {
 fun get_message_label (label, is_fake, is_action_line) {
     # Debug("Get Label position");
     local.message_label;
-
+    
     if (is_fake)
         # Create a fake label so as to get the y coordinate of
         # a standard-length label.
         local.message_image = ImageToTintedText ("This is a fake message");
     else
         local.message_image = (is_action_line) && ImageToActionText (label) || ImageToTintedText (label);
-
+        
     message_label.width = message_image.GetWidth ();
     message_label.height = message_image.GetHeight ();
 
@@ -394,7 +385,7 @@ fun get_message_label (label, is_fake, is_action_line) {
 #                    "msg_width = " + message_label.width + " msg_height = " +
 #                    message_label.height + " message = " + label;
 #    Debug(message_debug);
-
+    
     return message_label;
 
 }
@@ -403,28 +394,28 @@ fun get_message_label (label, is_fake, is_action_line) {
 fun get_fsck_label (label, is_fake) {
     # Debug("Get Label position");
     local.fsck_label = global.progress_label;
-
+    
     if (is_fake)
         fsck_label.image = ImageToTintedText ("This is a fake message");
     else
         fsck_label.image = ImageToTintedText (label);
-
+    
     fsck_label.width = fsck_label.image.GetWidth ();
     fsck_label.height = fsck_label.image.GetHeight ();
-
+    
     # Centre the label horizontally
     fsck_label.x = Window.GetX () + Window.GetWidth () / 2 - fsck_label.width / 2;
-
+    
     local.first_label = get_message_label (label, 1, 0);
-
+    
     # Place the label below the 1st message line
     fsck_label.y = local.first_label.y + local.first_label.height + (local.first_label.height / 2);
-
+    
 #    message_debug = "msg_x = " + fsck_label.x + " msg_y = " + fsck_label.y +
 #                    "msg_width = " + fsck_label.width + " msg_height = " +
 #                    fsck_label.height + " message = " + label;
 #    Debug(message_debug);
-
+    
     return fsck_label;
 }
 
@@ -443,7 +434,7 @@ fun setup_message (message_text, x, y, z, index) {
     message_notification[index].x = x;
     message_notification[index].y = y;
     message_notification[index].z = z;
-
+    
     message_notification[index].sprite = Sprite ();
     message_notification[index].sprite.SetImage (message_notification[index].image);
     message_notification[index].sprite.SetX (message_notification[index].x);
@@ -470,12 +461,12 @@ fun message_callback (message)
     # Debug("Message callback");
     is_fake = 0;
     if (!message || (message == "")) is_fake = 1;
-
+    
     local.substring = "keys:";
-
+    
     # Look for the "keys:" prefix
     local.keys = StringString(message, local.substring);
-
+    
     local.is_action_line = (keys != NULL);
     #Debug("keys " + local.keys + " substring length = " + StringLength(local.substring));
 
@@ -486,7 +477,7 @@ fun message_callback (message)
     local.label.is_fake = is_fake;
     label = get_message_label(message, is_fake, is_action_line);
     label.z = 10000;
-
+    
     setup_message (message, label.x, label.y, label.z, is_action_line);
     if (prompt_active && local.is_action_line)
         hide_message (is_action_line);
@@ -501,28 +492,28 @@ fun message_callback (message)
 
 fun password_dialogue_setup (message_label) {
     # Debug("Password dialog setup");
-
+    
     local.entry;
     local.bullet_image;
-
-    bullet_image = Image (progress_dot_off_filename);
-    entry.image = Image (password_field_filename);
-
+    
+    bullet_image = Image ("progress_dot_off.png");
+    entry.image = Image ("password_field.png");
+    
     # Hide the normal labels
     prompt_active = 1;
     if (message_notification[1].sprite) hide_message (1);
-
+    
     # Set the prompt label
     label = get_message_label(message_label, 0, 1);
     label.z = 10000;
-
+    
     setup_message (message_label, label.x, label.y, label.z, 2);
     show_message (2);
 
     # Set up the text entry which contains the bullets
     entry.sprite = Sprite ();
     entry.sprite.SetImage (entry.image);
-
+    
     # Centre the box horizontally
     entry.x = Window.GetX () + Window.GetWidth () / 2 - entry.image.GetWidth () / 2;
 
@@ -547,7 +538,7 @@ fun password_dialogue_opacity (opacity) {
     # entry.sprite.SetOpacity (0.3);
     entry.sprite.SetOpacity (opacity);
     label.sprite.SetOpacity (opacity);
-
+    
     if (bullets) {
         for (index = 0; bullets[index]; index++) {
             bullets[index].sprite.SetOpacity (opacity);
@@ -560,7 +551,7 @@ fun password_dialogue_opacity (opacity) {
 # First arg is prompt string, the second is the number of bullets.
 fun display_password_callback (prompt, bullets) {
     # Debug("Password dialog setup");
-
+    
     global.status = "password";
     if (!global.password_dialogue) password_dialogue_setup(prompt);
     password_dialogue_opacity (1);
@@ -597,7 +588,7 @@ fun display_password_callback (prompt, bullets) {
     }
 }
 
-Plymouth.SetDisplayPasswordFunction (display_password_callback);
+Plymouth.SetDisplayPasswordFunction (display_password_callback); 
 
 Plymouth.SetMessageFunction (message_callback);
 
@@ -646,7 +637,7 @@ fun clear_fsck_count () {
 fun set_progress_label_opacity (opacity) {
     # the label
     progress_label.sprite.SetOpacity (opacity);
-
+    
     # Make the slot available again when hiding the bar
     # So that another bar can take its place
     if (opacity == 0) {
@@ -685,20 +676,20 @@ fun update_progress_label (progress) {
     # This happens when only counter.total has changed.
     if (progress != NULL) {
         progress_label.progress = progress;
-
+    
         #Debug("device " + progress_label.device + " progress " + progress);
-
+    
         # If progress >= 100% hide the label and make it available again
         if (progress >= 100) {
             set_progress_label_opacity (0);
-
+        
             # See if we any other fsck check is complete
             # and, if so, hide the progress bars and the labels
             on_fsck_completed ();
-
+        
             return 0;
         }
-    }
+    }    
     # Update progress label here
     #
     # FIXME: the queue logic from this theme should really be moved into mountall
@@ -712,7 +703,7 @@ fun update_progress_label (progress) {
     #progress_label.progress = progress;
 
     progress_label.sprite = Sprite (progress_label.image);
-
+    
     # Set up the bar
     progress_label.sprite.SetPosition(progress_label.x, progress_label.y, 1);
 
@@ -732,7 +723,7 @@ fun init_queue () {
     global.fsck_queue[0].device;
     global.fsck_queue[0].progress;
     global.fsck_queue.counter = 0;
-    global.fsck_queue.biggest_item = 0;
+    global.fsck_queue.biggest_item = 0;    
 }
 
 fun clear_queue () {
@@ -756,18 +747,18 @@ fun add_fsck_to_queue (device, progress) {
         continue;
     }
     local.index = i;
-
+    
     # Set device and progress
     global.fsck_queue[local.index].device = device;
     global.fsck_queue[local.index].progress = progress;
-
+    
     # Increase the queue counter
     global.fsck_queue.counter++;
-
+    
     # Update the max index of the array for iterations
     if (local.index > global.fsck_queue.biggest_item)
         global.fsck_queue.biggest_item = local.index;
-
+    
     #DebugMedium ("Adding " + device + " at " + local.index);
 }
 
@@ -786,7 +777,7 @@ fun is_progress_label_available () {
 fun on_queued_fsck_completed () {
     if (!is_queue_empty ())
         return;
-
+    
     # Hide the extra label, if any
     #if (progress_bar.extra_label.sprite)
     #    progress_bar.extra_label.sprite.SetOpacity(0);
@@ -800,7 +791,7 @@ fun remove_fsck_from_queue (index) {
 
     # Decrease the queue counter
     global.fsck_queue.counter--;
-
+    
     # See if there are other processes in the queue
     # if not, clear the extra_label
     on_queued_fsck_completed ();
@@ -812,14 +803,14 @@ fun on_fsck_completed () {
 
     if (!is_progress_label_available ())
         return;
-
+    
     if (!is_queue_empty ())
         return;
-
+    
     # Hide the progress label
     if (progress_label.sprite)
         progress_label.sprite.SetOpacity (0);
-
+    
     # Clear the queue
     clear_queue ();
 
@@ -835,10 +826,10 @@ fun update_progress_in_queue (index, device, progress) {
         on_queued_fsck_completed ();
         return;
     }
-
+    
     global.fsck_queue[index].device = device;
     global.fsck_queue[index].progress = progress;
-
+    
 }
 
 # TODO: Move it to some function
@@ -867,7 +858,7 @@ fun fsck_check (device, progress, status_string) {
         return;
     }
 
-
+    
     if (device_has_progress_label (device)) {
         # Update the progress of the existing label
         update_progress_label (progress);
@@ -878,11 +869,11 @@ fun fsck_check (device, progress, status_string) {
 
         # See if the progress_label is available
         if (progress_label.is_available) {
-
+            
 #            local.my_string = "available index " + local.available_index + " progress_bar counter is " + progress_bar.counter;
 #            Debug(local.my_string);
-
-
+            
+                
             # If the fsck check for the device was in the queue, then
             # remove it from the queue
             if (local.queue_device_index >= 0) {
@@ -892,18 +883,18 @@ fun fsck_check (device, progress, status_string) {
                 # Increase the fsck counter
                 increase_fsck_count ();
             }
-
+            
 #            local.my_string += local.message;
             #Debug("setting new label for device " + device + " progress " + progress);
 
             # Set up a new label for the check
             init_progress_label (device, status_string);
             update_progress_label (progress);
-
+            
         }
         # If the progress_label is not available
         else {
-
+            
             # If the fsck check for the device is already in the queue
             # just update its progress in the queue
             if (local.queue_device_index >= 0) {
@@ -920,10 +911,10 @@ fun fsck_check (device, progress, status_string) {
 
                 refresh_progress_label ();
             }
-
+            
         }
     }
-
+    
 #    if (!is_queue_empty ()) {
 #        DebugBottom("Extra label for "+ device);
     #}
@@ -950,10 +941,10 @@ fun fsck_check (device, progress, status_string) {
 fun update_status_callback (status) {
 #    Debug(status);
     if (!status) return;
-
+    
     string_it = 0;
     update_strings[string_it] = "";
-
+    
     for (i=0; (String(status).CharAt(i) != ""); i++) {
         local.temp_char = String(status).CharAt(i);
         if (temp_char != ":")
@@ -961,21 +952,21 @@ fun update_status_callback (status) {
         else
             update_strings[++string_it] = "";
     }
-
+    
 #    my_string = update_strings[0] + " " + update_strings[1] + " " + update_strings[2];
 #    Debug(my_string);
     # Let's assume that we're dealing with these strings fsck:sda1:40
     if ((string_it >= 2) && (update_strings[0] == "fsck")) {
-
+        
         device = update_strings[1];
         progress = update_strings[2];
         status_string[0] = update_strings[3]; # "Checking disk %1$d of %2$d (%3$d %% complete)"
         if (!status_string[0])
             status_string[0] = "Checking disk %1$d of %2$d (%3$d %% complete)";
-
+        
         if ((device != "") && (progress != "")) {
             progress = StringToInteger (progress);
-
+        
             # Make sure that the fsck_queue is initialised
             if (!global.fsck_queue)
                 init_queue ();
@@ -986,15 +977,15 @@ fun update_status_callback (status) {
 
 #            if (!global.progress_bar.extra_label.sprite)
 #                create_extra_fsck_label ();
-
+            
             # Keep track of the fsck check
             fsck_check (device, progress, status_string);
         }
-
+        
     }
 
 }
-Plymouth.SetUpdateStatusFunction (update_status_callback);
+Plymouth.SetUpdateStatusFunction (update_status_callback); 
 
 #-----------------------------------------Display Question stuff -----------------------
 #
@@ -1007,7 +998,7 @@ Plymouth.SetUpdateStatusFunction (update_status_callback);
 # time++;
 #}
 #
-#Plymouth.SetDisplayQuestionFunction (display_question_callback);
+#Plymouth.SetDisplayQuestionFunction (display_question_callback); 
 
 #-----------------------------------------Refresh stuff --------------------------------
 #
@@ -1036,10 +1027,10 @@ fun display_normal_callback ()
         if (message_notification[2].sprite) hide_message(2);
         prompt_active = 0;
     }
-
+    
     if (message_notification[1].sprite) show_message (1);
-
-
+    
+    
 }
 
 Plymouth.SetDisplayNormalFunction (display_normal_callback);
@@ -1052,7 +1043,7 @@ Plymouth.SetDisplayNormalFunction (display_normal_callback);
 fun quit_callback ()
 {
     logo.sprite.SetOpacity (1);
-    switch_on_bullets ();
+    switch_on_bullets (); 
 }
 
 Plymouth.SetQuitFunction(quit_callback);

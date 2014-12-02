@@ -1,4 +1,6 @@
-usr/share/themes
-usr/share/lxpanel
-usr/share/lxdm
-usr/share/kodibuntu
+usr/share/kodibuntu/images/1404-*
+usr/share/kodibuntu/images/logout-banner.png
+usr/share/kodibuntu/images/kodibuntu-logo.png
+usr/share/kodibuntu/images/logo.xml
+usr/share/kodibuntu/wallpapers/1404-*
+usr/share/kodibuntu/wallpapers/kodibuntu-default-wallpaper.png

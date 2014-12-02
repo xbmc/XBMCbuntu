@@ -31,7 +31,7 @@ set -e
 case "$1" in
     remove)
 	update-alternatives \
-		--remove text.plymouth /lib/plymouth/themes/kodibuntu-text/xubuntu-text.plymouth
+		--remove text.plymouth /lib/plymouth/themes/kodibuntu-text/kodibuntu-text.plymouth
 
 	if which update-initramfs >/dev/null 2>&1
 	then

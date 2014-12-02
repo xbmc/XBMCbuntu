@@ -1,3 +1,10 @@
+kodibuntu-artwork (0.45) trusty; urgency=medium
+
+  * rephase with upstream
+
+ -- Luigi Capriotti <l.capriotti@kodi.org>  Wed, 19 Nov 2014 18:00:26 +0100
+
+
 kodibuntu-artwork (0.1.0~trusty) trusty; urgency=low
 
   * Initial release

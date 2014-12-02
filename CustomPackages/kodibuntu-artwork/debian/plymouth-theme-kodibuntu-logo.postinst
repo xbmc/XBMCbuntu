@@ -20,9 +20,7 @@ case "$1" in
     configure)
 	update-alternatives \
 		--install /lib/plymouth/themes/default.plymouth default.plymouth \
-		/lib/plymouth/themes/kodibuntu-logo/kodibuntu-logo.plymouth 10
-		update-alternatives \
-		--set default.plymouth /lib/plymouth/themes/kodibuntu-logo/kodibuntu-logo.plymouth
+		/lib/plymouth/themes/kodibuntu-logo/kodibuntu-logo.plymouth 150
 
 	if which update-initramfs >/dev/null 2>&1
 	then
@@ -39,5 +37,5 @@ case "$1" in
 	;;
 esac
 
-
+#DEBHELPER#
 exit 0

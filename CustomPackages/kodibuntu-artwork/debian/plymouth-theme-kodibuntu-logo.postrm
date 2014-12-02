@@ -32,9 +32,6 @@ case "$1" in
 	update-alternatives \
 		--remove default.plymouth /lib/plymouth/themes/kodibuntu-logo/kodibuntu-logo.plymouth
 
-	rmdir /lib/plymouth/themes || :
-	rmdir /lib/plymouth || :
-
 	if which update-initramfs >/dev/null 2>&1
 	then
 	    update-initramfs -u
@@ -56,5 +53,5 @@ case "$1" in
 	;;
 esac
 
-
+#DEBHELPER#
 exit 0
