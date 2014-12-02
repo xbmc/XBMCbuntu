@@ -22,8 +22,9 @@ echo "--------------------------"
 echo "Retrieving addons...      "
 echo "--------------------------"
 
-repoURL="http://mirrors.xbmc.org/addons/frodo/"
-ADDONSLIST=(script.rss.editor script.xbmc.audio.mixer script.xbmc.debug.log service.xbmc.versioncheck)
+repoURL="http://mirrors.kodi.tv/addons/helix/"
+#ADDONSLIST=(script.rss.editor script.xbmc.audio.mixer script.xbmc.debug.log service.xbmc.versioncheck)
+ADDONSLIST=(script.xbmc.debug.log)
 
 mkdir -p $WORKPATH/configFiles/includes.chroot/etc/skel/.kodi/addons &> /dev/null
 

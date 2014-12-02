@@ -26,28 +26,19 @@ mkdir -p $WORKPATH/configFiles/packages.chroot &> /dev/null
 
 cd $WORKPATH/CustomPackages
 
-debFiles=$(ls *.deb 2> /dev/null)
-if [ -z "$debFiles" ]; then
-	cd ubiquity-slideshow-kodibuntu
-	dpkg-buildpackage -rfakeroot
-	cd ..
-
-	cd kodibuntu-artwork
-	dpkg-buildpackage -rfakeroot
-	cd ..
-
-	cd kodibuntu-default-settings
-	dpkg-buildpackage -rfakeroot
-	cd ..
-
-	cd kodibuntu-initscripts
-	dpkg-buildpackage -rfakeroot
-	cd ..
-
-	cd kodibuntu-meta
-	dpkg-buildpackage -rfakeroot
-	cd ..
-fi
+for aDirectory in *; do
+	if [ -d "${aDirectory}" ]; then
+		debFiles=$(ls ${aDirectory}_*.deb 2> /dev/null)
+		if [ -z "$debFiles" ]; then
+			cd ${aDirectory}
+			dpkg-buildpackage -rfakeroot
+			if [ "$?" -ne "0" ]; then
+				exit 1
+			fi
+			cd ..
+		fi
+	fi
+done
 
 cp *.deb $WORKPATH/configFiles/packages.chroot 
 

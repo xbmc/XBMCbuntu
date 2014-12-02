@@ -20,11 +20,13 @@
 # Typically ran via
 # sudo ./buildWithOptions.sh -p http://127.0.0.1:3142 (apt-cacher-ng) 
 # sudo ./buildWithOptions.sh -p http://127.0.0.1:8000 (squid-deb-proxy) 
+#
+# sudo ./buildWithOptions.sh -p http://127.0.0.1:8000 |& tee buildLog.txt
 
 echo
 echo "Checking availability of required packages..."
 
-REQUIREDPACKAGES=( git debootstrap asciidoc docbook-xsl curl build-essential debhelper autoconf automake autotools-dev curl subversion unzip squashfs-tools cdbs po4a python-utidylib germinate lzma) # libterm-readline-gnu-perl
+REQUIREDPACKAGES=( git debootstrap asciidoc docbook-xsl curl build-essential debhelper autoconf automake autotools-dev curl subversion unzip squashfs-tools cdbs po4a python-utidylib germinate lzma icon-naming-utils ) # libterm-readline-gnu-perl
 NOTINSTALLED=()
 
 for k in "${REQUIREDPACKAGES[@]}" ; do
@@ -187,7 +189,6 @@ if [ -n "$filesToRun" ]; then
 		fi
 	done
 fi
-
 
 #
 # Perform image build
