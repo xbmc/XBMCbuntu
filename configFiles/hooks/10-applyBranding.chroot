@@ -28,7 +28,7 @@ if [ -f /etc/alternatives/default.plymouth ]; then
 		echo "Set default plymouth theme..."
 		echo ""
 
-		update-alternatives --set default.plymouth /lib/plymouth/themes/kodibuntu-logo/kodibuntu-logo.plymouth
+		update-alternatives --set default.plymouth /lib/plymouth/themes/kodibuntu-animated-logo/kodibuntu-animated-logo.plymouth
 		update-alternatives --set text.plymouth /lib/plymouth/themes/kodibuntu-text/kodibuntu-text.plymouth
 	fi
 fi

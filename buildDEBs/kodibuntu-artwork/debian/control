@@ -32,6 +32,17 @@ Conflicts: kodibuntu-plymouth-theme
 Description: plymouth theme for KODIbuntu
  This package contain a specific KODIbuntu theme for plymouth.
  
+Package: plymouth-theme-kodibuntu-animated-logo
+Architecture: all
+Depends: plymouth, plymouth-label,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Provides: plymouth-theme
+Replaces: kodibuntu-plymouth-theme,
+          plymouth (<< 0.8.1-1~)
+Conflicts: kodibuntu-plymouth-theme
+Description: animated plymouth theme for KODIbuntu
+ This package contain a specific KODIbuntu theme for plymouth.
 
 Package: plymouth-theme-kodibuntu-text
 Architecture: all
