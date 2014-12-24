@@ -1,7 +1,7 @@
 # stable
-#deb http://ppa.launchpad.net/team-xbmc/ppa/ubuntu @DISTRIBUTION@ main
-#deb-src http://ppa.launchpad.net/team-xbmc/ppa/ubuntu @DISTRIBUTION@ main
+deb http://ppa.launchpad.net/team-xbmc/ppa/ubuntu @DISTRIBUTION@ main
+deb-src http://ppa.launchpad.net/team-xbmc/ppa/ubuntu @DISTRIBUTION@ main
 
 # unstable
-deb http://ppa.launchpad.net/team-xbmc/unstable/ubuntu @DISTRIBUTION@ main
-deb-src http://ppa.launchpad.net/team-xbmc/unstable/ubuntu @DISTRIBUTION@ main
+#deb http://ppa.launchpad.net/team-xbmc/unstable/ubuntu @DISTRIBUTION@ main
+#deb-src http://ppa.launchpad.net/team-xbmc/unstable/ubuntu @DISTRIBUTION@ main
