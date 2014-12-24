@@ -4,16 +4,15 @@ It has been tailored specifically for running Kodi and comes preconfigured out o
 
 Kodibuntu has two modes of operation - *Standalone-mode* and *Desktop-mode*.  
 In *Standalone-mode*, Kodibuntu acts like an appliance, making it easy to get Kodi up and running.  
-In *Desktop-mode*, you get a traditional desktop with easy access to other software, such as a web browser  
-while still having Kodi only a few clicks away.  
+In *Desktop-mode*, you get a traditional desktop with easy access to other software, such as a web browser while still having Kodi only a few clicks away.  
 
 Kodibuntu gives you access to all the software available from the Ubuntu repositories
 You can easily install other software on it in addition to Kodi.
 
 ***
 
-Cronological flow of operations:
-
+##### Cronological flow of operations:
+```
 +------------------------+             Sets and Exports (according to cmdline):
 | ./buildWithOptions.sh  |             * SDK_BUILDHOOKS, SDK_USELOCALLIVEBUILD, SDK_USELATESTLIVEBUILD, SDK_CHROOTSHELL, SDK_EXT2ROOTFS, SDK_BUILDx86_64
 +------------------------+             * APT_HTTP_PROXY, APT_FTP_PROXY, http_proxy, ftp_proxy
@@ -46,8 +45,8 @@ Cronological flow of operations:
                               | lb build   |
                               +------------+
 
-
-Main script detailed sequence of operations (build.sh):
+```
+##### Main script detailed sequence of operations (build.sh):
 
 1. Check for required packages
 2. Delete previous build objects (workarea, binary.*) if they exist
