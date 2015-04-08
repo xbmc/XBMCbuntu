@@ -11,7 +11,7 @@ You can easily install other software on it in addition to Kodi.
 
 ***
 
-##### Cronological flow of operations:
+##### Chronological flow of operations:
 ```
 ┌─────────────────────────┐    Sets and Exports (according to cmdline):
 │  ./buildWithOptions.sh  │    * SDK_BUILDHOOKS, SDK_USELOCALLIVEBUILD, SDK_USELATESTLIVEBUILD,
@@ -48,21 +48,22 @@ You can easily install other software on it in addition to Kodi.
 ##### Main script detailed sequence of operations (build.sh):
 
 1. Check for required packages
-2. Delete previous build objects (workarea, binary.*) if they exist
-3. Create a new workarea, copying the entire SDK
+2. Delete previous build objects (work area, binary.*) if they exist
+3. Create a new work area, copying the entire SDK
 4. If live-build is not installed, clone it from upstream repo and set environment accordingly
 5. Execute any specified build hooks
 6. Build any DEB/UDEB packages required for the Live build
-7. Copy any built-downloaded files into workarea directory for the "real" build
+7. Copy any built-downloaded files into work area directory for the "real" build
 8. Perform Live build using live-build with the preconfigured, ad-hoc config tree
 
 ***
 
 ##### Quick Kodibuntu development links
 
-* [Submitting a patch] (http://wiki.xbmc.org/index.php?title=HOW-TO_submit_a_patch) 
-* [Coding guidelines] (http://forum.xbmc.org/showthread.php?tid=5238)
-* [Kodi development] (http://wiki.xbmc.org/index.php?title=XBMC_development)
+* [Contributing] (https://github.com/xbmc/xbmc/blob/master/CONTRIBUTING.md)
+* [Submitting a patch] (http://kodi.wiki/view/HOW-TO_submit_a_patch) 
+* [Coding guidelines] (http://kodi.wiki/view/Official:Code_guidelines_and_formatting_conventions)
+* [Kodi development] (http://kodi.wiki/view/Development)
 
 ##### Useful links
 
