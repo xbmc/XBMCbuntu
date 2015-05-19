@@ -22,7 +22,7 @@ echo "--------------------------"
 echo "Retrieving addons...      "
 echo "--------------------------"
 
-repoURL="http://mirrors.kodi.tv/addons/helix/"
+repoURL="http://mirrors.kodi.tv/addons/isengard/"
 #ADDONSLIST=(script.rss.editor script.xbmc.audio.mixer script.xbmc.debug.log service.xbmc.versioncheck)
 ADDONSLIST=(script.xbmc.debug.log)
 
