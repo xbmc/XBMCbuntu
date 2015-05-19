@@ -4,6 +4,9 @@ lxrandr
 #
 tvheadend
 
+# text editor
+leafpad
+
 # FAQ packages
 chromium-browser synaptic flashplugin-installer ethtool nfs-common autofs
 
