@@ -1,3 +1,10 @@
+kodibuntu-artwork (0.45-1) trusty; urgency=medium
+
+  * new plymouth animated theme
+
+ -- Luigi Capriotti <l.capriotti@kodi.org>  Mon, 18 May 2015 18:00:26 +0100
+
+
 kodibuntu-artwork (0.45) trusty; urgency=medium
 
   * rephase with upstream

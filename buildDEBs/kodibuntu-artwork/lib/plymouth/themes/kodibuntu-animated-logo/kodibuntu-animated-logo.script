@@ -185,7 +185,7 @@ textlogo.sprite = Sprite ();
 textlogo.sprite.SetImage (textlogo.image);
 textlogo.width = textlogo.image.GetWidth ();
 textlogo.height = textlogo.image.GetHeight ();
-textlogo.x = Window.GetX () + window_width/2;
+textlogo.x = Window.GetX () + window_width/2 - textlogo.width/3;
 textlogo.y = Window.GetY () + window_height/3 - textlogo.height/2;
 textlogo.z = 1000;
 textlogo.sprite.SetX (textlogo.x);
@@ -227,7 +227,7 @@ frame_index = 0;
 logo_sprite = Sprite();
 
 # Assume all frames have equal size
-logo_sprite.SetX( Window.GetX () + window_width / 2   - frame_image[0].GetWidth () );
+logo_sprite.SetX( Window.GetX () + window_width / 2   - 2*frame_image[0].GetWidth () );
 logo_sprite.SetY( Window.GetY () + window_height  / 3  - frame_image[0].GetHeight ()/2 );
 #----------
 
@@ -1071,4 +1071,5 @@ fun quit_callback ()
 }
 
 Plymouth.SetQuitFunction(quit_callback);
+
 
