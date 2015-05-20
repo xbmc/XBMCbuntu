@@ -22,28 +22,31 @@ echo "--------------------------"
 echo "Retrieving addons...      "
 echo "--------------------------"
 
-repoURL="http://mirrors.kodi.tv/addons/isengard/"
-#ADDONSLIST=(script.rss.editor script.xbmc.audio.mixer script.xbmc.debug.log service.xbmc.versioncheck)
-ADDONSLIST=(script.xbmc.debug.log)
+repoBaseURL="http://mirrors.kodi.tv/addons/"
+#ADDONSLIST=(script.xbmc.debug.log@isengard script.rss.editor@gotham)
+ADDONSLIST=(script.xbmc.debug.log@isengard)
 
 mkdir -p $WORKPATH/configFiles/includes.chroot/etc/skel/.kodi/addons &> /dev/null
 
 cd $WORKPATH
 
 for k in "${ADDONSLIST[@]}" ; do
-	echo "   $k"
+	IFS='@' read -ra ADDR <<< "$k" echo " $k"
+	addonName=${ADDR[0]}
+	repoDirectory=${ADDR[1]}	
+	echo "  $addonName from $repoDirectory"
 
-	addonPackage=$(ls $k*.zip 2> /dev/null)
+	addonPackage=$(ls $addonName*.zip 2> /dev/null)
 	if [ -n "$addonPackage" ]; then
 		latestPackage=$addonPackage
 	else
-		addonURL="$repoURL$k/"
+		addonURL="$repoBaseURL$repoDirectory/$addonName/"
 
-		latestPackage=$(curl -x "" -s -f $addonURL | grep -o "$k[^\"]*.zip" | sort -r -k2 -t_ -n | head -n 1)
+		latestPackage=$(curl -x "" -s -f $addonURL | grep -o "$addonName[^\"]*.zip" | sort -r -k2 -t_ -n | head -n 1)
 		if [ ! -f $latestPackage ]; then
 			wget --no-proxy -q "$addonURL$latestPackage"
 			if [ "$?" -ne "0" ] || [ ! -f $latestPackage ] ; then
-				echo "Needed package ($k) not found, exiting..."
+				echo "Needed package ($addonName) not found, exiting..."
 				exit 1
 			fi
 		fi
