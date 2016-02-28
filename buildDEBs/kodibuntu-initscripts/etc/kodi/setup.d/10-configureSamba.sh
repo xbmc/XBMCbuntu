@@ -37,7 +37,6 @@ cat > /etc/samba/smb.conf << EOF
 [global]
 workgroup = WORKGROUP
 server string = %h server (Samba, KODI)
-netbios name = KODIbuntu
 dns proxy = no
 name resolve order = hosts wins bcast
 guest account = $kodiUser
